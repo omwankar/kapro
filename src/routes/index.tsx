@@ -23,7 +23,6 @@ import baliImg from "@/assets/journeys/bali_temple.webp";
 import tokyoImg from "@/assets/journeys/tokyo_night.webp";
 import romeImg from "@/assets/journeys/rome_colosseum.webp";
 import amalfiImg from "@/assets/journeys/amalfi_coast.webp";
-import emblemImg from "@/assets/karpo-emblem.webp";
 import logoImg from "@/assets/karpo-logo.webp";
 import founderImg from "@/assets/jenson-daniel.webp";
 
@@ -219,27 +218,21 @@ function Nav() {
       transition={reduceMotion ? { duration: 0 } : { duration: 0.8, ease: EASE, delay: 0.2 }}
       className={`fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] transition-all duration-500 motion-reduce:transition-none ${
         solid
-          ? "bg-navy-deep/80 py-3 shadow-lg shadow-navy-deep/25 backdrop-blur-sm"
-          : "bg-transparent py-4 sm:py-5"
+          ? "bg-navy-deep/80 py-1.5 shadow-lg shadow-navy-deep/25 backdrop-blur-sm"
+          : "bg-transparent py-2 sm:py-3"
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 sm:px-5 md:px-8">
-        <a href="#top" className="flex min-w-0 items-center gap-2 sm:gap-3" onClick={() => setMenuOpen(false)}>
-          <img
-            src={emblemImg}
-            alt="Karpo Travel emblem"
-            width={40}
-            height={40}
-            decoding="async"
-            className="h-10 w-10 shrink-0 rounded-full bg-cream object-cover ring-1 ring-accent/40 sm:h-11 sm:w-11"
-          />
-          <span className="leading-tight">
-            <span className="block font-display text-lg font-bold tracking-[0.16em] text-cream sm:text-xl sm:tracking-[0.18em]">
-              KARPO
-            </span>
-            <span className="block text-[8px] font-semibold uppercase tracking-[0.32em] text-accent-light sm:text-[9px] sm:tracking-[0.4em]">
-              Travel Inc.
-            </span>
+        <a href="#top" className="flex min-w-0 items-center" onClick={() => setMenuOpen(false)}>
+          <span className="brand-plate shrink-0 !p-1 sm:!p-1.5">
+            <img
+              src={logoImg}
+              alt="Karpo Travel Inc."
+              width={1024}
+              height={1536}
+              decoding="async"
+              className="h-[4.25rem] w-auto object-contain sm:h-[5rem]"
+            />
           </span>
         </a>
 
