@@ -24,6 +24,7 @@ import tokyoImg from "@/assets/journeys/tokyo_night.webp";
 import romeImg from "@/assets/journeys/rome_colosseum.webp";
 import amalfiImg from "@/assets/journeys/amalfi_coast.webp";
 import logoImg from "@/assets/karpo-logo.webp";
+import markImg from "@/assets/karpo-mark.webp";
 import founderImg from "@/assets/jenson-daniel.webp";
 
 export const Route = createFileRoute("/")({
@@ -223,16 +224,24 @@ function Nav() {
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 sm:px-5 md:px-8">
-        <a href="#top" className="flex min-w-0 items-center" onClick={() => setMenuOpen(false)}>
+        <a href="#top" className="flex min-w-0 items-center gap-2 sm:gap-3" onClick={() => setMenuOpen(false)}>
           <span className="brand-plate shrink-0 !p-1 sm:!p-1.5">
             <img
-              src={logoImg}
-              alt="Karpo Travel Inc."
-              width={1024}
-              height={1536}
+              src={markImg}
+              alt="Karpo Travel emblem"
+              width={944}
+              height={1198}
               decoding="async"
-              className="h-[4.25rem] w-auto object-contain sm:h-[5rem]"
+              className="h-12 w-auto object-contain sm:h-14"
             />
+          </span>
+          <span className="leading-tight">
+            <span className="block font-display text-lg font-bold tracking-[0.16em] text-cream sm:text-xl sm:tracking-[0.18em]">
+              KARPO
+            </span>
+            <span className="block text-[8px] font-semibold uppercase tracking-[0.32em] text-accent-light sm:text-[9px] sm:tracking-[0.4em]">
+              Travel Inc.
+            </span>
           </span>
         </a>
 
