@@ -3,22 +3,28 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
   motion,
   useMotionValueEvent,
+  useReducedMotion,
   useScroll,
   useTransform,
 } from "framer-motion";
 import { CheckCircle2, LoaderCircle, Mail, MapPin, Phone, Send } from "lucide-react";
 
-import heroImg from "@/assets/journeys/motorcycle_road_hero.jpg";
+import heroImg from "@/assets/journeys/motorcycle_road_hero.webp";
 import heroVideo from "@/assets/journeys/motorcycle_road_hero.mp4";
-import flightsImg from "@/assets/journeys/flights_sunset.jpg";
-import santoriniImg from "@/assets/journeys/santorini.jpg";
-import maldivesImg from "@/assets/journeys/maldives_resort.jpg";
-import cruiseImg from "@/assets/journeys/cruise_ship.jpg";
-import suvImg from "@/assets/journeys/suv_coast_road.jpg";
-import visaImg from "@/assets/journeys/visa_passport.jpg";
-import nycImg from "@/assets/journeys/new_york_dusk.jpg";
-import alpsImg from "@/assets/journeys/swiss_alps_tall.jpg";
+import flightsImg from "@/assets/journeys/flights_sunset.webp";
+import santoriniImg from "@/assets/journeys/santorini.webp";
+import maldivesImg from "@/assets/journeys/maldives_resort.webp";
+import cruiseImg from "@/assets/journeys/cruise_ship.webp";
+import suvImg from "@/assets/journeys/suv_coast_road.webp";
+import visaImg from "@/assets/journeys/visa_passport.webp";
+import nycImg from "@/assets/journeys/new_york_dusk.webp";
+import alpsImg from "@/assets/journeys/swiss_alps_tall.webp";
+import baliImg from "@/assets/journeys/bali_temple.webp";
+import tokyoImg from "@/assets/journeys/tokyo_night.webp";
+import romeImg from "@/assets/journeys/rome_colosseum.webp";
+import amalfiImg from "@/assets/journeys/amalfi_coast.webp";
 import emblemImg from "@/assets/karpo-emblem.webp";
+import logoImg from "@/assets/karpo-logo.webp";
 import founderImg from "@/assets/jenson-daniel.webp";
 
 export const Route = createFileRoute("/")({
@@ -54,7 +60,7 @@ const FORM_ENDPOINT = "https://api.web3forms.com/submit";
 // Set VITE_WEB3FORMS_ACCESS_KEY in .env.local using the key for Karpotravel@gmail.com.
 const FORM_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY ?? "";
 const FIELD_CLASS =
-  "contact-field min-h-11 w-full rounded-lg border border-cream/15 bg-navy-deep/60 px-4 py-3 text-sm text-cream placeholder:text-cream/40";
+  "contact-field min-h-11 w-full rounded-lg border border-cream/20 bg-cream/8 px-4 py-3 text-sm text-cream placeholder:text-cream/45";
 const LABEL_CLASS =
   "mb-2 block text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-light";
 
@@ -102,13 +108,19 @@ const SERVICES = [
 ];
 
 const JOURNEYS = [
-  { img: santoriniImg, title: "Santorini", line: "White villages over the Aegean", tall: true },
-  { img: maldivesImg, title: "Maldives", line: "Overwater mornings", tall: false },
+  { img: baliImg, title: "Bali", line: "Temples above the jungle canopy", tall: true },
+  { img: tokyoImg, title: "Tokyo", line: "Neon nights, quiet shrines", tall: false },
   { img: alpsImg, title: "Swiss Alps", line: "Rails through the high passes", tall: true },
-  { img: cruiseImg, title: "The Mediterranean", line: "Sea days, done right", tall: false },
+  { img: romeImg, title: "Rome", line: "Stone, light, and late dinners", tall: false },
   { img: nycImg, title: "New York", line: "Where it all began", tall: true },
-  { img: heroImg, title: "Mountain Roads", line: "For the riders", tall: false },
 ];
+
+const NAV_LINKS = [
+  ["Services", "#services"],
+  ["Journeys", "#journeys"],
+  ["Our Story", "#story"],
+  ["Contact", "#contact"],
+] as const;
 
 const MARQUEE =
   "SANTORINI ✦ MALDIVES ✦ SWISS ALPS ✦ NEW YORK ✦ BALI ✦ PARIS ✦ TOKYO ✦ DUBAI ✦ ROME ✦ CAPE TOWN ✦ ";
@@ -133,12 +145,13 @@ function Reveal({
   y?: number;
   className?: string;
 }) {
+  const reduceMotion = useReducedMotion();
   return (
     <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={reduceMotion ? false : { opacity: 0, y }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.8, delay, ease: EASE }}
+      transition={reduceMotion ? { duration: 0 } : { duration: 0.8, delay, ease: EASE }}
       className={className}
     >
       {children}
@@ -149,7 +162,7 @@ function Reveal({
 function Eyebrow({ children, light }: { children: React.ReactNode; light?: boolean }) {
   return (
     <p
-      className={`text-[11px] font-semibold uppercase tracking-[0.35em] ${
+      className={`text-[10px] font-semibold uppercase tracking-[0.22em] sm:text-[11px] sm:tracking-[0.35em] ${
         light ? "text-accent-light" : "text-accent"
       }`}
     >
@@ -178,44 +191,60 @@ function Index() {
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 40));
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
+
+  const solid = scrolled || menuOpen;
+
   return (
     <motion.header
-      initial={{ y: -80, opacity: 0 }}
+      initial={reduceMotion ? false : { y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-navy-deep/90 py-3 shadow-lg shadow-navy-deep/40 backdrop-blur-md"
-          : "bg-transparent py-5"
+      transition={reduceMotion ? { duration: 0 } : { duration: 0.8, ease: EASE, delay: 0.2 }}
+      className={`fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] transition-all duration-500 motion-reduce:transition-none ${
+        solid
+          ? "bg-navy-deep/80 py-3 shadow-lg shadow-navy-deep/25 backdrop-blur-sm"
+          : "bg-transparent py-4 sm:py-5"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 md:px-8">
-        <a href="#top" className="flex items-center gap-3">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 sm:px-5 md:px-8">
+        <a href="#top" className="flex min-w-0 items-center gap-2 sm:gap-3" onClick={() => setMenuOpen(false)}>
           <img
             src={emblemImg}
             alt="Karpo Travel emblem"
-            className="h-10 w-10 rounded-full object-contain ring-1 ring-accent/40"
+            width={40}
+            height={40}
+            decoding="async"
+            className="h-10 w-10 shrink-0 rounded-full bg-cream object-cover ring-1 ring-accent/40 sm:h-11 sm:w-11"
           />
           <span className="leading-tight">
-            <span className="block font-display text-xl font-bold tracking-[0.18em] text-cream">
+            <span className="block font-display text-lg font-bold tracking-[0.16em] text-cream sm:text-xl sm:tracking-[0.18em]">
               KARPO
             </span>
-            <span className="block text-[9px] font-semibold uppercase tracking-[0.4em] text-accent-light">
+            <span className="block text-[8px] font-semibold uppercase tracking-[0.32em] text-accent-light sm:text-[9px] sm:tracking-[0.4em]">
               Travel Inc.
             </span>
           </span>
         </a>
 
         <nav className="hidden items-center gap-8 text-sm font-medium tracking-wide text-cream/85 md:flex">
-          {[
-            ["Services", "#services"],
-            ["Journeys", "#journeys"],
-            ["Our Story", "#story"],
-            ["Contact", "#contact"],
-          ].map(([label, href]) => (
+          {NAV_LINKS.map(([label, href]) => (
             <a
               key={href}
               href={href}
@@ -226,15 +255,59 @@ function Nav() {
           ))}
         </nav>
 
-        <a
-          href={WHATSAPP}
-          target="_blank"
-          rel="noreferrer"
-          className="accent-button rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.18em] transition-all"
-        >
-          Plan my trip
-        </a>
+        <div className="flex shrink-0 items-center gap-2">
+          <a
+            href={WHATSAPP}
+            target="_blank"
+            rel="noreferrer"
+            className="accent-button rounded-full px-3 py-2 text-[10px] font-bold uppercase tracking-[0.12em] transition-all motion-reduce:transition-none sm:px-5 sm:py-2.5 sm:text-xs sm:tracking-[0.18em]"
+          >
+            Plan my trip
+          </a>
+          <button
+            type="button"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/25 text-cream md:hidden"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span className="sr-only">{menuOpen ? "Close menu" : "Open menu"}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+              {menuOpen ? (
+                <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
+              ) : (
+                <>
+                  <path d="M4 7h16" strokeLinecap="round" />
+                  <path d="M4 12h16" strokeLinecap="round" />
+                  <path d="M4 17h16" strokeLinecap="round" />
+                </>
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
+
+      {menuOpen ? (
+        <nav
+          id="mobile-nav"
+          className="border-t border-cream/10 bg-navy-deep px-4 py-4 md:hidden"
+        >
+          <ul className="flex flex-col gap-1">
+            {NAV_LINKS.map(([label, href]) => (
+              <li key={href}>
+                <a
+                  href={href}
+                  className="accent-nav-link flex min-h-11 items-center rounded-lg px-3 text-sm font-medium tracking-wide text-cream/90"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null}
     </motion.header>
   );
 }
@@ -243,103 +316,134 @@ function Nav() {
 
 function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
   const [videoReady, setVideoReady] = useState(false);
+  const [videoSrc, setVideoSrc] = useState<string | undefined>();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
-  const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.25]);
+  const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
   const fade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
+  useEffect(() => {
+    if (reduceMotion) return;
+    let cancelled = false;
+    const load = () => {
+      if (!cancelled) setVideoSrc(heroVideo);
+    };
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(load, { timeout: 2000 });
+      return () => {
+        cancelled = true;
+        window.cancelIdleCallback(id);
+      };
+    }
+    const timer = window.setTimeout(load, 600);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [reduceMotion]);
+
   return (
     <section ref={ref} id="top" className="relative h-[100svh] overflow-hidden">
-      <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0">
+      <motion.div
+        style={reduceMotion ? undefined : { y: imgY, scale: imgScale }}
+        className="absolute inset-0"
+      >
         <img
           src={heroImg}
           alt="A rider on a mountain road at golden hour"
-          className={`h-full w-full object-cover transition-opacity duration-200 ease-out ${videoReady ? "opacity-0" : "opacity-100"}`}
+          fetchPriority="high"
+          decoding="async"
+          width={1920}
+          height={1080}
+          className={`hero-media absolute inset-0 h-full w-full object-cover transition-opacity duration-200 ease-out motion-reduce:transition-none ${videoReady ? "opacity-0" : "opacity-100"}`}
         />
-        <video
-          aria-hidden="true"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          poster={heroImg}
-          src={heroVideo}
-          onPlaying={() => setVideoReady(true)}
-          onError={() => {
-            setVideoReady(false);
-            console.error("Hero video could not be played; keeping the fallback image visible.");
-          }}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-200 ease-out ${videoReady ? "opacity-100" : "opacity-0"}`}
-        />
+        {videoSrc ? (
+          <video
+            aria-hidden="true"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="none"
+            poster={heroImg}
+            src={videoSrc}
+            onPlaying={() => setVideoReady(true)}
+            onError={() => {
+              setVideoReady(false);
+              console.error("Hero video could not be played; keeping the fallback image visible.");
+            }}
+            className={`hero-media absolute inset-0 h-full w-full object-cover transition-opacity duration-200 ease-out motion-reduce:transition-none ${videoReady ? "opacity-100" : "opacity-0"}`}
+          />
+        ) : null}
       </motion.div>
       <div className="photo-overlay absolute inset-0" />
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/60 via-transparent to-navy-deep/40" />
+      <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/28 via-transparent to-navy-deep/22" />
 
       <motion.div
-        style={{ y: textY, opacity: fade }}
-        className="relative z-10 flex h-full flex-col items-center justify-center px-5 text-center"
+        style={reduceMotion ? undefined : { y: textY, opacity: fade }}
+        className="hero-text-scrim relative z-10 flex h-full flex-col items-center justify-center px-4 pb-16 pt-24 text-center sm:px-5 sm:pt-28"
       >
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.5, ease: EASE }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.9, delay: 0.5, ease: EASE }}
         >
           <Eyebrow light>Karpo Travel Inc. · New York</Eyebrow>
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 40 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.7, ease: EASE }}
-          className="mt-6 font-display text-[13vw] font-semibold leading-[0.95] text-cream sm:text-7xl md:text-8xl lg:text-[7.5rem]"
+          transition={reduceMotion ? { duration: 0 } : { duration: 1, delay: 0.7, ease: EASE }}
+          className="mt-4 max-w-[16ch] font-display text-[clamp(2.6rem,12vw,4.5rem)] font-semibold leading-[0.95] text-cream sm:mt-6 sm:text-7xl md:text-8xl lg:text-[7.5rem]"
         >
           Your Journey,
           <span className="text-accent-light block italic">Our Priority.</span>
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 24 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 1, ease: EASE }}
-          className="mt-6 max-w-xl text-base text-cream/80 md:text-lg"
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.9, delay: 1, ease: EASE }}
+          className="mt-5 max-w-xl text-sm leading-relaxed text-cream/80 sm:mt-6 sm:text-base md:text-lg"
         >
           Generations of travel knowledge, a fresh personal touch. Flights to
           cruises, cars to visas — one call takes care of it all.
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 1.2, ease: EASE }}
-          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.9, delay: 1.2, ease: EASE }}
+          className="mt-8 flex w-full max-w-sm flex-col items-stretch gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4"
         >
           <a
             href={WHATSAPP}
             target="_blank"
             rel="noreferrer"
-            className="accent-button rounded-full px-8 py-4 text-sm font-bold uppercase tracking-[0.2em] transition-all hover:scale-[1.03]"
+            className="accent-button rounded-full px-6 py-3.5 text-center text-xs font-bold uppercase tracking-[0.16em] transition-all hover:scale-[1.03] motion-reduce:transition-none motion-reduce:hover:scale-100 sm:px-8 sm:py-4 sm:text-sm sm:tracking-[0.2em]"
           >
             Plan my trip
           </a>
           <a
-            href="#journeys"
-            className="accent-outline rounded-full border border-cream/40 px-8 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-cream transition-colors"
+            href={PHONE_TEL}
+            className="accent-outline rounded-full border border-cream/40 px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.16em] text-cream transition-colors motion-reduce:transition-none sm:px-8 sm:py-4 sm:text-sm sm:tracking-[0.2em]"
           >
-            Explore journeys
+            Call us 24/7
           </a>
         </motion.div>
       </motion.div>
 
       <motion.a
         href="#services"
-        style={{ opacity: fade }}
-        className="scroll-cue absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-accent-light"
+        style={reduceMotion ? undefined : { opacity: fade }}
+        className="scroll-cue absolute bottom-5 left-1/2 z-10 -translate-x-1/2 text-accent-light sm:bottom-8"
         aria-label="Scroll down"
       >
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -373,15 +477,15 @@ function Marquee() {
 
 function Services() {
   return (
-    <section id="services" className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
+    <section id="services" className="defer-paint mx-auto max-w-7xl scroll-mt-24 px-4 py-16 sm:px-5 sm:py-24 md:px-8 md:py-32">
       <Reveal className="mx-auto max-w-2xl text-center">
         <Eyebrow>What we do</Eyebrow>
-        <h2 className="mt-4 font-display text-4xl font-semibold text-foreground md:text-6xl">
+        <h2 className="mt-4 font-display text-3xl font-semibold text-foreground sm:text-4xl md:text-6xl">
           Six ways we take <span className="italic text-accent">you there</span>
         </h2>
       </Reveal>
 
-      <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid gap-4 sm:mt-16 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
         {SERVICES.map((s, i) => (
           <Reveal key={s.title} delay={(i % 3) * 0.12}>
             <a
@@ -395,20 +499,21 @@ function Services() {
                   src={s.img}
                   alt={s.title}
                   loading="lazy"
-                  width={1200}
-                  height={900}
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  decoding="async"
+                  width={800}
+                  height={600}
+                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/90 via-navy-deep/20 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
+              <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/70 via-navy-deep/10 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-4 sm:p-6">
                 <div>
                   <h3 className="font-display text-2xl font-semibold text-cream md:text-3xl">
                     {s.title}
                   </h3>
                   <p className="mt-1 text-sm text-cream/70">{s.line}</p>
                 </div>
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/50 text-accent-light opacity-0 transition-all duration-500 group-hover:opacity-100">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/50 text-accent-light opacity-100 transition-all duration-500 md:opacity-0 md:group-hover:opacity-100 motion-reduce:opacity-100 motion-reduce:transition-none">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M7 17L17 7M17 7H8M17 7v9" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -426,54 +531,76 @@ function Services() {
 
 function JourneyRail() {
   const ref = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
+  const [pinScroll, setPinScroll] = useState(false);
   const { scrollYProgress } = useScroll({ target: ref });
   const x = useTransform(scrollYProgress, [0, 1], ["2%", "-68%"]);
 
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 768px)");
+    const sync = () => setPinScroll(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
+
+  const intro = (
+    <>
+      <Eyebrow light>Signature journeys</Eyebrow>
+      <h2 className="mt-4 font-display text-4xl font-semibold leading-tight text-cream sm:text-5xl md:text-7xl">
+        Places we
+        <span className="text-accent-gradient block italic">carry you to</span>
+      </h2>
+      <p className="mt-5 max-w-sm text-sm text-cream/70 md:mt-6 md:text-base">
+        {pinScroll ? "Keep scrolling — the world moves past your window." : "Swipe to see the world move past your window."}
+      </p>
+      <div className="accent-rule mt-8 w-40 md:mt-10" />
+    </>
+  );
+
   return (
-    <section ref={ref} id="journeys" className="relative h-[340vh] bg-navy-deep">
-      <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,oklch(0.3_0.07_262)_0%,transparent_60%)]" />
+    <section ref={ref} id="journeys" className="relative scroll-mt-24 bg-navy-deep md:h-[340vh]">
+      <div className="flex flex-col justify-center py-16 md:sticky md:top-0 md:h-screen md:overflow-hidden md:py-0">
+        <div className="pointer-events-none absolute inset-0 hidden bg-[radial-gradient(ellipse_at_top,oklch(0.3_0.07_262)_0%,transparent_60%)] md:block" />
 
-        <motion.div style={{ x }} className="relative flex w-max items-center gap-6 px-6 md:gap-10 md:px-16">
-          {/* Intro panel */}
-          <div className="w-[80vw] shrink-0 md:w-[34rem]">
-            <Eyebrow light>Signature journeys</Eyebrow>
-            <h2 className="mt-4 font-display text-5xl font-semibold leading-tight text-cream md:text-7xl">
-              Places we
-              <span className="text-accent-gradient block italic">carry you to</span>
-            </h2>
-            <p className="mt-6 max-w-sm text-cream/70">
-              Keep scrolling — the world moves past your window.
-            </p>
-            <div className="accent-rule mt-10 w-40" />
-          </div>
+        <div className="relative z-10 px-4 pb-8 sm:px-6 md:hidden">{intro}</div>
 
-          {JOURNEYS.map((j) => (
-            <div
-              key={j.title}
-              className={`group relative shrink-0 overflow-hidden rounded-2xl ${
-                j.tall ? "h-[62vh] w-[72vw] md:h-[74vh] md:w-[26rem]" : "h-[52vh] w-[68vw] md:h-[60vh] md:w-[24rem]"
-              }`}
-            >
-              <img
-                src={j.img}
-                alt={j.title}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/85 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 p-6">
-                <h3 className="font-display text-3xl font-semibold text-cream">{j.title}</h3>
-                <p className="mt-1 text-sm text-accent-light">{j.line}</p>
-              </div>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Progress */}
-        <div className="absolute inset-x-6 bottom-8 h-px bg-cream/15 md:inset-x-16">
+        <div className="journey-rail-scroll overflow-x-auto overscroll-x-contain px-0 snap-x snap-mandatory md:overflow-visible md:snap-none">
           <motion.div
-            style={{ scaleX: scrollYProgress }}
+            style={pinScroll && !reduceMotion ? { x } : undefined}
+            className="relative flex w-max items-center gap-4 px-4 sm:gap-6 sm:px-6 md:gap-10 md:px-16"
+          >
+            <div className="hidden w-[34rem] shrink-0 md:block">{intro}</div>
+
+            {JOURNEYS.map((j) => (
+              <div
+                key={j.title}
+                className={`group relative shrink-0 snap-center overflow-hidden rounded-2xl md:snap-align-none ${
+                  j.tall
+                    ? "h-[52vh] w-[min(82vw,20rem)] sm:h-[62vh] md:h-[74vh] md:w-[26rem]"
+                    : "h-[46vh] w-[min(78vw,19rem)] sm:h-[52vh] md:h-[60vh] md:w-[24rem]"
+                }`}
+              >
+                <img
+                  src={j.img}
+                  alt={j.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/65 via-transparent to-transparent" />
+                <div className="absolute bottom-0 left-0 p-5 sm:p-6">
+                  <h3 className="font-display text-2xl font-semibold text-cream sm:text-3xl">{j.title}</h3>
+                  <p className="mt-1 text-sm text-accent-light">{j.line}</p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        <div className="absolute inset-x-6 bottom-8 hidden h-px bg-cream/15 md:block md:inset-x-16">
+          <motion.div
+            style={pinScroll && !reduceMotion ? { scaleX: scrollYProgress } : undefined}
             className="h-full origin-left bg-accent"
           />
         </div>
@@ -486,6 +613,7 @@ function JourneyRail() {
 
 function Founder() {
   const ref = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -493,33 +621,17 @@ function Founder() {
   const imgY = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
 
   return (
-    <section id="story" className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
-      <div ref={ref} className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-        <Reveal>
-          <div className="relative mx-auto max-w-md">
-            <div className="absolute -inset-3 rounded-3xl border border-accent/40" />
-            <div className="absolute -bottom-6 -right-6 h-full w-full rounded-3xl bg-navy/5" />
-            <div className="relative overflow-hidden rounded-3xl shadow-2xl shadow-navy/20">
-              <motion.img
-                style={{ y: imgY, scale: 1.12 }}
-                src={founderImg}
-                alt="Jenson Daniel, founder of Karpo Travel"
-                loading="lazy"
-                className="h-auto w-full object-cover"
-              />
-            </div>
-          </div>
-        </Reveal>
-
+    <section id="story" className="defer-paint mx-auto max-w-7xl scroll-mt-24 overflow-x-clip px-4 py-16 sm:px-5 sm:py-24 md:px-8 md:py-32">
+      <div ref={ref} className="grid items-center gap-10 sm:gap-14 lg:grid-cols-2 lg:gap-20">
         <div>
           <Reveal>
             <Eyebrow>The founder</Eyebrow>
-            <h2 className="mt-4 font-display text-4xl font-semibold text-foreground md:text-6xl">
+            <h2 className="mt-4 font-display text-3xl font-semibold text-foreground sm:text-4xl md:text-6xl">
               Jenson <span className="italic text-accent">Daniel</span>
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <div className="mt-8 space-y-5 text-base leading-relaxed text-muted-foreground md:text-lg">
+            <div className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground sm:mt-8 sm:space-y-5 md:text-lg">
               <p>
                 A passionate traveler and adventurer, Jenson grew up around a
                 family legacy of over 60 years in the global travel industry —
@@ -539,16 +651,33 @@ function Founder() {
             </div>
           </Reveal>
         </div>
+
+        <Reveal>
+          <div className="relative mx-auto max-w-md lg:ml-auto lg:mr-0">
+            <div className="absolute -inset-2 rounded-3xl border border-accent/40 sm:-inset-3" />
+            <div className="absolute -bottom-4 -left-4 h-full w-full rounded-3xl bg-navy/5 sm:-bottom-6 sm:-left-6" />
+            <div className="relative overflow-hidden rounded-3xl shadow-2xl shadow-navy/20">
+              <motion.img
+                style={reduceMotion ? undefined : { y: imgY, scale: 1.04 }}
+                src={founderImg}
+                alt="Jenson Daniel, founder of Karpo Travel"
+                loading="lazy"
+                decoding="async"
+                className="h-auto w-full object-cover"
+              />
+            </div>
+          </div>
+        </Reveal>
       </div>
 
-      <div className="mt-20 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-4">
+      <div className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:mt-20 md:grid-cols-4">
         {STATS.map((s, i) => (
           <Reveal key={s.label} delay={i * 0.08} className="bg-card">
-            <div className="px-6 py-10 text-center">
-              <p className="font-display text-4xl font-semibold text-navy md:text-5xl">
+            <div className="px-3 py-7 text-center sm:px-6 sm:py-10">
+              <p className="font-display text-3xl font-semibold text-navy sm:text-4xl md:text-5xl">
                 {s.value}
               </p>
-              <p className="mt-2 text-xs uppercase tracking-[0.15em] text-muted-foreground md:text-sm">
+              <p className="mt-2 text-[10px] uppercase leading-snug tracking-[0.08em] text-muted-foreground sm:text-xs sm:tracking-[0.15em] md:text-sm">
                 {s.label}
               </p>
             </div>
@@ -563,6 +692,7 @@ function Founder() {
 
 function CtaBand() {
   const ref = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -572,36 +702,37 @@ function CtaBand() {
   return (
     <section ref={ref} className="relative overflow-hidden">
       <motion.img
-        style={{ y: imgY, scale: 1.2 }}
-        src={nycImg}
-        alt="New York City at dusk"
+        style={reduceMotion ? undefined : { y: imgY, scale: 1.06 }}
+        src={amalfiImg}
+        alt="Colorful cliffside villages on the Amalfi Coast"
         loading="lazy"
-        className="absolute inset-0 h-full w-full object-cover"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover object-[center_32%]"
       />
-      <div className="absolute inset-0 bg-navy-deep/70" />
+      <div className="absolute inset-0 bg-navy-deep/45" />
 
-      <div className="relative z-10 mx-auto max-w-4xl px-5 py-28 text-center md:py-36">
+      <div className="relative z-10 mx-auto max-w-4xl px-4 py-20 text-center sm:px-5 sm:py-28 md:py-36">
         <Reveal>
           <Eyebrow light>Ready when you are</Eyebrow>
-          <h2 className="mt-4 font-display text-4xl font-semibold text-cream md:text-6xl">
+          <h2 className="mt-4 font-display text-3xl font-semibold text-cream sm:text-4xl md:text-6xl">
             Where to <span className="text-accent-gradient italic">next?</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-lg text-cream/75">
+          <p className="mx-auto mt-5 max-w-lg text-sm text-cream/75 sm:text-base">
             Message us any time — we answer 24/7, and the first consult is
             always personal.
           </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <a
               href={WHATSAPP}
               target="_blank"
               rel="noreferrer"
-              className="accent-button rounded-full px-8 py-4 text-sm font-bold uppercase tracking-[0.2em] transition-all hover:scale-[1.03]"
+              className="accent-button rounded-full px-6 py-3.5 text-center text-xs font-bold uppercase tracking-[0.16em] transition-all hover:scale-[1.03] motion-reduce:transition-none motion-reduce:hover:scale-100 sm:px-8 sm:py-4 sm:text-sm sm:tracking-[0.2em]"
             >
               WhatsApp us
             </a>
             <a
               href={PHONE_TEL}
-              className="accent-outline rounded-full border border-cream/40 px-8 py-4 text-sm font-semibold uppercase tracking-[0.2em] text-cream transition-colors"
+              className="accent-outline rounded-full border border-cream/40 px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.12em] text-cream transition-colors sm:px-8 sm:py-4 sm:text-sm sm:tracking-[0.2em]"
             >
               {PHONE_DISPLAY}
             </a>
@@ -733,63 +864,75 @@ function ContactSection() {
   }
 
   return (
-    <section id="contact" className="scroll-mt-24 bg-navy-deep text-cream">
-      <div className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
-        <Reveal className="mx-auto max-w-3xl text-center">
-          <Eyebrow light>Get in touch</Eyebrow>
-          <h2 className="mt-4 font-display text-4xl font-semibold md:text-6xl">
-            Tell us about your{" "}
-            <span className="text-accent-gradient italic">trip.</span>
-          </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-cream/70">
-            Share a few details and a travel specialist will get back to you
-            within one business day.
-          </p>
-        </Reveal>
-
-        <div className="mt-14 grid gap-10 md:grid-cols-2 md:items-start md:gap-14 lg:gap-20">
+    <section id="contact" className="defer-paint scroll-mt-24 bg-navy-deep text-cream">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-5 sm:py-16 md:px-8 md:py-20">
+        <div className="grid gap-6 md:grid-cols-[minmax(16rem,0.88fr)_minmax(0,1.12fr)] md:items-stretch md:gap-8">
           <Reveal className="order-2 md:order-1">
-            <div className="space-y-7">
-              <a className="contact-detail" href={PHONE_TEL}>
-                <span className="contact-icon"><Phone aria-hidden="true" size={18} /></span>
-                <span>
-                  <span className="contact-detail-label">Call or WhatsApp 24/7</span>
-                  <span className="contact-detail-value">{PHONE_DISPLAY}</span>
-                </span>
-              </a>
-              <a className="contact-detail" href={`mailto:${EMAIL}`}>
-                <span className="contact-icon"><Mail aria-hidden="true" size={18} /></span>
-                <span>
-                  <span className="contact-detail-label">Email</span>
-                  <span className="contact-detail-value">{EMAIL}</span>
-                </span>
-              </a>
-              <div className="contact-detail">
-                <span className="contact-icon"><MapPin aria-hidden="true" size={18} /></span>
-                <span>
-                  <span className="contact-detail-label">Visit us</span>
-                  <span className="contact-detail-value">
-                    2080 North Jerusalem Road
-                    <br />
-                    Bellmore, New York 11710
-                  </span>
-                </span>
+            <div className="flex h-full flex-col rounded-2xl border border-cream/10 bg-navy/35 p-6 sm:p-8">
+              <div className="brand-plate mx-auto w-full max-w-[160px] sm:max-w-[176px]">
+                <img
+                  src={logoImg}
+                  alt="Karpo Travel Inc. emblem"
+                  width={1024}
+                  height={1536}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-auto w-full object-contain"
+                />
               </div>
-              <a
-                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-cream/20 px-5 py-2 text-sm font-semibold text-cream transition-colors hover:border-accent-light hover:bg-accent/10 hover:text-accent-light"
-                href={WHATSAPP}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Message us on WhatsApp
-              </a>
+              <div className="mt-8 text-center md:text-left">
+                <Eyebrow light>Get in touch</Eyebrow>
+                <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl md:text-5xl">
+                  Tell us about your{" "}
+                  <span className="text-accent-gradient italic">trip.</span>
+                </h2>
+                <p className="mt-4 text-sm leading-relaxed text-cream/70 sm:text-base">
+                  Share a few details and a travel specialist will get back to you
+                  within one business day.
+                </p>
+              </div>
+              <div className="mt-8 space-y-5 md:mt-auto md:pt-10">
+                <a className="contact-detail" href={PHONE_TEL}>
+                  <span className="contact-icon"><Phone aria-hidden="true" size={18} /></span>
+                  <span>
+                    <span className="contact-detail-label">Call or WhatsApp 24/7</span>
+                    <span className="contact-detail-value">{PHONE_DISPLAY}</span>
+                  </span>
+                </a>
+                <a className="contact-detail" href={`mailto:${EMAIL}`}>
+                  <span className="contact-icon"><Mail aria-hidden="true" size={18} /></span>
+                  <span>
+                    <span className="contact-detail-label">Email</span>
+                    <span className="contact-detail-value">{EMAIL}</span>
+                  </span>
+                </a>
+                <div className="contact-detail">
+                  <span className="contact-icon"><MapPin aria-hidden="true" size={18} /></span>
+                  <span>
+                    <span className="contact-detail-label">Visit us</span>
+                    <span className="contact-detail-value">
+                      2080 North Jerusalem Road
+                      <br />
+                      Bellmore, New York 11710
+                    </span>
+                  </span>
+                </div>
+                <a
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-cream/20 px-5 py-2 text-sm font-semibold text-cream transition-colors hover:border-accent-light hover:bg-accent/10 hover:text-accent-light"
+                  href={WHATSAPP}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Message us on WhatsApp
+                </a>
+              </div>
             </div>
           </Reveal>
 
-          <Reveal className="order-1 md:order-2">
+          <Reveal className="order-1 h-full md:order-2">
             {isSubmitted ? (
               <div
-                className="contact-card flex min-h-80 flex-col items-center justify-center px-6 py-10 text-center"
+                className="contact-card flex h-full min-h-80 flex-col items-center justify-center px-6 py-10 text-center"
                 role="status"
                 aria-live="polite"
               >
@@ -820,7 +963,7 @@ function ContactSection() {
                 </div>
               </div>
             ) : (
-              <form className="contact-card space-y-5 p-5 sm:p-7" noValidate onSubmit={handleSubmit}>
+              <form className="contact-card h-full space-y-5 p-5 sm:p-7" noValidate onSubmit={handleSubmit}>
                 <div className="contact-honeypot" aria-hidden="true">
                   <label htmlFor="contact-company">Leave this field empty</label>
                   <input
@@ -980,13 +1123,13 @@ function ContactSection() {
                   </p>
                 )}
                 <button
-                  className="accent-button inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] transition-all hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="accent-button inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] transition-all hover:scale-[1.01] motion-reduce:transition-none motion-reduce:hover:scale-100 disabled:cursor-not-allowed disabled:opacity-60"
                   type="submit"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
                     <>
-                      <LoaderCircle className="animate-spin" size={17} aria-hidden="true" />
+                      <LoaderCircle className="animate-spin motion-reduce:animate-none" size={17} aria-hidden="true" />
                       Sending...
                     </>
                   ) : (
@@ -1009,29 +1152,22 @@ function ContactSection() {
 
 function Footer() {
   return (
-    <footer className="bg-navy-deep text-cream">
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8">
+    <footer className="bg-navy-deep pb-[env(safe-area-inset-bottom)] text-cream">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-5 sm:py-20 md:px-8">
         <div className="grid gap-12 md:grid-cols-3">
           <div>
-            <div className="flex items-center gap-3">
+            <div className="brand-plate w-full max-w-[180px]">
               <img
-                src={emblemImg}
-                alt="Karpo Travel emblem"
-                className="h-12 w-12 object-contain"
+                src={logoImg}
+                alt="Karpo Travel Inc. emblem"
+                loading="lazy"
+                decoding="async"
+                width={1024}
+                height={1536}
+                className="h-auto w-full object-contain"
               />
-              <span className="leading-tight">
-                <span className="block font-display text-2xl font-bold tracking-[0.18em]">
-                  KARPO
-                </span>
-                <span className="block text-[9px] font-semibold uppercase tracking-[0.4em] text-accent-light">
-                  Travel Inc.
-                </span>
-              </span>
             </div>
-            <p className="mt-5 font-display text-lg italic text-cream/80">
-              Your Journey, Our Priority.
-            </p>
-            <p className="mt-2 text-sm text-cream/50">
+            <p className="mt-5 text-sm text-cream/50">
               Established 2026 · New York
             </p>
           </div>
@@ -1043,14 +1179,14 @@ function Footer() {
             <ul className="mt-5 space-y-3 text-sm text-cream/80">
               <li>
                 <a
-                  href="#contact"
+                  href={PHONE_TEL}
                   className="transition-colors hover:text-accent-light"
                 >
                   Call or WhatsApp 24/7 — {PHONE_DISPLAY}
                 </a>
               </li>
               <li>
-                <a href="#contact" className="transition-colors hover:text-accent-light">
+                <a href={`mailto:${EMAIL}`} className="transition-colors hover:text-accent-light">
                   {EMAIL}
                 </a>
               </li>
@@ -1070,7 +1206,7 @@ function Footer() {
         </div>
 
         <div className="accent-rule mt-14" />
-        <p className="mt-6 text-center text-xs tracking-[0.2em] text-cream/40">
+        <p className="mt-6 text-center text-[10px] leading-relaxed tracking-[0.12em] text-cream/40 sm:text-xs sm:tracking-[0.2em]">
           © 2026 KARPO TRAVEL INC. · NEW YORK · YOUR JOURNEY, OUR PRIORITY.
         </p>
       </div>
