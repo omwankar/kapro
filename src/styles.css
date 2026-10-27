@@ -1,0 +1,298 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Karpo Travel design system.
+ * Karpo palette: deep navy, travel red, and warm cream.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Brand tokens */
+  --color-navy: var(--navy);
+  --color-navy-deep: var(--navy-deep);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-light: var(--accent-light);
+  --color-cream: var(--cream);
+
+  --font-display: "Cormorant Garamond", "Georgia", serif;
+  --font-sans: "Karla", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: oklch(0.973 0.015 90);
+  --foreground: oklch(0.24 0.055 262);
+  --card: oklch(0.995 0.004 90);
+  --card-foreground: oklch(0.24 0.055 262);
+  --popover: oklch(0.995 0.004 90);
+  --popover-foreground: oklch(0.24 0.055 262);
+  --primary: var(--accent);
+  --primary-foreground: #fff;
+  --secondary: oklch(0.24 0.06 262);
+  --secondary-foreground: oklch(0.95 0.02 85);
+  --muted: oklch(0.93 0.02 88);
+  --muted-foreground: oklch(0.47 0.035 262);
+  --accent: #d71f2e;
+  --accent-hover: #b5121f;
+  --accent-light: #ff4d5a;
+  --accent-gradient: linear-gradient(90deg, #e8202a 0%, #ff4d5a 100%);
+  --accent-glow: rgba(215, 31, 46, 0.35);
+  --accent-soft: rgba(215, 31, 46, 0.12);
+  --accent-foreground: #fff;
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.98 0.01 90);
+  --border: oklch(0.89 0.02 85);
+  --input: oklch(0.89 0.02 85);
+  --ring: var(--accent);
+
+  --navy: oklch(0.24 0.06 262);
+  --navy-deep: oklch(0.16 0.05 262);
+  --cream: oklch(0.973 0.015 90);
+}
+
+.dark {
+  --background: oklch(0.16 0.05 262);
+  --foreground: oklch(0.95 0.02 85);
+  --card: oklch(0.22 0.055 262);
+  --card-foreground: oklch(0.95 0.02 85);
+  --popover: oklch(0.22 0.055 262);
+  --popover-foreground: oklch(0.95 0.02 85);
+  --primary: var(--accent);
+  --primary-foreground: #fff;
+  --secondary: oklch(0.28 0.06 262);
+  --secondary-foreground: oklch(0.95 0.02 85);
+  --muted: oklch(0.28 0.06 262);
+  --muted-foreground: oklch(0.72 0.03 262);
+  --accent-foreground: #fff;
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.98 0.01 90);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: var(--accent);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* ---- Brand flourishes ---- */
+
+.text-accent-gradient {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.accent-rule {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(215, 31, 46, 0.7), transparent);
+}
+
+.accent-button {
+  background: var(--accent-gradient);
+  color: #fff;
+  box-shadow: 0 8px 22px var(--accent-glow);
+}
+
+.accent-button:hover,
+.accent-button:focus-visible,
+.accent-button:active,
+.accent-button[aria-disabled="true"],
+.accent-button:disabled {
+  background: var(--accent-hover);
+}
+
+.accent-button:disabled,
+.accent-button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.accent-outline:hover,
+.accent-outline:focus-visible,
+.accent-outline:active {
+  border-color: var(--accent-light);
+  background-color: var(--accent-soft);
+  color: var(--accent-light);
+}
+
+.accent-nav-link:active,
+.accent-nav-link[aria-current="page"] {
+  color: var(--accent-light);
+}
+
+.contact-card {
+  border: 1px solid color-mix(in srgb, var(--cream) 10%, transparent);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--navy-deep) 72%, transparent);
+  box-shadow: 0 24px 60px color-mix(in srgb, var(--navy-deep) 22%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.contact-field {
+  color-scheme: dark;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.contact-field:focus-visible {
+  border-color: var(--accent-light);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.contact-field[aria-invalid="true"] {
+  border-color: var(--accent-light);
+}
+
+.contact-field[aria-invalid="true"]:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.contact-detail {
+  display: flex;
+  min-height: 44px;
+  align-items: flex-start;
+  gap: 1rem;
+  color: var(--cream);
+}
+
+.contact-icon {
+  display: flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--accent-soft);
+  border-radius: 9999px;
+  color: var(--accent-light);
+}
+
+.contact-detail-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--accent-light);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.contact-detail-value {
+  display: block;
+  color: color-mix(in srgb, var(--cream) 88%, transparent);
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.contact-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+::selection {
+  background-color: var(--accent);
+  color: #fff;
+}
+
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 3px;
+}
+
+:where(input, textarea, select):focus-visible {
+  border-color: var(--accent);
+}
+
+/* Seamless destination marquee */
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x 45s linear infinite;
+}
+
+@keyframes drift-y {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(10px);
+    opacity: 0.5;
+  }
+}
+
+.scroll-cue {
+  animation: drift-y 2.2s ease-in-out infinite;
+}
+
+/* Fine grain texture over dark photo sections */
+.photo-overlay {
+  background: linear-gradient(
+    to top,
+    oklch(0.14 0.05 262 / 88%) 0%,
+    oklch(0.14 0.05 262 / 35%) 55%,
+    oklch(0.14 0.05 262 / 15%) 100%
+  );
+}
