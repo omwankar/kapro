@@ -7,7 +7,7 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { CheckCircle2, LoaderCircle, Mail, MapPin, Phone, Send } from "lucide-react";
+import { CheckCircle2, LoaderCircle, Mail, Phone, Send } from "lucide-react";
 
 import heroImg from "@/assets/journeys/motorcycle_road_hero.webp";
 import heroVideo from "@/assets/journeys/motorcycle_road_hero.mp4";
@@ -403,10 +403,10 @@ function Hero() {
           initial={reduceMotion ? false : { opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={reduceMotion ? { duration: 0 } : { duration: 1, delay: 0.7, ease: EASE }}
-          className="mt-4 max-w-[16ch] font-display text-[clamp(2.6rem,12vw,4.5rem)] font-semibold leading-[0.95] text-cream sm:mt-6 sm:text-7xl md:text-8xl lg:text-[7.5rem]"
+          className="mt-4 max-w-[16ch] font-display text-[clamp(2.6rem,12vw,4.5rem)] font-semibold italic leading-[0.95] text-cream sm:mt-6 sm:text-7xl md:text-8xl lg:text-[7.5rem]"
         >
           Your Journey,
-          <span className="text-accent-light block italic">Our Priority.</span>
+          <span className="text-accent-light block">Our Priority.</span>
         </motion.h1>
 
         <motion.p
@@ -631,24 +631,41 @@ function Founder() {
             <h2 className="mt-4 font-display text-3xl font-semibold text-foreground sm:text-4xl md:text-6xl">
               Jenson <span className="italic text-accent">Daniel</span>
             </h2>
+            <p className="mt-3 font-display text-xl italic text-navy sm:text-2xl">
+              Driven by passion. Inspired by a legacy.
+            </p>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground sm:mt-8 sm:space-y-5 md:text-lg">
               <p>
-                A passionate traveler and adventurer, Jenson grew up around a
-                family legacy of over 60 years in the global travel industry —
-                with an international presence and millions of satisfied
-                customers.
+                For Jenson Daniel, travel has always been more than reaching a
+                destination—it’s about the experiences, connections, and
+                memories made along the way.
               </p>
               <p>
-                Driven by new destinations, motorcycle adventures, hiking,
-                diverse cultures and authentic cuisines, he began helping
-                travelers with personalized solutions in 2023. Trust, referrals
-                and growing demand turned that passion into Karpo Travel,
-                officially established in New York in 2026.
+                Growing up with a family legacy spanning over 60 years in the
+                global travel industry, Jenson developed an early appreciation
+                for travel and the value of trusted, personalized service.
               </p>
-              <p className="font-display text-2xl italic text-foreground">
-                “Your journey, our priority.”
+              <p>
+                An avid traveler and motorcycle enthusiast, he finds inspiration
+                in exploring new destinations, scenic rides, hiking trails,
+                diverse cultures, and authentic local cuisines.
+              </p>
+              <p>
+                In 2023, Jenson began helping travelers plan their journeys,
+                combining his passion for exploration with a commitment to
+                making travel easier and more accessible. Built on personal
+                referrals, trust, and growing demand, this passion evolved into
+                Karpo Travel, officially established in New York in 2026.
+              </p>
+              <p>
+                Today, his vision is simple: to provide reliable, personalized
+                travel solutions while ensuring every journey is handled with
+                care, transparency, and attention to detail.
+              </p>
+              <p className="font-display text-2xl italic text-foreground sm:text-3xl">
+                “Your Journey, Our Priority.”
               </p>
             </div>
           </Reveal>
@@ -908,17 +925,6 @@ function ContactSection() {
                     <span className="contact-detail-value">{EMAIL}</span>
                   </span>
                 </a>
-                <div className="contact-detail">
-                  <span className="contact-icon"><MapPin aria-hidden="true" size={18} /></span>
-                  <span>
-                    <span className="contact-detail-label">Visit us</span>
-                    <span className="contact-detail-value">
-                      2080 North Jerusalem Road
-                      <br />
-                      Bellmore, New York 11710
-                    </span>
-                  </span>
-                </div>
                 <a
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-cream/20 px-5 py-2 text-sm font-semibold text-cream transition-colors hover:border-accent-light hover:bg-accent/10 hover:text-accent-light"
                   href={WHATSAPP}
@@ -1209,7 +1215,8 @@ function Footer() {
 
         <div className="accent-rule mt-14" />
         <p className="mt-6 text-center text-[10px] leading-relaxed tracking-[0.12em] text-cream/40 sm:text-xs sm:tracking-[0.2em]">
-          © 2026 KARPO TRAVEL INC. · NEW YORK · YOUR JOURNEY, OUR PRIORITY.
+          © 2026 KARPO TRAVEL INC. · NEW YORK ·{" "}
+          <span className="italic">Your Journey, Our Priority.</span>
         </p>
       </div>
     </footer>
