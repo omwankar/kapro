@@ -8,7 +8,7 @@ import {
   useTransform,
 } from "framer-motion";
 
-import santoriniImg from "@/assets/journeys/santorini.webp";
+import ctaWhereNextImg from "@/assets/journeys/cta_where_next.jpg";
 import { SERVICES_NAV } from "@/data/services";
 
 export const EMBLEM_SRC = "/images/karpo-emblem-only.png";
@@ -312,12 +312,12 @@ export function CtaBand() {
     <section ref={ref} className="relative overflow-hidden">
       <motion.img
         style={reduceMotion ? undefined : { y: imgY, scale: 1.06 }}
-        src={santoriniImg}
-        alt="Whitewashed cliffside houses overlooking the Aegean in Santorini"
+        src={ctaWhereNextImg}
+        alt="Colorful cliffside town and harbor on the Amalfi Coast"
         loading="lazy"
         decoding="async"
-        width={1600}
-        height={1067}
+        width={2000}
+        height={1333}
         className="absolute inset-0 h-full w-full object-cover object-center"
       />
       <div
