@@ -363,7 +363,7 @@ function FoundersNote() {
                 <div className="about-founder-portrait-photo">
                   <img
                     src={founderImg}
-                    alt="Jenson Daniel, founder of Karpo Travel Inc."
+                    alt="Jenson Daniel, Founder & Managing Director of Karpo Travel Inc."
                     width={300}
                     height={375}
                     loading="lazy"
@@ -372,7 +372,7 @@ function FoundersNote() {
                 </div>
                 <div className="about-founder-tab">
                   <p className="about-founder-tab-name">Jenson Daniel</p>
-                  <p className="about-founder-tab-role">Founder</p>
+                  <p className="about-founder-tab-role">Founder & Managing Director</p>
                 </div>
               </div>
             </Reveal>
@@ -397,7 +397,7 @@ function FoundersNote() {
                     Jenson Daniel
                   </p>
                   <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-red-600">
-                    Founder
+                    Founder & Managing Director
                   </p>
                 </>
               ) : null}
