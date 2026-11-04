@@ -7,7 +7,7 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { CheckCircle2, LoaderCircle, Mail, Phone, Send } from "lucide-react";
+import { CheckCircle2, Clock, LoaderCircle, Mail, MapPin, Phone, Send } from "lucide-react";
 
 import heroImg from "@/assets/journeys/motorcycle_road_hero.webp";
 import heroVideo from "@/assets/journeys/motorcycle_road_hero.mp4";
@@ -23,9 +23,11 @@ import baliImg from "@/assets/journeys/bali_temple.webp";
 import tokyoImg from "@/assets/journeys/tokyo_night.webp";
 import romeImg from "@/assets/journeys/rome_colosseum.webp";
 import amalfiImg from "@/assets/journeys/amalfi_coast.webp";
-import logoImg from "@/assets/karpo-logo.webp";
-import markImg from "@/assets/karpo-mark.webp";
 import founderImg from "@/assets/jenson-daniel.webp";
+
+const EMBLEM_SRC = "/images/karpo-emblem-only.png";
+const EMBLEM_WIDTH = 256;
+const EMBLEM_HEIGHT = 417;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -60,9 +62,8 @@ const FORM_ENDPOINT = "https://api.web3forms.com/submit";
 // Set VITE_WEB3FORMS_ACCESS_KEY in .env.local using the key for Karpotravel@gmail.com.
 const FORM_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY ?? "";
 const FIELD_CLASS =
-  "contact-field min-h-11 w-full rounded-lg border border-cream/20 bg-cream/8 px-4 py-3 text-sm text-cream placeholder:text-cream/45";
-const LABEL_CLASS =
-  "mb-2 block text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-light";
+  "contact-field min-h-[52px] w-full rounded-[12px] border border-border bg-card px-4 py-3 text-[15px] text-foreground placeholder:text-muted-foreground";
+const ADDRESS = "2080 North Jerusalem Road, Bellmore, New York 11710";
 
 type ContactFormValues = {
   name: string;
@@ -125,19 +126,12 @@ const NAV_LINKS = [
 const MARQUEE =
   "SANTORINI ✦ MALDIVES ✦ SWISS ALPS ✦ NEW YORK ✦ BALI ✦ PARIS ✦ TOKYO ✦ DUBAI ✦ ROME ✦ CAPE TOWN ✦ ";
 
-const STATS = [
-  { value: "60+", label: "years of family legacy in travel" },
-  { value: "2023", label: "first personalized journeys" },
-  { value: "2026", label: "established in New York" },
-  { value: "24/7", label: "call or WhatsApp support" },
-];
-
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 function Reveal({
   children,
   delay = 0,
-  y = 28,
+  y = 16,
   className,
 }: {
   children: React.ReactNode;
@@ -149,9 +143,9 @@ function Reveal({
   return (
     <motion.div
       initial={reduceMotion ? false : { opacity: 0, y }}
-      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={reduceMotion ? { duration: 0 } : { duration: 0.8, delay, ease: EASE }}
+      transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay, ease: EASE }}
       className={className}
     >
       {children}
@@ -162,18 +156,27 @@ function Reveal({
 function Eyebrow({ children, light }: { children: React.ReactNode; light?: boolean }) {
   return (
     <p
-      className={`text-[10px] font-semibold uppercase tracking-[0.22em] sm:text-[11px] sm:tracking-[0.35em] ${
-        light ? "text-accent-light" : "text-accent"
+      className={`text-[11px] font-semibold uppercase tracking-[0.28em] sm:text-xs ${
+        light ? "text-ivory/90" : "text-red-600"
       }`}
     >
+      {!light ? <span className="eyebrow-mark" aria-hidden="true" /> : null}
       {children}
     </p>
   );
 }
 
+function ScrollProgress() {
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll();
+  if (reduceMotion) return null;
+  return <motion.div className="scroll-progress" style={{ scaleX: scrollYProgress }} aria-hidden="true" />;
+}
+
 function Index() {
   return (
     <main className="bg-background font-sans">
+      <ScrollProgress />
       <Nav />
       <Hero />
       <Marquee />
@@ -217,41 +220,33 @@ function Nav() {
       initial={reduceMotion ? false : { y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={reduceMotion ? { duration: 0 } : { duration: 0.8, ease: EASE, delay: 0.2 }}
-      className={`fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top)] transition-all duration-500 motion-reduce:transition-none ${
-        solid
-          ? "bg-navy-deep/80 py-1.5 shadow-lg shadow-navy-deep/25 backdrop-blur-sm"
-          : "bg-transparent py-2 sm:py-3"
-      }`}
+      className={`site-header ${solid ? "is-scrolled border-b border-border bg-[rgba(252,247,245,0.92)] shadow-none backdrop-blur-[14px]" : "border-b border-transparent bg-transparent"}`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 sm:px-5 md:px-8">
-        <a href="#top" className="flex min-w-0 items-center gap-2 sm:gap-3" onClick={() => setMenuOpen(false)}>
-          <span className="brand-plate shrink-0 !p-1 sm:!p-1.5">
-            <img
-              src={markImg}
-              alt="Karpo Travel emblem"
-              width={944}
-              height={1198}
-              decoding="async"
-              className="h-12 w-auto object-contain sm:h-14"
-            />
-          </span>
-          <span className="leading-tight">
-            <span className="block font-display text-lg font-bold tracking-[0.16em] text-cream sm:text-xl sm:tracking-[0.18em]">
-              KARPO
-            </span>
-            <span className="block text-[8px] font-semibold uppercase tracking-[0.32em] text-accent-light sm:text-[9px] sm:tracking-[0.4em]">
-              Travel Inc.
-            </span>
+      <div className="content-shell site-header-bar flex items-center justify-between gap-3 px-4 sm:px-6 md:px-8">
+        <a href="#top" className="site-brand" onClick={() => setMenuOpen(false)}>
+          <img
+            src={EMBLEM_SRC}
+            alt="Karpo Travel emblem"
+            width={EMBLEM_WIDTH}
+            height={EMBLEM_HEIGHT}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            className="site-header-emblem"
+          />
+          <span className="site-wordmark">
+            <span className="site-wordmark-name">KARPO</span>
+            <span className="site-wordmark-sub">Travel Inc.</span>
           </span>
         </a>
 
-        <nav className="hidden items-center gap-8 text-sm font-medium tracking-wide text-cream/85 md:flex">
+        <nav
+          className={`hidden items-center gap-8 font-medium md:flex ${
+            solid ? "text-ink" : "text-[#FBF3EE]/90"
+          }`}
+        >
           {NAV_LINKS.map(([label, href]) => (
-            <a
-              key={href}
-              href={href}
-              className="accent-nav-link transition-colors hover:text-accent-light"
-            >
+            <a key={href} href={href} className="accent-nav-link">
               {label}
             </a>
           ))}
@@ -262,13 +257,17 @@ function Nav() {
             href={WHATSAPP}
             target="_blank"
             rel="noreferrer"
-            className="accent-button rounded-full px-3 py-2 text-[10px] font-bold uppercase tracking-[0.12em] transition-all motion-reduce:transition-none sm:px-5 sm:py-2.5 sm:text-xs sm:tracking-[0.18em]"
+            className="accent-button rounded-full px-4 py-2.5 text-[10px] font-semibold uppercase motion-reduce:transition-none sm:px-5 sm:text-[11px]"
           >
             Plan my trip
           </a>
           <button
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-cream/25 text-cream md:hidden"
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-full border md:hidden ${
+              solid
+                ? "border-border text-ink"
+                : "border-[#FBF3EE]/35 text-[#FBF3EE]"
+            }`}
             aria-expanded={menuOpen}
             aria-controls="mobile-nav"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -293,14 +292,14 @@ function Nav() {
       {menuOpen ? (
         <nav
           id="mobile-nav"
-          className="border-t border-cream/10 bg-navy-deep px-4 py-4 md:hidden"
+          className="border-t border-border bg-[rgba(252,247,245,0.96)] px-4 py-4 backdrop-blur-md md:hidden"
         >
           <ul className="flex flex-col gap-1">
             {NAV_LINKS.map(([label, href]) => (
               <li key={href}>
                 <a
                   href={href}
-                  className="accent-nav-link flex min-h-11 items-center rounded-lg px-3 text-sm font-medium tracking-wide text-cream/90"
+                  className="accent-nav-link flex min-h-11 items-center rounded-lg px-3 font-medium text-ink"
                   onClick={() => setMenuOpen(false)}
                 >
                   {label}
@@ -385,57 +384,59 @@ function Hero() {
         ) : null}
       </motion.div>
       <div className="photo-overlay absolute inset-0" />
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/28 via-transparent to-navy-deep/22" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[color-mix(in_srgb,var(--ink)_45%,transparent)] via-[color-mix(in_srgb,var(--ink)_20%,transparent)] to-[color-mix(in_srgb,var(--ink)_40%,transparent)]" />
 
       <motion.div
         style={reduceMotion ? undefined : { y: textY, opacity: fade }}
-        className="hero-text-scrim relative z-10 flex h-full flex-col items-center justify-center px-4 pb-16 pt-24 text-center sm:px-5 sm:pt-28"
+        className="hero-text-scrim relative z-10 flex h-full flex-col items-center justify-center px-4 pb-16 pt-36 text-center sm:px-5 sm:pt-40"
       >
         <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={reduceMotion ? { duration: 0 } : { duration: 0.9, delay: 0.5, ease: EASE }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.45, ease: EASE }}
+          className="flex flex-col items-center"
         >
+          <span className="gold-hairline mb-5" aria-hidden="true" />
           <Eyebrow light>Karpo Travel Inc. · New York</Eyebrow>
         </motion.div>
 
         <motion.h1
-          initial={reduceMotion ? false : { opacity: 0, y: 40 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={reduceMotion ? { duration: 0 } : { duration: 1, delay: 0.7, ease: EASE }}
-          className="mt-4 max-w-[16ch] font-display text-[clamp(2.6rem,12vw,4.5rem)] font-semibold italic leading-[0.95] text-cream sm:mt-6 sm:text-7xl md:text-8xl lg:text-[7.5rem]"
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.75, delay: 0.6, ease: EASE }}
+          className="mt-5 max-w-[16ch] font-display text-[clamp(2.75rem,11vw,5.75rem)] font-medium italic leading-[1.05] tracking-[-0.01em] text-ivory sm:mt-6"
         >
           Your Journey,
-          <span className="text-accent-light block">Our Priority.</span>
+          <span className="block italic text-ivory">Our Priority.</span>
         </motion.h1>
 
         <motion.p
-          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={reduceMotion ? { duration: 0 } : { duration: 0.9, delay: 1, ease: EASE }}
-          className="mt-5 max-w-xl text-sm leading-relaxed text-cream/80 sm:mt-6 sm:text-base md:text-lg"
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.8, ease: EASE }}
+          className="mt-5 max-w-[62ch] text-[15px] leading-[1.7] text-ivory/85 sm:mt-6 sm:text-base md:text-[17px]"
         >
           Generations of travel knowledge, a fresh personal touch. Flights to
           cruises, cars to visas — one call takes care of it all.
         </motion.p>
 
         <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={reduceMotion ? { duration: 0 } : { duration: 0.9, delay: 1.2, ease: EASE }}
+          transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.95, ease: EASE }}
           className="mt-8 flex w-full max-w-sm flex-col items-stretch gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4"
         >
           <a
             href={WHATSAPP}
             target="_blank"
             rel="noreferrer"
-            className="accent-button rounded-full px-6 py-3.5 text-center text-xs font-bold uppercase tracking-[0.16em] transition-all hover:scale-[1.03] motion-reduce:transition-none motion-reduce:hover:scale-100 sm:px-8 sm:py-4 sm:text-sm sm:tracking-[0.2em]"
+            className="accent-button rounded-full px-7 py-3.5 text-center text-[11px] font-semibold uppercase motion-reduce:transition-none sm:px-8 sm:py-4 sm:text-xs"
           >
             Plan my trip
           </a>
           <a
             href={PHONE_TEL}
-            className="accent-outline rounded-full border border-cream/40 px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.16em] text-cream transition-colors motion-reduce:transition-none sm:px-8 sm:py-4 sm:text-sm sm:tracking-[0.2em]"
+            className="accent-outline-light rounded-full px-7 py-3.5 text-center text-[11px] font-semibold uppercase tracking-[0.14em] motion-reduce:transition-none sm:px-8 sm:py-4 sm:text-xs"
           >
             Call us 24/7
           </a>
@@ -445,7 +446,7 @@ function Hero() {
       <motion.a
         href="#services"
         style={reduceMotion ? undefined : { opacity: fade }}
-        className="scroll-cue absolute bottom-5 left-1/2 z-10 -translate-x-1/2 text-accent-light sm:bottom-8"
+        className="scroll-cue absolute bottom-5 left-1/2 z-10 -translate-x-1/2 text-ivory/80 sm:bottom-8"
         aria-label="Scroll down"
       >
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -460,12 +461,12 @@ function Hero() {
 
 function Marquee() {
   return (
-    <div className="overflow-hidden border-y border-accent/30 bg-navy py-4">
+    <div className="overflow-hidden border-b border-border py-5" style={{ backgroundColor: "var(--bg-alt)" }}>
       <div className="marquee-track">
         {[0, 1].map((i) => (
           <span
             key={i}
-            className="whitespace-nowrap font-display text-lg font-semibold tracking-[0.3em] text-accent-light md:text-xl"
+            className="whitespace-nowrap font-display text-base font-medium tracking-[0.28em] text-muted-foreground md:text-lg"
           >
             {MARQUEE}
           </span>
@@ -479,51 +480,51 @@ function Marquee() {
 
 function Services() {
   return (
-    <section id="services" className="defer-paint mx-auto max-w-7xl scroll-mt-24 px-4 py-16 sm:px-5 sm:py-24 md:px-8 md:py-32">
-      <Reveal className="mx-auto max-w-2xl text-center">
-        <Eyebrow>What we do</Eyebrow>
-        <h2 className="mt-4 font-display text-3xl font-semibold text-foreground sm:text-4xl md:text-6xl">
-          Six ways we take <span className="italic text-accent">you there</span>
-        </h2>
-      </Reveal>
+    <section id="services" className="defer-paint scroll-mt-24 border-b border-border bg-background">
+      <div className="content-shell section-pad px-4 sm:px-6 md:px-8">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <Eyebrow>What we do</Eyebrow>
+          <h2 className="mt-4 font-display text-[clamp(2rem,5vw,3.75rem)] font-medium text-ink">
+            Six ways we take <span className="italic text-red-500">you there</span>
+          </h2>
+        </Reveal>
 
-      <div className="mt-10 grid gap-4 sm:mt-16 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-        {SERVICES.map((s, i) => (
-          <Reveal key={s.title} delay={(i % 3) * 0.12}>
-            <a
-              href={WHATSAPP}
-              target="_blank"
-              rel="noreferrer"
-              className="group relative block overflow-hidden rounded-2xl"
-            >
-              <div className="aspect-[4/3] overflow-hidden">
-                <img
-                  src={s.img}
-                  alt={s.title}
-                  loading="lazy"
-                  decoding="async"
-                  width={800}
-                  height={600}
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/70 via-navy-deep/10 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-4 sm:p-6">
-                <div>
-                  <h3 className="font-display text-2xl font-semibold text-cream md:text-3xl">
-                    {s.title}
-                  </h3>
-                  <p className="mt-1 text-sm text-cream/70">{s.line}</p>
+        <div className="mt-12 grid gap-5 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
+          {SERVICES.map((s, i) => (
+            <Reveal key={s.title} delay={(i % 3) * 0.08}>
+              <a
+                href={WHATSAPP}
+                target="_blank"
+                rel="noreferrer"
+                className="service-card group relative block overflow-hidden"
+              >
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={s.img}
+                    alt={s.title}
+                    loading="lazy"
+                    decoding="async"
+                    width={800}
+                    height={600}
+                    className="h-full w-full object-cover motion-reduce:transition-none"
+                  />
                 </div>
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/50 text-accent-light opacity-100 transition-all duration-500 md:opacity-0 md:group-hover:opacity-100 motion-reduce:opacity-100 motion-reduce:transition-none">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <div className="absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--ink)_72%,transparent)] via-[color-mix(in_srgb,var(--ink)_12%,transparent)] to-transparent" />
+                <span className="service-card-arrow motion-reduce:opacity-100" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                     <path d="M7 17L17 7M17 7H8M17 7v9" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
-              </div>
-            </a>
-          </Reveal>
-        ))}
+                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                  <h3 className="font-display text-2xl font-medium text-ivory md:text-[1.75rem]">
+                    {s.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-ivory/80">{s.line}</p>
+                </div>
+              </a>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -548,62 +549,59 @@ function JourneyRail() {
 
   const intro = (
     <>
-      <Eyebrow light>Signature journeys</Eyebrow>
-      <h2 className="mt-4 font-display text-4xl font-semibold leading-tight text-cream sm:text-5xl md:text-7xl">
+      <Eyebrow>Signature journeys</Eyebrow>
+      <h2 className="mt-4 font-display text-[clamp(2.25rem,5vw,4.25rem)] font-medium leading-[1.08] text-ink">
         Places we
-        <span className="text-accent-gradient block italic">carry you to</span>
+        <span className="block italic text-red-500">carry you to</span>
       </h2>
-      <p className="mt-5 max-w-sm text-sm text-cream/70 md:mt-6 md:text-base">
+      <p className="mt-5 max-w-[36ch] text-[15px] leading-[1.7] text-muted-foreground md:mt-6 md:text-[17px]">
         {pinScroll ? "Keep scrolling — the world moves past your window." : "Swipe to see the world move past your window."}
       </p>
-      <div className="accent-rule mt-8 w-40 md:mt-10" />
+      <div className="accent-rule mt-8 w-28 md:mt-10" />
     </>
   );
 
   return (
-    <section ref={ref} id="journeys" className="relative scroll-mt-24 bg-navy-deep md:h-[340vh]">
+    <section ref={ref} id="journeys" className="relative scroll-mt-24 border-b border-border md:h-[340vh]" style={{ backgroundColor: "var(--bg-alt)" }}>
       <div className="flex flex-col justify-center py-16 md:sticky md:top-0 md:h-screen md:overflow-hidden md:py-0">
-        <div className="pointer-events-none absolute inset-0 hidden bg-[radial-gradient(ellipse_at_top,oklch(0.3_0.07_262)_0%,transparent_60%)] md:block" />
-
         <div className="relative z-10 px-4 pb-8 sm:px-6 md:hidden">{intro}</div>
 
         <div className="journey-rail-scroll overflow-x-auto overscroll-x-contain px-0 snap-x snap-mandatory md:overflow-visible md:snap-none">
           <motion.div
             style={pinScroll && !reduceMotion ? { x } : undefined}
-            className="relative flex w-max items-center gap-4 px-4 sm:gap-6 sm:px-6 md:gap-10 md:px-16"
+            className="relative flex w-max items-center gap-5 px-4 sm:gap-6 sm:px-6 md:gap-8 md:px-16"
           >
-            <div className="hidden w-[34rem] shrink-0 md:block">{intro}</div>
+            <div className="hidden w-[32rem] shrink-0 md:block">{intro}</div>
 
             {JOURNEYS.map((j) => (
               <div
                 key={j.title}
-                className={`group relative shrink-0 snap-center overflow-hidden rounded-2xl md:snap-align-none ${
-                  j.tall
-                    ? "h-[52vh] w-[min(82vw,20rem)] sm:h-[62vh] md:h-[74vh] md:w-[26rem]"
-                    : "h-[46vh] w-[min(78vw,19rem)] sm:h-[52vh] md:h-[60vh] md:w-[24rem]"
-                }`}
+                className="group relative h-[52vh] w-[min(80vw,20rem)] shrink-0 snap-center overflow-hidden rounded-[1.5rem] sm:h-[58vh] md:h-[64vh] md:w-[23rem] md:snap-align-none"
               >
                 <img
                   src={j.img}
                   alt={j.title}
                   loading="lazy"
                   decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                  className="h-full w-full object-cover transition-transform duration-[600ms] group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/65 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--ink)_70%,transparent)] via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 p-5 sm:p-6">
-                  <h3 className="font-display text-2xl font-semibold text-cream sm:text-3xl">{j.title}</h3>
-                  <p className="mt-1 text-sm text-accent-light">{j.line}</p>
+                  <h3 className="font-display text-2xl font-medium text-ivory sm:text-3xl">{j.title}</h3>
+                  <p className="mt-1 text-sm text-ivory/80">{j.line}</p>
                 </div>
               </div>
             ))}
           </motion.div>
         </div>
 
-        <div className="absolute inset-x-6 bottom-8 hidden h-px bg-cream/15 md:block md:inset-x-16">
+        <div className="absolute inset-x-6 bottom-8 hidden h-px md:block md:inset-x-16" style={{ backgroundColor: "var(--border)" }}>
           <motion.div
-            style={pinScroll && !reduceMotion ? { scaleX: scrollYProgress } : undefined}
-            className="h-full origin-left bg-accent"
+            style={{
+              backgroundColor: "var(--red-600)",
+              ...(pinScroll && !reduceMotion ? { scaleX: scrollYProgress } : {}),
+            }}
+            className="h-full origin-left"
           />
         </div>
       </div>
@@ -611,97 +609,124 @@ function JourneyRail() {
   );
 }
 
-/* ---------------- Founder ---------------- */
+/* ---------------- Our Story ---------------- */
 
 function Founder() {
+  const STATS = [
+    { value: "60+", label: "years of family legacy in travel" },
+    { value: "2023", label: "first personalized journeys" },
+    { value: "2026", label: "established in New York" },
+    { value: "24/7", label: "call or WhatsApp support" },
+  ];
+
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
 
   return (
-    <section id="story" className="defer-paint mx-auto max-w-7xl scroll-mt-24 overflow-x-clip px-4 py-16 sm:px-5 sm:py-24 md:px-8 md:py-32">
-      <div ref={ref} className="grid items-center gap-10 sm:gap-14 lg:grid-cols-2 lg:gap-20">
-        <div>
-          <Reveal>
-            <Eyebrow>The founder</Eyebrow>
-            <h2 className="mt-4 font-display text-3xl font-semibold text-foreground sm:text-4xl md:text-6xl">
-              Jenson <span className="italic text-accent">Daniel</span>
-            </h2>
-            <p className="mt-3 font-display text-xl italic text-navy sm:text-2xl">
-              Driven by passion. Inspired by a legacy.
-            </p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="mt-6 space-y-4 text-base leading-relaxed text-muted-foreground sm:mt-8 sm:space-y-5 md:text-lg">
-              <p>
-                For Jenson Daniel, travel has always been more than reaching a
-                destination—it’s about the experiences, connections, and
-                memories made along the way.
-              </p>
-              <p>
-                Growing up with a family legacy spanning over 60 years in the
-                global travel industry, Jenson developed an early appreciation
-                for travel and the value of trusted, personalized service.
-              </p>
-              <p>
-                An avid traveler and motorcycle enthusiast, he finds inspiration
-                in exploring new destinations, scenic rides, hiking trails,
-                diverse cultures, and authentic local cuisines.
-              </p>
-              <p>
-                In 2023, Jenson began helping travelers plan their journeys,
-                combining his passion for exploration with a commitment to
-                making travel easier and more accessible. Built on personal
-                referrals, trust, and growing demand, this passion evolved into
-                Karpo Travel, officially established in New York in 2026.
-              </p>
-              <p>
-                Today, his vision is simple: to provide reliable, personalized
-                travel solutions while ensuring every journey is handled with
-                care, transparency, and attention to detail.
-              </p>
-              <p className="font-display text-2xl italic text-foreground sm:text-3xl">
-                “Your Journey, Our Priority.”
-              </p>
-            </div>
+    <section id="story" className="defer-paint relative scroll-mt-24 overflow-x-clip bg-background">
+      <div className="content-shell relative section-pad px-4 sm:px-6 md:px-8">
+        <img
+          src={EMBLEM_SRC}
+          alt=""
+          aria-hidden="true"
+          width={EMBLEM_WIDTH}
+          height={EMBLEM_HEIGHT}
+          loading="lazy"
+          decoding="async"
+          className="story-watermark hidden md:block"
+        />
+        <div ref={ref} className="relative z-[1] grid items-start gap-10 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
+          <div className="min-w-0 max-w-3xl">
+            <Reveal>
+              <Eyebrow>Our Story</Eyebrow>
+              <h2 className="mt-4 font-display text-[clamp(2rem,5vw,3.75rem)] font-medium text-ink">
+                Built on Trust. Driven by{" "}
+                <span className="italic text-red-500">Experience.</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <div className="mt-6 max-w-[62ch] space-y-5 text-[15px] leading-[1.7] text-muted-foreground sm:mt-8 sm:text-[17px]">
+                <p>
+                  <span className="font-medium text-ink">Karpo Travel Inc.</span>{" "}
+                  was founded to make personalized travel simpler, more thoughtful,
+                  and more reliable. Drawing on over 60 years of family experience
+                  in the travel industry, we focus on carefully planned journeys
+                  that reflect each client’s preferences, pace, and priorities.
+                </p>
+                <p>
+                  From flights and accommodations to full itineraries and ongoing
+                  support, every detail is handled with care and transparency.
+                  Whether you’re planning a family vacation, a luxury escape, or a
+                  complex multi-destination trip, our goal is the same — to take
+                  care of the planning so you can focus on the experience.
+                </p>
+                <p>
+                  Founded in New York by Jenson Daniel, Karpo Travel grew from a
+                  passion for exploration into a trusted practice built on personal
+                  referrals, careful attention to detail, and a commitment to
+                  making every journey seamless and meaningful.
+                </p>
+                <p className="quote-rule font-display text-[clamp(1.5rem,3vw,2rem)] italic leading-snug text-ink">
+                  “Your Journey, Our Priority.”
+                </p>
+              </div>
+            </Reveal>
+          </div>
+
+          <Reveal className="justify-self-center lg:justify-self-end lg:pt-8" delay={0.16}>
+            <figure className="card-accent-top card-accent-top--sm relative z-[1] w-[11rem] overflow-hidden rounded-[24px] border border-border bg-card sm:w-[12.5rem]">
+              <div className="p-[6px]">
+                <motion.img
+                  style={reduceMotion ? undefined : { y: imgY, scale: 1.02 }}
+                  src={founderImg}
+                  alt="Jenson Daniel, founder of Karpo Travel Inc."
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[4/5] h-auto w-full rounded-[18px] object-cover"
+                />
+              </div>
+              <div className="mx-5 h-px bg-gold" aria-hidden="true" />
+              <figcaption className="px-4 py-4 text-center">
+                <p className="font-display text-base font-medium text-ink">
+                  Jenson Daniel
+                </p>
+                <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                  Founder
+                </p>
+              </figcaption>
+            </figure>
           </Reveal>
         </div>
-
-        <Reveal>
-          <div className="relative mx-auto max-w-md lg:ml-auto lg:mr-0">
-            <div className="absolute -inset-2 rounded-3xl border border-accent/40 sm:-inset-3" />
-            <div className="absolute -bottom-4 -left-4 h-full w-full rounded-3xl bg-navy/5 sm:-bottom-6 sm:-left-6" />
-            <div className="relative overflow-hidden rounded-3xl shadow-2xl shadow-navy/20">
-              <motion.img
-                style={reduceMotion ? undefined : { y: imgY, scale: 1.04 }}
-                src={founderImg}
-                alt="Jenson Daniel, founder of Karpo Travel"
-                loading="lazy"
-                decoding="async"
-                className="h-auto w-full object-cover"
-              />
-            </div>
-          </div>
-        </Reveal>
       </div>
 
-      <div className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:mt-20 md:grid-cols-4">
-        {STATS.map((s, i) => (
-          <Reveal key={s.label} delay={i * 0.08} className="bg-card">
-            <div className="px-3 py-7 text-center sm:px-6 sm:py-10">
-              <p className="font-display text-3xl font-semibold text-navy sm:text-4xl md:text-5xl">
-                {s.value}
-              </p>
-              <p className="mt-2 text-[10px] uppercase leading-snug tracking-[0.08em] text-muted-foreground sm:text-xs sm:tracking-[0.15em] md:text-sm">
-                {s.label}
-              </p>
+      <div className="mt-4 border-t border-border bg-red-50 sm:mt-6">
+        <div className="content-shell px-4 py-10 sm:px-6 sm:py-12 md:px-8">
+          <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)]">
+            <div className="grid grid-cols-2 md:grid-cols-4">
+              {STATS.map((s, i) => (
+                <Reveal
+                  key={s.label}
+                  delay={i * 0.08}
+                  className={`border-border ${i % 2 === 1 ? "border-l" : ""} ${i > 1 ? "border-t md:border-t-0" : ""} md:border-l md:first:border-l-0`}
+                >
+                  <div className="px-3 py-8 text-center sm:px-6 sm:py-10">
+                    <p className="stat-numeral font-display text-3xl font-medium text-red-500 sm:text-4xl md:text-5xl">
+                      {s.value}
+                    </p>
+                    <p className="mt-3 text-[10px] uppercase leading-snug tracking-[0.14em] text-muted-foreground sm:text-[11px]">
+                      {s.label}
+                    </p>
+                  </div>
+                </Reveal>
+              ))}
             </div>
-          </Reveal>
-        ))}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -728,30 +753,45 @@ function CtaBand() {
         decoding="async"
         className="absolute inset-0 h-full w-full object-cover object-[center_32%]"
       />
-      <div className="absolute inset-0 bg-navy-deep/45" />
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(100deg, rgba(74,15,19,0.92) 0%, rgba(112,18,23,0.78) 40%, rgba(112,18,23,0.25) 75%, rgba(74,15,19,0.15) 100%)",
+        }}
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(to top, rgba(0,0,0,0.25) 0%, transparent 30%)",
+        }}
+        aria-hidden="true"
+      />
 
-      <div className="relative z-10 mx-auto max-w-4xl px-4 py-20 text-center sm:px-5 sm:py-28 md:py-36">
+      <div className="relative z-10 mx-auto max-w-4xl px-4 py-20 text-center sm:px-5 sm:py-28 md:mx-0 md:max-w-xl md:px-8 md:py-36 md:text-left lg:px-16 xl:px-24">
         <Reveal>
           <Eyebrow light>Ready when you are</Eyebrow>
-          <h2 className="mt-4 font-display text-3xl font-semibold text-cream sm:text-4xl md:text-6xl">
-            Where to <span className="text-accent-gradient italic">next?</span>
+          <h2 className="mt-4 font-display text-[clamp(2rem,5vw,3.75rem)] font-medium text-ivory">
+            Where to <span className="italic text-ivory">next?</span>
           </h2>
-          <p className="mx-auto mt-5 max-w-lg text-sm text-cream/75 sm:text-base">
+          <p className="mx-auto mt-5 max-w-[62ch] text-[15px] leading-[1.7] text-ivory/90 sm:text-[17px] md:mx-0">
             Message us any time — we answer 24/7, and the first consult is
             always personal.
           </p>
-          <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+          <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4 md:justify-start">
             <a
               href={WHATSAPP}
               target="_blank"
               rel="noreferrer"
-              className="accent-button rounded-full px-6 py-3.5 text-center text-xs font-bold uppercase tracking-[0.16em] transition-all hover:scale-[1.03] motion-reduce:transition-none motion-reduce:hover:scale-100 sm:px-8 sm:py-4 sm:text-sm sm:tracking-[0.2em]"
+              className="accent-button-on-red rounded-full px-7 py-3.5 text-center text-[11px] font-semibold uppercase motion-reduce:transition-none sm:px-8 sm:py-4 sm:text-xs"
             >
               WhatsApp us
             </a>
             <a
               href={PHONE_TEL}
-              className="accent-outline rounded-full border border-cream/40 px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.12em] text-cream transition-colors sm:px-8 sm:py-4 sm:text-sm sm:tracking-[0.2em]"
+              className="accent-outline-light rounded-full px-7 py-3.5 text-center text-[11px] font-semibold uppercase tracking-[0.14em] sm:px-8 sm:py-4 sm:text-xs"
             >
               {PHONE_DISPLAY}
             </a>
@@ -876,45 +916,34 @@ function ContactSection() {
 
   function fieldError(field: keyof ContactFormValues) {
     return errors[field] ? (
-      <span id={`${field}-error`} className="mt-1.5 block text-xs text-accent-light">
+      <span id={`${field}-error`} className="mt-1.5 block text-xs text-accent">
         {errors[field]}
       </span>
     ) : null;
   }
 
   return (
-    <section id="contact" className="defer-paint scroll-mt-24 bg-navy-deep text-cream">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-5 sm:py-16 md:px-8 md:py-20">
+    <section id="contact" className="defer-paint scroll-mt-24 text-ink" style={{ backgroundColor: "var(--bg-alt)" }}>
+      <div className="content-shell section-pad px-4 sm:px-6 md:px-8">
         <div className="grid gap-6 md:grid-cols-[minmax(16rem,0.88fr)_minmax(0,1.12fr)] md:items-stretch md:gap-8">
           <Reveal className="order-2 md:order-1">
-            <div className="flex h-full flex-col rounded-2xl border border-cream/10 bg-navy/35 p-6 sm:p-8">
-              <div className="brand-plate mx-auto w-full max-w-[160px] sm:max-w-[176px]">
-                <img
-                  src={logoImg}
-                  alt="Karpo Travel Inc. emblem"
-                  width={1024}
-                  height={1536}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-auto w-full object-contain"
-                />
-              </div>
-              <div className="mt-8 text-center md:text-left">
-                <Eyebrow light>Get in touch</Eyebrow>
-                <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl md:text-5xl">
+            <div className="card-accent-top flex flex-col gap-7 rounded-[1.5rem] border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
+              <div className="text-center md:text-left">
+                <Eyebrow>Get in touch</Eyebrow>
+                <h2 className="mt-3 font-display text-[clamp(2rem,4vw,3.25rem)] font-medium text-ink">
                   Tell us about your{" "}
-                  <span className="text-accent-gradient italic">trip.</span>
+                  <span className="italic text-red-500">trip.</span>
                 </h2>
-                <p className="mt-4 text-sm leading-relaxed text-cream/70 sm:text-base">
+                <p className="mt-4 max-w-[42ch] text-[15px] leading-[1.7] text-muted-foreground sm:text-[17px]">
                   Share a few details and a travel specialist will get back to you
                   within one business day.
                 </p>
               </div>
-              <div className="mt-8 space-y-5 md:mt-auto md:pt-10">
+              <div className="flex flex-col gap-5">
                 <a className="contact-detail" href={PHONE_TEL}>
                   <span className="contact-icon"><Phone aria-hidden="true" size={18} /></span>
                   <span>
-                    <span className="contact-detail-label">Call or WhatsApp 24/7</span>
+                    <span className="contact-detail-label">Phone</span>
                     <span className="contact-detail-value">{PHONE_DISPLAY}</span>
                   </span>
                 </a>
@@ -925,8 +954,24 @@ function ContactSection() {
                     <span className="contact-detail-value">{EMAIL}</span>
                   </span>
                 </a>
+                <div className="contact-detail">
+                  <span className="contact-icon"><MapPin aria-hidden="true" size={18} /></span>
+                  <span>
+                    <span className="contact-detail-label">Office</span>
+                    <span className="contact-detail-value">
+                      2080 North Jerusalem Road, Bellmore, NY 11710
+                    </span>
+                  </span>
+                </div>
+                <div className="contact-detail">
+                  <span className="contact-icon"><Clock aria-hidden="true" size={18} /></span>
+                  <span>
+                    <span className="contact-detail-label">Hours</span>
+                    <span className="contact-detail-value">Call or WhatsApp, 24/7</span>
+                  </span>
+                </div>
                 <a
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-cream/20 px-5 py-2 text-sm font-semibold text-cream transition-colors hover:border-accent-light hover:bg-accent/10 hover:text-accent-light"
+                  className="accent-outline inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold"
                   href={WHATSAPP}
                   target="_blank"
                   rel="noreferrer"
@@ -944,17 +989,17 @@ function ContactSection() {
                 role="status"
                 aria-live="polite"
               >
-                <CheckCircle2 className="text-accent-light" size={42} aria-hidden="true" />
-                <h3 className="mt-5 font-display text-3xl font-semibold">
+                <CheckCircle2 className="text-accent" size={42} aria-hidden="true" />
+                <h3 className="mt-5 font-display text-3xl font-medium text-ink">
                   Thanks, we&apos;ve got your message.
                 </h3>
-                <p className="mt-3 max-w-md text-sm leading-relaxed text-cream/70">
+                <p className="mt-3 max-w-md text-[15px] leading-[1.7] text-muted-foreground">
                   We&apos;ll reply within one business day.
                 </p>
                 <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
                   <button
                     type="button"
-                    className="text-sm font-semibold text-accent-light underline underline-offset-4"
+                    className="text-sm font-semibold text-accent underline underline-offset-4 hover:text-accent-hover"
                     onClick={startAnotherMessage}
                   >
                     Send another message
@@ -963,7 +1008,7 @@ function ContactSection() {
                     href={WHATSAPP}
                     target="_blank"
                     rel="noreferrer"
-                    className="accent-button inline-flex min-h-11 items-center gap-2 rounded-full px-5 py-3 text-xs font-bold uppercase tracking-[0.15em]"
+                    className="accent-button inline-flex min-h-11 items-center gap-2 rounded-full px-5 py-3 text-[11px] font-semibold uppercase"
                   >
                     <Phone size={15} aria-hidden="true" />
                     WhatsApp us
@@ -984,7 +1029,9 @@ function ContactSection() {
                 </div>
 
                 <div>
-                  <label className={LABEL_CLASS} htmlFor="contact-name">Full name *</label>
+                  <label className="form-label" htmlFor="contact-name">
+                    Full name <span className="form-label-required">*</span>
+                  </label>
                   <input
                     className={FIELD_CLASS}
                     id="contact-name"
@@ -1001,7 +1048,9 @@ function ContactSection() {
 
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label className={LABEL_CLASS} htmlFor="contact-email">Email *</label>
+                    <label className="form-label" htmlFor="contact-email">
+                      Email <span className="form-label-required">*</span>
+                    </label>
                     <input
                       className={FIELD_CLASS}
                       id="contact-email"
@@ -1017,7 +1066,7 @@ function ContactSection() {
                     {fieldError("email")}
                   </div>
                   <div>
-                    <label className={LABEL_CLASS} htmlFor="contact-phone">Phone / WhatsApp</label>
+                    <label className="form-label" htmlFor="contact-phone">Phone / WhatsApp</label>
                     <input
                       className={FIELD_CLASS}
                       id="contact-phone"
@@ -1031,7 +1080,7 @@ function ContactSection() {
                 </div>
 
                 <div>
-                  <label className={LABEL_CLASS} htmlFor="contact-interest">I&apos;m interested in</label>
+                  <label className="form-label" htmlFor="contact-interest">I&apos;m interested in</label>
                   <select
                     className={FIELD_CLASS}
                     id="contact-interest"
@@ -1048,7 +1097,7 @@ function ContactSection() {
 
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label className={LABEL_CLASS} htmlFor="contact-departure">Departure</label>
+                    <label className="form-label" htmlFor="contact-departure">Departure</label>
                     <input
                       className={`${FIELD_CLASS} contact-date`}
                       id="contact-departure"
@@ -1059,7 +1108,7 @@ function ContactSection() {
                     />
                   </div>
                   <div>
-                    <label className={LABEL_CLASS} htmlFor="contact-return">Return</label>
+                    <label className="form-label" htmlFor="contact-return">Return</label>
                     <input
                       className={`${FIELD_CLASS} contact-date`}
                       id="contact-return"
@@ -1075,7 +1124,7 @@ function ContactSection() {
                 </div>
 
                 <div>
-                  <label className={LABEL_CLASS} htmlFor="contact-travellers">
+                  <label className="form-label" htmlFor="contact-travellers">
                     Number of travellers
                   </label>
                   <input
@@ -1094,7 +1143,9 @@ function ContactSection() {
                 </div>
 
                 <div>
-                  <label className={LABEL_CLASS} htmlFor="contact-message">Message *</label>
+                  <label className="form-label" htmlFor="contact-message">
+                    Message <span className="form-label-required">*</span>
+                  </label>
                   <textarea
                     className={`${FIELD_CLASS} min-h-32 resize-y`}
                     id="contact-message"
@@ -1113,14 +1164,14 @@ function ContactSection() {
                   {isSubmitting ? "Sending your message." : submitError}
                 </p>
                 {submitError && (
-                  <p className="text-sm leading-relaxed text-accent-light" role="alert">
+                  <p className="text-sm leading-relaxed text-accent" role="alert">
                     {submitError}{" "}
-                    <a className="underline underline-offset-2" href={PHONE_TEL}>
+                    <a className="underline underline-offset-2 hover:text-accent-hover" href={PHONE_TEL}>
                       {PHONE_DISPLAY}
                     </a>{" "}
                     or{" "}
                     <a
-                      className="underline underline-offset-2"
+                      className="underline underline-offset-2 hover:text-accent-hover"
                       href={WHATSAPP}
                       target="_blank"
                       rel="noreferrer"
@@ -1131,7 +1182,7 @@ function ContactSection() {
                   </p>
                 )}
                 <button
-                  className="accent-button inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-xs font-bold uppercase tracking-[0.2em] transition-all hover:scale-[1.01] motion-reduce:transition-none motion-reduce:hover:scale-100 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="accent-button inline-flex min-h-[52px] min-w-[220px] items-center justify-center gap-2 rounded-full px-8 py-3 text-[11px] font-semibold uppercase motion-reduce:transition-none disabled:cursor-not-allowed disabled:opacity-60"
                   type="submit"
                   disabled={isSubmitting}
                 >
@@ -1160,64 +1211,83 @@ function ContactSection() {
 
 function Footer() {
   return (
-    <footer className="bg-navy-deep pb-[env(safe-area-inset-bottom)] text-cream">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-5 sm:py-20 md:px-8">
-        <div className="grid gap-12 md:grid-cols-3">
-          <div>
-            <div className="brand-plate w-full max-w-[180px]">
-              <img
-                src={logoImg}
-                alt="Karpo Travel Inc. emblem"
-                loading="lazy"
-                decoding="async"
-                width={1024}
-                height={1536}
-                className="h-auto w-full object-contain"
-              />
-            </div>
-            <p className="mt-5 text-sm text-cream/50">
+    <footer className="relative pb-[env(safe-area-inset-bottom)] text-ivory/85" style={{ backgroundColor: "var(--red-900)" }}>
+      <div className="absolute inset-x-0 top-0 h-px bg-gold" aria-hidden="true" />
+      <div className="content-shell px-4 py-14 sm:px-6 sm:py-16 md:px-8 md:py-20">
+        <div className="footer-grid">
+          <div className="footer-brand-block">
+            <img
+              src={EMBLEM_SRC}
+              alt="Karpo Travel emblem"
+              loading="lazy"
+              decoding="async"
+              width={EMBLEM_WIDTH}
+              height={EMBLEM_HEIGHT}
+              className="footer-brand-emblem"
+            />
+            <div className="footer-gold-rule" aria-hidden="true" />
+            <p className="mt-5 font-display text-[clamp(1.25rem,2.5vw,1.75rem)] italic leading-snug text-ivory">
+              Your Journey, Our Priority.
+            </p>
+            <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.24em] text-ivory/70 sm:text-[11px]">
               Established 2026 · New York
             </p>
           </div>
 
-          <div>
-            <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-accent-light">
-              Talk to us
-            </h4>
-            <ul className="mt-5 space-y-3 text-sm text-cream/80">
-              <li>
-                <a
-                  href={PHONE_TEL}
-                  className="transition-colors hover:text-accent-light"
-                >
-                  Call or WhatsApp 24/7 — {PHONE_DISPLAY}
-                </a>
-              </li>
-              <li>
-                <a href={`mailto:${EMAIL}`} className="transition-colors hover:text-accent-light">
-                  {EMAIL}
-                </a>
-              </li>
-            </ul>
-          </div>
+          <div className="footer-links">
+            <div>
+              <h4 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold">
+                Talk to us
+              </h4>
+              <ul className="mt-5 space-y-3 text-[15px] text-ivory/85">
+                <li>
+                  <a
+                    href={PHONE_TEL}
+                    className="transition-colors duration-300 hover:text-white"
+                  >
+                    {PHONE_DISPLAY}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={`mailto:${EMAIL}`}
+                    className="transition-colors duration-300 hover:text-white"
+                  >
+                    {EMAIL}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={WHATSAPP}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="transition-colors duration-300 hover:text-white"
+                  >
+                    WhatsApp
+                  </a>
+                </li>
+                <li className="footer-address">{ADDRESS}</li>
+              </ul>
+            </div>
 
-          <div>
-            <h4 className="text-xs font-bold uppercase tracking-[0.3em] text-accent-light">
-              Services
-            </h4>
-            <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-cream/80">
-              {SERVICES.map((s) => (
-                <li key={s.title}>{s.title}</li>
-              ))}
-            </ul>
+            <div>
+              <h4 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold">
+                Services
+              </h4>
+              <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 text-[15px] text-ivory/85 md:grid-cols-1">
+                {SERVICES.map((s) => (
+                  <li key={s.title}>{s.title}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
-        <div className="accent-rule mt-14" />
-        <p className="mt-6 text-center text-[10px] leading-relaxed tracking-[0.12em] text-cream/40 sm:text-xs sm:tracking-[0.2em]">
-          © 2026 KARPO TRAVEL INC. · NEW YORK ·{" "}
-          <span className="italic">Your Journey, Our Priority.</span>
-        </p>
+        <div className="mt-14 border-t border-ivory/15 pt-6">
+          <p className="text-center text-[10px] uppercase leading-relaxed tracking-[0.18em] text-ivory/65 sm:text-[11px]">
+            © 2026 Karpo Travel Inc. · New York · Your Journey, Our Priority.
+          </p>
+        </div>
       </div>
     </footer>
   );
