@@ -176,9 +176,6 @@ export function Nav() {
             </div>
           </div>
 
-          <a href="/#journeys" className="accent-nav-link">
-            Journeys
-          </a>
           <Link
             to="/about"
             className="accent-nav-link"
@@ -265,15 +262,6 @@ export function Nav() {
                   ))}
                 </ul>
               ) : null}
-            </li>
-            <li>
-              <a
-                href="/#journeys"
-                className="accent-nav-link flex min-h-11 items-center rounded-lg px-3 font-medium text-ink"
-                onClick={() => setMenuOpen(false)}
-              >
-                Journeys
-              </a>
             </li>
             <li>
               <Link
