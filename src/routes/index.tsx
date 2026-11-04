@@ -1,33 +1,36 @@
 import { useEffect, useRef, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   motion,
-  useMotionValueEvent,
   useReducedMotion,
   useScroll,
   useTransform,
 } from "framer-motion";
-import { CheckCircle2, Clock, LoaderCircle, Mail, MapPin, Phone, Send } from "lucide-react";
+import { Clock, Mail, Phone } from "lucide-react";
 
 import heroImg from "@/assets/journeys/motorcycle_road_hero.webp";
 import heroVideo from "@/assets/journeys/motorcycle_road_hero.mp4";
-import flightsImg from "@/assets/journeys/flights_sunset.webp";
-import santoriniImg from "@/assets/journeys/santorini.webp";
-import maldivesImg from "@/assets/journeys/maldives_resort.webp";
-import cruiseImg from "@/assets/journeys/cruise_ship.webp";
-import suvImg from "@/assets/journeys/suv_coast_road.webp";
-import visaImg from "@/assets/journeys/visa_passport.webp";
 import nycImg from "@/assets/journeys/new_york_dusk.webp";
 import alpsImg from "@/assets/journeys/swiss_alps_tall.webp";
 import baliImg from "@/assets/journeys/bali_temple.webp";
 import tokyoImg from "@/assets/journeys/tokyo_night.webp";
 import romeImg from "@/assets/journeys/rome_colosseum.webp";
-import amalfiImg from "@/assets/journeys/amalfi_coast.webp";
-import founderImg from "@/assets/jenson-daniel.webp";
-
-const EMBLEM_SRC = "/images/karpo-emblem-only.png";
-const EMBLEM_WIDTH = 256;
-const EMBLEM_HEIGHT = 417;
+import santoriniImg from "@/assets/journeys/santorini.webp";
+import { ContactForm } from "@/components/contact-form";
+import {
+  CtaBand,
+  EMAIL,
+  EASE,
+  Eyebrow,
+  Footer,
+  Nav,
+  PHONE_DISPLAY,
+  PHONE_TEL,
+  Reveal,
+  SERVICES,
+  ScrollProgress,
+  WHATSAPP,
+} from "@/components/site-chrome";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -54,60 +57,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const WHATSAPP = "https://wa.me/15167846446";
-const PHONE_DISPLAY = "+1 (516) 784 6446";
-const PHONE_TEL = "tel:+15167846446";
-const EMAIL = "Karpotravel@gmail.com";
-const FORM_ENDPOINT = "https://api.web3forms.com/submit";
-// Set VITE_WEB3FORMS_ACCESS_KEY in .env.local using the key for Karpotravel@gmail.com.
-const FORM_ACCESS_KEY = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY ?? "";
-const FIELD_CLASS =
-  "contact-field min-h-[52px] w-full rounded-[12px] border border-border bg-card px-4 py-3 text-[15px] text-foreground placeholder:text-muted-foreground";
-const ADDRESS = "2080 North Jerusalem Road, Bellmore, New York 11710";
-
-type ContactFormValues = {
-  name: string;
-  email: string;
-  phone: string;
-  interest: string;
-  departure: string;
-  returnDate: string;
-  travellers: string;
-  message: string;
-};
-
-type ContactFormErrors = Partial<Record<keyof ContactFormValues, string>>;
-
-const INITIAL_CONTACT_VALUES: ContactFormValues = {
-  name: "",
-  email: "",
-  phone: "",
-  interest: "",
-  departure: "",
-  returnDate: "",
-  travellers: "",
-  message: "",
-};
-
-const INTEREST_OPTIONS = [
-  "Flights",
-  "Hotels",
-  "Vacations",
-  "Cruises",
-  "Car rental",
-  "Visa assistance",
-  "Multiple services",
-];
-
-const SERVICES = [
-  { img: flightsImg, title: "Flights", line: "Best fares, worldwide" },
-  { img: maldivesImg, title: "Hotels", line: "Handpicked stays" },
-  { img: santoriniImg, title: "Vacations", line: "Curated getaways" },
-  { img: cruiseImg, title: "Cruises", line: "Sail the seven seas" },
-  { img: suvImg, title: "Cars", line: "Chauffeured & self-drive" },
-  { img: visaImg, title: "Visa Assistance", line: "Paperwork, handled" },
-];
-
 const JOURNEYS = [
   { img: baliImg, title: "Bali", line: "Temples above the jungle canopy", tall: true },
   { img: tokyoImg, title: "Tokyo", line: "Neon nights, quiet shrines", tall: false },
@@ -116,62 +65,8 @@ const JOURNEYS = [
   { img: nycImg, title: "New York", line: "Where it all began", tall: true },
 ];
 
-const NAV_LINKS = [
-  ["Services", "#services"],
-  ["Journeys", "#journeys"],
-  ["Our Story", "#story"],
-  ["Contact", "#contact"],
-] as const;
-
 const MARQUEE =
   "SANTORINI ✦ MALDIVES ✦ SWISS ALPS ✦ NEW YORK ✦ BALI ✦ PARIS ✦ TOKYO ✦ DUBAI ✦ ROME ✦ CAPE TOWN ✦ ";
-
-const EASE = [0.22, 1, 0.36, 1] as const;
-
-function Reveal({
-  children,
-  delay = 0,
-  y = 16,
-  className,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  y?: number;
-  className?: string;
-}) {
-  const reduceMotion = useReducedMotion();
-  return (
-    <motion.div
-      initial={reduceMotion ? false : { opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay, ease: EASE }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function Eyebrow({ children, light }: { children: React.ReactNode; light?: boolean }) {
-  return (
-    <p
-      className={`text-[11px] font-semibold uppercase tracking-[0.28em] sm:text-xs ${
-        light ? "text-ivory/90" : "text-red-600"
-      }`}
-    >
-      {!light ? <span className="eyebrow-mark" aria-hidden="true" /> : null}
-      {children}
-    </p>
-  );
-}
-
-function ScrollProgress() {
-  const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll();
-  if (reduceMotion) return null;
-  return <motion.div className="scroll-progress" style={{ scaleX: scrollYProgress }} aria-hidden="true" />;
-}
 
 function Index() {
   return (
@@ -187,129 +82,6 @@ function Index() {
       <ContactSection />
       <Footer />
     </main>
-  );
-}
-
-/* ---------------- Navigation ---------------- */
-
-function Nav() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const reduceMotion = useReducedMotion();
-  const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 40));
-
-  useEffect(() => {
-    if (!menuOpen) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
-    };
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [menuOpen]);
-
-  const solid = scrolled || menuOpen;
-
-  return (
-    <motion.header
-      initial={reduceMotion ? false : { y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={reduceMotion ? { duration: 0 } : { duration: 0.8, ease: EASE, delay: 0.2 }}
-      className={`site-header ${solid ? "is-scrolled border-b border-border bg-[rgba(252,247,245,0.92)] shadow-none backdrop-blur-[14px]" : "border-b border-transparent bg-transparent"}`}
-    >
-      <div className="content-shell site-header-bar flex items-center justify-between gap-3 px-4 sm:px-6 md:px-8">
-        <a href="#top" className="site-brand" onClick={() => setMenuOpen(false)}>
-          <img
-            src={EMBLEM_SRC}
-            alt="Karpo Travel emblem"
-            width={EMBLEM_WIDTH}
-            height={EMBLEM_HEIGHT}
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-            className="site-header-emblem"
-          />
-          <span className="site-wordmark">
-            <span className="site-wordmark-name">KARPO</span>
-            <span className="site-wordmark-sub">Travel Inc.</span>
-          </span>
-        </a>
-
-        <nav
-          className={`hidden items-center gap-8 font-medium md:flex ${
-            solid ? "text-ink" : "text-[#FBF3EE]/90"
-          }`}
-        >
-          {NAV_LINKS.map(([label, href]) => (
-            <a key={href} href={href} className="accent-nav-link">
-              {label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="flex shrink-0 items-center gap-2">
-          <a
-            href={WHATSAPP}
-            target="_blank"
-            rel="noreferrer"
-            className="accent-button rounded-full px-4 py-2.5 text-[10px] font-semibold uppercase motion-reduce:transition-none sm:px-5 sm:text-[11px]"
-          >
-            Plan my trip
-          </a>
-          <button
-            type="button"
-            className={`inline-flex h-11 w-11 items-center justify-center rounded-full border md:hidden ${
-              solid
-                ? "border-border text-ink"
-                : "border-[#FBF3EE]/35 text-[#FBF3EE]"
-            }`}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-nav"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            <span className="sr-only">{menuOpen ? "Close menu" : "Open menu"}</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-              {menuOpen ? (
-                <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
-              ) : (
-                <>
-                  <path d="M4 7h16" strokeLinecap="round" />
-                  <path d="M4 12h16" strokeLinecap="round" />
-                  <path d="M4 17h16" strokeLinecap="round" />
-                </>
-              )}
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {menuOpen ? (
-        <nav
-          id="mobile-nav"
-          className="border-t border-border bg-[rgba(252,247,245,0.96)] px-4 py-4 backdrop-blur-md md:hidden"
-        >
-          <ul className="flex flex-col gap-1">
-            {NAV_LINKS.map(([label, href]) => (
-              <li key={href}>
-                <a
-                  href={href}
-                  className="accent-nav-link flex min-h-11 items-center rounded-lg px-3 font-medium text-ink"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      ) : null}
-    </motion.header>
   );
 }
 
@@ -492,10 +264,9 @@ function Services() {
         <div className="mt-12 grid gap-5 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((s, i) => (
             <Reveal key={s.title} delay={(i % 3) * 0.08}>
-              <a
-                href={WHATSAPP}
-                target="_blank"
-                rel="noreferrer"
+              <Link
+                to="/services/$slug"
+                params={{ slug: s.slug }}
                 className="service-card group relative block overflow-hidden"
               >
                 <div className="aspect-[4/3] overflow-hidden">
@@ -521,7 +292,7 @@ function Services() {
                   </h3>
                   <p className="mt-1 text-sm text-ivory/80">{s.line}</p>
                 </div>
-              </a>
+              </Link>
             </Reveal>
           ))}
         </div>
@@ -619,28 +390,13 @@ function Founder() {
     { value: "24/7", label: "call or WhatsApp support" },
   ];
 
-  const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
+  const motionOff = Boolean(reduceMotion);
 
   return (
     <section id="story" className="defer-paint relative scroll-mt-24 overflow-x-clip bg-background">
       <div className="content-shell relative section-pad px-4 sm:px-6 md:px-8">
-        <img
-          src={EMBLEM_SRC}
-          alt=""
-          aria-hidden="true"
-          width={EMBLEM_WIDTH}
-          height={EMBLEM_HEIGHT}
-          loading="lazy"
-          decoding="async"
-          className="story-watermark hidden md:block"
-        />
-        <div ref={ref} className="relative z-[1] grid items-start gap-10 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
+        <div className="grid items-center gap-10 sm:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)] lg:gap-16">
           <div className="min-w-0 max-w-3xl">
             <Reveal>
               <Eyebrow>Our Story</Eyebrow>
@@ -666,41 +422,91 @@ function Founder() {
                   care of the planning so you can focus on the experience.
                 </p>
                 <p>
-                  Founded in New York by Jenson Daniel, Karpo Travel grew from a
-                  passion for exploration into a trusted practice built on personal
-                  referrals, careful attention to detail, and a commitment to
-                  making every journey seamless and meaningful.
+                  Founded in New York, Karpo Travel grew from a passion for
+                  exploration into a trusted practice built on personal referrals,
+                  careful attention to detail, and a commitment to making every
+                  journey seamless and meaningful.
                 </p>
                 <p className="quote-rule font-display text-[clamp(1.5rem,3vw,2rem)] italic leading-snug text-ink">
                   “Your Journey, Our Priority.”
+                </p>
+                <p>
+                  <Link to="/about" className="story-full-link">
+                    Read our full story
+                    <span aria-hidden="true"> →</span>
+                  </Link>
                 </p>
               </div>
             </Reveal>
           </div>
 
-          <Reveal className="justify-self-center lg:justify-self-end lg:pt-8" delay={0.16}>
-            <figure className="card-accent-top card-accent-top--sm relative z-[1] w-[11rem] overflow-hidden rounded-[24px] border border-border bg-card sm:w-[12.5rem]">
-              <div className="p-[6px]">
-                <motion.img
-                  style={reduceMotion ? undefined : { y: imgY, scale: 1.02 }}
-                  src={founderImg}
-                  alt="Jenson Daniel, founder of Karpo Travel Inc."
+          <div className="story-visual justify-self-center lg:self-center">
+            <motion.div
+              className="story-visual-rings"
+              aria-hidden="true"
+              initial={motionOff ? false : { opacity: 0, scale: 0.96 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={motionOff ? { duration: 0 } : { duration: 0.7, ease: EASE }}
+            >
+              <span className="story-ring story-ring--sm" />
+              <span className="story-ring story-ring--md" />
+              <span className="story-ring story-ring--lg" />
+              <span className="story-ring-dot story-ring-dot--a" />
+              <span className="story-ring-dot story-ring-dot--b" />
+            </motion.div>
+
+            <div className="story-visual-blush" aria-hidden="true" />
+            <div className="story-visual-arch" aria-hidden="true" />
+
+            <div className="story-visual-photo">
+              <motion.div
+                className="h-full w-full"
+                initial={motionOff ? false : { opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={motionOff ? { duration: 0 } : { duration: 0.7, ease: EASE }}
+              >
+                <img
+                  src={santoriniImg}
+                  alt="Whitewashed cliffside houses overlooking the Aegean in Santorini"
                   loading="lazy"
                   decoding="async"
-                  className="aspect-[4/5] h-auto w-full rounded-[18px] object-cover"
+                  width={800}
+                  height={1040}
                 />
-              </div>
-              <div className="mx-5 h-px bg-gold" aria-hidden="true" />
-              <figcaption className="px-4 py-4 text-center">
-                <p className="font-display text-base font-medium text-ink">
-                  Jenson Daniel
-                </p>
-                <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                  Founder
-                </p>
-              </figcaption>
-            </figure>
-          </Reveal>
+              </motion.div>
+            </div>
+
+            <motion.div
+              className="story-visual-namecard story-visual-legacycard"
+              initial={motionOff ? false : { opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={
+                motionOff ? { duration: 0 } : { duration: 0.65, delay: 0.12, ease: EASE }
+              }
+            >
+              <p className="story-visual-namecard-name">60+</p>
+              <div className="story-visual-namecard-rule" aria-hidden="true" />
+              <p className="story-visual-namecard-role">Years of family legacy in travel</p>
+            </motion.div>
+
+            <div className="story-visual-seal" aria-hidden="true">
+              <motion.div
+                initial={motionOff ? false : { opacity: 0, y: -14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={
+                  motionOff ? { duration: 0 } : { duration: 0.65, delay: 0.12, ease: EASE }
+                }
+              >
+                <p className="story-visual-seal-est">Est.</p>
+                <p className="story-visual-seal-year">2026</p>
+                <p className="story-visual-seal-place">New York</p>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -732,196 +538,9 @@ function Founder() {
   );
 }
 
-/* ---------------- CTA band ---------------- */
-
-function CtaBand() {
-  const ref = useRef<HTMLElement>(null);
-  const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
-
-  return (
-    <section ref={ref} className="relative overflow-hidden">
-      <motion.img
-        style={reduceMotion ? undefined : { y: imgY, scale: 1.06 }}
-        src={amalfiImg}
-        alt="Colorful cliffside villages on the Amalfi Coast"
-        loading="lazy"
-        decoding="async"
-        className="absolute inset-0 h-full w-full object-cover object-[center_32%]"
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(100deg, rgba(74,15,19,0.92) 0%, rgba(112,18,23,0.78) 40%, rgba(112,18,23,0.25) 75%, rgba(74,15,19,0.15) 100%)",
-        }}
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(to top, rgba(0,0,0,0.25) 0%, transparent 30%)",
-        }}
-        aria-hidden="true"
-      />
-
-      <div className="relative z-10 mx-auto max-w-4xl px-4 py-20 text-center sm:px-5 sm:py-28 md:mx-0 md:max-w-xl md:px-8 md:py-36 md:text-left lg:px-16 xl:px-24">
-        <Reveal>
-          <Eyebrow light>Ready when you are</Eyebrow>
-          <h2 className="mt-4 font-display text-[clamp(2rem,5vw,3.75rem)] font-medium text-ivory">
-            Where to <span className="italic text-ivory">next?</span>
-          </h2>
-          <p className="mx-auto mt-5 max-w-[62ch] text-[15px] leading-[1.7] text-ivory/90 sm:text-[17px] md:mx-0">
-            Message us any time — we answer 24/7, and the first consult is
-            always personal.
-          </p>
-          <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4 md:justify-start">
-            <a
-              href={WHATSAPP}
-              target="_blank"
-              rel="noreferrer"
-              className="accent-button-on-red rounded-full px-7 py-3.5 text-center text-[11px] font-semibold uppercase motion-reduce:transition-none sm:px-8 sm:py-4 sm:text-xs"
-            >
-              WhatsApp us
-            </a>
-            <a
-              href={PHONE_TEL}
-              className="accent-outline-light rounded-full px-7 py-3.5 text-center text-[11px] font-semibold uppercase tracking-[0.14em] sm:px-8 sm:py-4 sm:text-xs"
-            >
-              {PHONE_DISPLAY}
-            </a>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
 /* ---------------- Contact form ---------------- */
 
 function ContactSection() {
-  const submissionInProgress = useRef(false);
-  const [values, setValues] = useState(INITIAL_CONTACT_VALUES);
-  const [errors, setErrors] = useState<ContactFormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submitError, setSubmitError] = useState("");
-
-  function updateField<K extends keyof ContactFormValues>(field: K, value: ContactFormValues[K]) {
-    setValues((current) => ({ ...current, [field]: value }));
-    setErrors((current) => ({ ...current, [field]: undefined }));
-    setSubmitError("");
-  }
-
-  function validate(): ContactFormErrors {
-    const nextErrors: ContactFormErrors = {};
-    if (!values.name.trim()) nextErrors.name = "Please enter your name.";
-    if (!values.email.trim()) {
-      nextErrors.email = "Please enter your email address.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) {
-      nextErrors.email = "Enter a valid email address.";
-    }
-    if (
-      values.departure &&
-      values.returnDate &&
-      values.returnDate < values.departure
-    ) {
-      nextErrors.returnDate = "Return date must be after departure.";
-    }
-    if (values.travellers && (!Number.isInteger(Number(values.travellers)) || Number(values.travellers) < 1)) {
-      nextErrors.travellers = "Enter at least one traveller.";
-    }
-    if (values.message.trim().length < 10) {
-      nextErrors.message = "Please enter at least 10 characters.";
-    }
-    return nextErrors;
-  }
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (submissionInProgress.current) return;
-
-    const form = event.currentTarget;
-    const honeypot = new FormData(form).get("company");
-    if (honeypot) {
-      setIsSubmitted(true);
-      return;
-    }
-
-    const nextErrors = validate();
-    setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) {
-      const firstInvalidField = Object.keys(nextErrors)[0];
-      document
-        .getElementById(`contact-${firstInvalidField === "returnDate" ? "return" : firstInvalidField}`)
-        ?.focus();
-      return;
-    }
-
-    if (!FORM_ACCESS_KEY) {
-      setSubmitError(
-        "The contact form is not configured yet. Please call or WhatsApp us while we finish setup.",
-      );
-      return;
-    }
-
-    submissionInProgress.current = true;
-    setIsSubmitting(true);
-    setSubmitError("");
-
-    try {
-      const response = await fetch(FORM_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          access_key: FORM_ACCESS_KEY,
-          subject: `New Karpo Travel inquiry from ${values.name.trim()}`,
-          from_name: values.name.trim(),
-          email: values.email.trim(),
-          phone: values.phone.trim(),
-          interest: values.interest,
-          departure_date: values.departure,
-          return_date: values.returnDate,
-          travellers: values.travellers,
-          message: values.message.trim(),
-        }),
-      });
-      const result = (await response.json()) as { success?: boolean; message?: string };
-      if (!response.ok || !result.success) {
-        throw new Error(result.message || "The form service could not accept your message.");
-      }
-      setIsSubmitted(true);
-    } catch (error) {
-      console.error("Contact form submission failed:", error);
-      setSubmitError(
-        "We couldn't send your message just now. Please call or WhatsApp us using the details here.",
-      );
-    } finally {
-      submissionInProgress.current = false;
-      setIsSubmitting(false);
-    }
-  }
-
-  function startAnotherMessage() {
-    setValues(INITIAL_CONTACT_VALUES);
-    setErrors({});
-    setSubmitError("");
-    setIsSubmitted(false);
-  }
-
-  function fieldError(field: keyof ContactFormValues) {
-    return errors[field] ? (
-      <span id={`${field}-error`} className="mt-1.5 block text-xs text-accent">
-        {errors[field]}
-      </span>
-    ) : null;
-  }
-
   return (
     <section id="contact" className="defer-paint scroll-mt-24 text-ink" style={{ backgroundColor: "var(--bg-alt)" }}>
       <div className="content-shell section-pad px-4 sm:px-6 md:px-8">
@@ -955,15 +574,6 @@ function ContactSection() {
                   </span>
                 </a>
                 <div className="contact-detail">
-                  <span className="contact-icon"><MapPin aria-hidden="true" size={18} /></span>
-                  <span>
-                    <span className="contact-detail-label">Office</span>
-                    <span className="contact-detail-value">
-                      2080 North Jerusalem Road, Bellmore, NY 11710
-                    </span>
-                  </span>
-                </div>
-                <div className="contact-detail">
                   <span className="contact-icon"><Clock aria-hidden="true" size={18} /></span>
                   <span>
                     <span className="contact-detail-label">Hours</span>
@@ -983,312 +593,18 @@ function ContactSection() {
           </Reveal>
 
           <Reveal className="order-1 h-full md:order-2">
-            {isSubmitted ? (
-              <div
-                className="contact-card flex h-full min-h-80 flex-col items-center justify-center px-6 py-10 text-center"
-                role="status"
-                aria-live="polite"
-              >
-                <CheckCircle2 className="text-accent" size={42} aria-hidden="true" />
-                <h3 className="mt-5 font-display text-3xl font-medium text-ink">
-                  Thanks, we&apos;ve got your message.
-                </h3>
-                <p className="mt-3 max-w-md text-[15px] leading-[1.7] text-muted-foreground">
-                  We&apos;ll reply within one business day.
-                </p>
-                <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-                  <button
-                    type="button"
-                    className="text-sm font-semibold text-accent underline underline-offset-4 hover:text-accent-hover"
-                    onClick={startAnotherMessage}
-                  >
-                    Send another message
-                  </button>
-                  <a
-                    href={WHATSAPP}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="accent-button inline-flex min-h-11 items-center gap-2 rounded-full px-5 py-3 text-[11px] font-semibold uppercase"
-                  >
-                    <Phone size={15} aria-hidden="true" />
-                    WhatsApp us
-                  </a>
-                </div>
-              </div>
-            ) : (
-              <form className="contact-card h-full space-y-5 p-5 sm:p-7" noValidate onSubmit={handleSubmit}>
-                <div className="contact-honeypot" aria-hidden="true">
-                  <label htmlFor="contact-company">Leave this field empty</label>
-                  <input
-                    id="contact-company"
-                    name="company"
-                    type="text"
-                    tabIndex={-1}
-                    autoComplete="off"
-                  />
-                </div>
-
-                <div>
-                  <label className="form-label" htmlFor="contact-name">
-                    Full name <span className="form-label-required">*</span>
-                  </label>
-                  <input
-                    className={FIELD_CLASS}
-                    id="contact-name"
-                    name="name"
-                    autoComplete="name"
-                    required
-                    value={values.name}
-                    onChange={(event) => updateField("name", event.target.value)}
-                    aria-invalid={Boolean(errors.name)}
-                    aria-describedby={errors.name ? "name-error" : undefined}
-                  />
-                  {fieldError("name")}
-                </div>
-
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <label className="form-label" htmlFor="contact-email">
-                      Email <span className="form-label-required">*</span>
-                    </label>
-                    <input
-                      className={FIELD_CLASS}
-                      id="contact-email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      required
-                      value={values.email}
-                      onChange={(event) => updateField("email", event.target.value)}
-                      aria-invalid={Boolean(errors.email)}
-                      aria-describedby={errors.email ? "email-error" : undefined}
-                    />
-                    {fieldError("email")}
-                  </div>
-                  <div>
-                    <label className="form-label" htmlFor="contact-phone">Phone / WhatsApp</label>
-                    <input
-                      className={FIELD_CLASS}
-                      id="contact-phone"
-                      name="phone"
-                      type="tel"
-                      autoComplete="tel"
-                      value={values.phone}
-                      onChange={(event) => updateField("phone", event.target.value)}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="form-label" htmlFor="contact-interest">I&apos;m interested in</label>
-                  <select
-                    className={FIELD_CLASS}
-                    id="contact-interest"
-                    name="interest"
-                    value={values.interest}
-                    onChange={(event) => updateField("interest", event.target.value)}
-                  >
-                    <option value="">Select a service</option>
-                    {INTEREST_OPTIONS.map((option) => (
-                      <option key={option} value={option}>{option}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <label className="form-label" htmlFor="contact-departure">Departure</label>
-                    <input
-                      className={`${FIELD_CLASS} contact-date`}
-                      id="contact-departure"
-                      name="departure"
-                      type="date"
-                      value={values.departure}
-                      onChange={(event) => updateField("departure", event.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className="form-label" htmlFor="contact-return">Return</label>
-                    <input
-                      className={`${FIELD_CLASS} contact-date`}
-                      id="contact-return"
-                      name="returnDate"
-                      type="date"
-                      value={values.returnDate}
-                      onChange={(event) => updateField("returnDate", event.target.value)}
-                      aria-invalid={Boolean(errors.returnDate)}
-                      aria-describedby={errors.returnDate ? "returnDate-error" : undefined}
-                    />
-                    {fieldError("returnDate")}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="form-label" htmlFor="contact-travellers">
-                    Number of travellers
-                  </label>
-                  <input
-                    className={FIELD_CLASS}
-                    id="contact-travellers"
-                    name="travellers"
-                    type="number"
-                    min="1"
-                    inputMode="numeric"
-                    value={values.travellers}
-                    onChange={(event) => updateField("travellers", event.target.value)}
-                    aria-invalid={Boolean(errors.travellers)}
-                    aria-describedby={errors.travellers ? "travellers-error" : undefined}
-                  />
-                  {fieldError("travellers")}
-                </div>
-
-                <div>
-                  <label className="form-label" htmlFor="contact-message">
-                    Message <span className="form-label-required">*</span>
-                  </label>
-                  <textarea
-                    className={`${FIELD_CLASS} min-h-32 resize-y`}
-                    id="contact-message"
-                    name="message"
-                    required
-                    minLength={10}
-                    value={values.message}
-                    onChange={(event) => updateField("message", event.target.value)}
-                    aria-invalid={Boolean(errors.message)}
-                    aria-describedby={errors.message ? "message-error" : undefined}
-                  />
-                  {fieldError("message")}
-                </div>
-
-                <p className="sr-only" aria-live="polite">
-                  {isSubmitting ? "Sending your message." : submitError}
-                </p>
-                {submitError && (
-                  <p className="text-sm leading-relaxed text-accent" role="alert">
-                    {submitError}{" "}
-                    <a className="underline underline-offset-2 hover:text-accent-hover" href={PHONE_TEL}>
-                      {PHONE_DISPLAY}
-                    </a>{" "}
-                    or{" "}
-                    <a
-                      className="underline underline-offset-2 hover:text-accent-hover"
-                      href={WHATSAPP}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      WhatsApp us
-                    </a>
-                    .
-                  </p>
-                )}
-                <button
-                  className="accent-button inline-flex min-h-[52px] min-w-[220px] items-center justify-center gap-2 rounded-full px-8 py-3 text-[11px] font-semibold uppercase motion-reduce:transition-none disabled:cursor-not-allowed disabled:opacity-60"
-                  type="submit"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <LoaderCircle className="animate-spin motion-reduce:animate-none" size={17} aria-hidden="true" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send size={15} aria-hidden="true" />
-                      Send message
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
+            <div className="flex h-full flex-col gap-4">
+              <ContactForm className="contact-card h-full space-y-5 p-5 sm:p-7" />
+              <p className="text-center md:text-left">
+                <Link to="/contact" className="story-full-link text-[14px]">
+                  Open full contact page
+                  <span aria-hidden="true"> →</span>
+                </Link>
+              </p>
+            </div>
           </Reveal>
         </div>
       </div>
     </section>
-  );
-}
-
-/* ---------------- Footer ---------------- */
-
-function Footer() {
-  return (
-    <footer className="relative pb-[env(safe-area-inset-bottom)] text-ivory/85" style={{ backgroundColor: "var(--red-900)" }}>
-      <div className="absolute inset-x-0 top-0 h-px bg-gold" aria-hidden="true" />
-      <div className="content-shell px-4 py-14 sm:px-6 sm:py-16 md:px-8 md:py-20">
-        <div className="footer-grid">
-          <div className="footer-brand-block">
-            <img
-              src={EMBLEM_SRC}
-              alt="Karpo Travel emblem"
-              loading="lazy"
-              decoding="async"
-              width={EMBLEM_WIDTH}
-              height={EMBLEM_HEIGHT}
-              className="footer-brand-emblem"
-            />
-            <div className="footer-gold-rule" aria-hidden="true" />
-            <p className="mt-5 font-display text-[clamp(1.25rem,2.5vw,1.75rem)] italic leading-snug text-ivory">
-              Your Journey, Our Priority.
-            </p>
-            <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.24em] text-ivory/70 sm:text-[11px]">
-              Established 2026 · New York
-            </p>
-          </div>
-
-          <div className="footer-links">
-            <div>
-              <h4 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold">
-                Talk to us
-              </h4>
-              <ul className="mt-5 space-y-3 text-[15px] text-ivory/85">
-                <li>
-                  <a
-                    href={PHONE_TEL}
-                    className="transition-colors duration-300 hover:text-white"
-                  >
-                    {PHONE_DISPLAY}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={`mailto:${EMAIL}`}
-                    className="transition-colors duration-300 hover:text-white"
-                  >
-                    {EMAIL}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={WHATSAPP}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="transition-colors duration-300 hover:text-white"
-                  >
-                    WhatsApp
-                  </a>
-                </li>
-                <li className="footer-address">{ADDRESS}</li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold">
-                Services
-              </h4>
-              <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 text-[15px] text-ivory/85 md:grid-cols-1">
-                {SERVICES.map((s) => (
-                  <li key={s.title}>{s.title}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-14 border-t border-ivory/15 pt-6">
-          <p className="text-center text-[10px] uppercase leading-relaxed tracking-[0.18em] text-ivory/65 sm:text-[11px]">
-            © 2026 Karpo Travel Inc. · New York · Your Journey, Our Priority.
-          </p>
-        </div>
-      </div>
-    </footer>
   );
 }
