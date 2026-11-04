@@ -2,12 +2,9 @@ import { useEffect, useId, useState } from "react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { Clock, Mail, Minus, Phone, Plus } from "lucide-react";
 
-import baliImg from "@/assets/journeys/bali_temple.webp";
-import santoriniImg from "@/assets/journeys/santorini.webp";
-import alpsImg from "@/assets/journeys/swiss_alps_tall.webp";
 import tokyoImg from "@/assets/journeys/tokyo_night.webp";
 import travelersImg from "@/assets/journeys/travelers_together.jpg";
-import { ContactForm } from "@/components/contact-form";
+import { TripForm } from "@/components/trip-form";
 import {
   CtaBand,
   EMAIL,
@@ -24,12 +21,6 @@ import { resolveTripImages, type TripImage } from "@/data/trip-images";
 
 const HERO_SUB =
   "Share a few details and a travel specialist will get back to you within one business day.";
-
-const POSTCARDS = [
-  { src: santoriniImg, label: "Santorini", rotate: -4 },
-  { src: baliImg, label: "Bali", rotate: 3 },
-  { src: alpsImg, label: "Swiss Alps", rotate: -2 },
-] as const;
 
 const FAQ_ITEMS = [
   {
@@ -177,60 +168,13 @@ function ContactSplit() {
   return (
     <section className="contact-split bg-background">
       <div className="contact-page-shell px-4 sm:px-6 md:px-8">
-        <div className="contact-split-grid">
-          <Reveal>
-            <div>
-              <div className="contact-postcards" aria-hidden="false">
-                {POSTCARDS.map((card, index) => (
-                  <figure
-                    key={card.label}
-                    className={`contact-postcard contact-postcard--${index + 1}`}
-                    style={{ ["--postcard-rotate" as string]: `${card.rotate}deg` }}
-                  >
-                    {index === 0 ? <span className="contact-postcard-tape" aria-hidden="true" /> : null}
-                    <div className="contact-postcard-photo">
-                      <img
-                        src={card.src}
-                        alt={`${card.label}`}
-                        width={800}
-                        height={600}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-                    <figcaption className="contact-postcard-caption font-display italic">
-                      {card.label}
-                    </figcaption>
-                  </figure>
-                ))}
-                <div className="contact-postcard-stamp" aria-hidden="true">
-                  <span>Karpo</span>
-                  <span>New York</span>
-                </div>
-              </div>
-              <div className="mt-10">
-                <Eyebrow>Travel specialists</Eyebrow>
-                <p className="mt-3 max-w-[34ch] text-[15px] leading-relaxed text-muted-foreground sm:text-[16px]">
-                  We answer 24/7, and the first consult is always personal.
-                </p>
-              </div>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.08}>
-            <ContactForm
-              idPrefix="page-contact"
-              className="contact-page-form space-y-5"
-              successTitle="Thank you, we'll be in touch within one business day."
-              successBody="A travel specialist will follow up soon."
-              heading={
-                <h2 className="font-display text-[clamp(1.85rem,3.5vw,2.5rem)] font-medium text-ink">
-                  Tell us about your <span className="italic text-red-500">trip</span>
-                </h2>
-              }
-            />
-          </Reveal>
-        </div>
+        <Reveal>
+          <TripForm
+            idPrefix="page-contact"
+            successTitle="Thank you, we'll be in touch within one business day."
+            successBody="A travel specialist will follow up soon."
+          />
+        </Reveal>
       </div>
     </section>
   );

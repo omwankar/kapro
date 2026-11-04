@@ -9,7 +9,15 @@ import {
 } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
+import { Preloader } from "@/components/preloader";
+
 import appCss from "../styles.css?url";
+
+const DISABLE_INTRO = import.meta.env["VITE_DISABLE_INTRO"] === "true";
+
+const INTRO_BOOT_SCRIPT = `(function(){try{var d=document.documentElement;if(${DISABLE_INTRO}||sessionStorage.getItem("karpo-intro-seen")){d.dataset.intro="skip";}else{d.dataset.intro="active";}}catch(e){document.documentElement.dataset.intro=${DISABLE_INTRO}?"skip":"active";}})();`;
+
+const INTRO_CRITICAL_CSS = `html[data-intro="skip"] .preloader{display:none!important}html[data-intro="active"]{overflow:hidden}.preloader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 42%,rgba(179,147,98,.22),transparent 55%),linear-gradient(160deg,#4A0F13 0%,#701217 100%)}`;
 
 function NotFoundComponent() {
   return (
@@ -98,6 +106,7 @@ export const Route = createRootRoute({
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Karla:wght@400;500;600;700&display=swap",
       },
       { rel: "stylesheet", href: appCss },
+      { rel: "preload", as: "image", href: "/images/karpo-emblem-only.png" },
       { rel: "icon", href: "/favicon.png", type: "image/png", sizes: "32x32" },
       { rel: "icon", href: "/icon-512.png", type: "image/png", sizes: "512x512" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
@@ -113,6 +122,8 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <style dangerouslySetInnerHTML={{ __html: INTRO_CRITICAL_CSS }} />
+        <script dangerouslySetInnerHTML={{ __html: INTRO_BOOT_SCRIPT }} />
         <HeadContent />
       </head>
       <body>
@@ -124,5 +135,12 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  return <Outlet />;
+  return (
+    <>
+      <Preloader />
+      <div id="app-root">
+        <Outlet />
+      </div>
+    </>
+  );
 }

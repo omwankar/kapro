@@ -6,20 +6,13 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { Clock, Mail, Phone } from "lucide-react";
-
 import heroImg from "@/assets/journeys/motorcycle_road_hero.webp";
 import heroVideo from "@/assets/journeys/motorcycle_road_hero.mp4";
-import nycImg from "@/assets/journeys/new_york_dusk.webp";
-import alpsImg from "@/assets/journeys/swiss_alps_tall.webp";
-import baliImg from "@/assets/journeys/bali_temple.webp";
-import tokyoImg from "@/assets/journeys/tokyo_night.webp";
-import romeImg from "@/assets/journeys/rome_colosseum.webp";
-import santoriniImg from "@/assets/journeys/santorini.webp";
-import { ContactForm } from "@/components/contact-form";
+import timesSquareImg from "@/assets/journeys/times_square.webp";
+import { TripForm } from "@/components/trip-form";
+import { JourneyMarquee } from "@/components/journey-marquee";
 import {
   CtaBand,
-  EMAIL,
   EASE,
   Eyebrow,
   Footer,
@@ -31,6 +24,7 @@ import {
   ScrollProgress,
   WHATSAPP,
 } from "@/components/site-chrome";
+import { serviceContactHref, slugToServiceId } from "@/data/trip-services";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -57,14 +51,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const JOURNEYS = [
-  { img: baliImg, title: "Bali", line: "Temples above the jungle canopy", tall: true },
-  { img: tokyoImg, title: "Tokyo", line: "Neon nights, quiet shrines", tall: false },
-  { img: alpsImg, title: "Swiss Alps", line: "Rails through the high passes", tall: true },
-  { img: romeImg, title: "Rome", line: "Stone, light, and late dinners", tall: false },
-  { img: nycImg, title: "New York", line: "Where it all began", tall: true },
-];
-
 const MARQUEE =
   "SANTORINI ✦ MALDIVES ✦ SWISS ALPS ✦ NEW YORK ✦ BALI ✦ PARIS ✦ TOKYO ✦ DUBAI ✦ ROME ✦ CAPE TOWN ✦ ";
 
@@ -76,7 +62,7 @@ function Index() {
       <Hero />
       <Marquee />
       <Services />
-      <JourneyRail />
+      <JourneyMarquee />
       <Founder />
       <CtaBand />
       <ContactSection />
@@ -130,6 +116,7 @@ function Hero() {
         <img
           src={heroImg}
           alt="A rider on a mountain road at golden hour"
+          data-intro-hero
           fetchPriority="high"
           decoding="async"
           width={1920}
@@ -162,41 +149,33 @@ function Hero() {
         style={reduceMotion ? undefined : { y: textY, opacity: fade }}
         className="hero-text-scrim relative z-10 flex h-full flex-col items-center justify-center px-4 pb-16 pt-36 text-center sm:px-5 sm:pt-40"
       >
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.45, ease: EASE }}
-          className="flex flex-col items-center"
+        <div
+          className="intro-enter flex flex-col items-center"
+          style={{ ["--intro-delay" as string]: 0 }}
         >
           <span className="gold-hairline mb-5" aria-hidden="true" />
           <Eyebrow light>Karpo Travel Inc. · New York</Eyebrow>
-        </motion.div>
+        </div>
 
-        <motion.h1
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={reduceMotion ? { duration: 0 } : { duration: 0.75, delay: 0.6, ease: EASE }}
-          className="mt-5 max-w-[16ch] font-display text-[clamp(2.75rem,11vw,5.75rem)] font-medium italic leading-[1.05] tracking-[-0.01em] text-ivory sm:mt-6"
+        <h1
+          className="intro-enter mt-5 max-w-[16ch] font-display text-[clamp(2.75rem,11vw,5.75rem)] font-medium italic leading-[1.05] tracking-[-0.01em] text-ivory sm:mt-6"
+          style={{ ["--intro-delay" as string]: 90 }}
         >
           Your Journey,
           <span className="block italic text-ivory">Our Priority.</span>
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.8, ease: EASE }}
-          className="mt-5 max-w-[62ch] text-[15px] leading-[1.7] text-ivory/85 sm:mt-6 sm:text-base md:text-[17px]"
+        <p
+          className="intro-enter mt-5 max-w-[62ch] text-[15px] leading-[1.7] text-ivory/85 sm:mt-6 sm:text-base md:text-[17px]"
+          style={{ ["--intro-delay" as string]: 180 }}
         >
           Generations of travel knowledge, a fresh personal touch. Flights to
           cruises, cars to visas — one call takes care of it all.
-        </motion.p>
+        </p>
 
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={reduceMotion ? { duration: 0 } : { duration: 0.7, delay: 0.95, ease: EASE }}
-          className="mt-8 flex w-full max-w-sm flex-col items-stretch gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4"
+        <div
+          className="intro-enter mt-8 flex w-full max-w-sm flex-col items-stretch gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4"
+          style={{ ["--intro-delay" as string]: 270 }}
         >
           <a
             href={WHATSAPP}
@@ -212,7 +191,7 @@ function Hero() {
           >
             Call us 24/7
           </a>
-        </motion.div>
+        </div>
       </motion.div>
 
       <motion.a
@@ -262,11 +241,13 @@ function Services() {
         </Reveal>
 
         <div className="mt-12 grid gap-5 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((s, i) => (
+          {SERVICES.map((s, i) => {
+            const serviceId = slugToServiceId(s.slug);
+            const href = serviceId ? serviceContactHref(serviceId) : "/contact";
+            return (
             <Reveal key={s.title} delay={(i % 3) * 0.08}>
-              <Link
-                to="/services/$slug"
-                params={{ slug: s.slug }}
+              <a
+                href={href}
                 className="service-card group relative block overflow-hidden"
               >
                 <div className="aspect-[4/3] overflow-hidden">
@@ -292,88 +273,10 @@ function Services() {
                   </h3>
                   <p className="mt-1 text-sm text-ivory/80">{s.line}</p>
                 </div>
-              </Link>
+              </a>
             </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------------- Horizontal journey rail ---------------- */
-
-function JourneyRail() {
-  const ref = useRef<HTMLElement>(null);
-  const reduceMotion = useReducedMotion();
-  const [pinScroll, setPinScroll] = useState(false);
-  const { scrollYProgress } = useScroll({ target: ref });
-  const x = useTransform(scrollYProgress, [0, 1], ["2%", "-68%"]);
-
-  useEffect(() => {
-    const media = window.matchMedia("(min-width: 768px)");
-    const sync = () => setPinScroll(media.matches);
-    sync();
-    media.addEventListener("change", sync);
-    return () => media.removeEventListener("change", sync);
-  }, []);
-
-  const intro = (
-    <>
-      <Eyebrow>Signature journeys</Eyebrow>
-      <h2 className="mt-4 font-display text-[clamp(2.25rem,5vw,4.25rem)] font-medium leading-[1.08] text-ink">
-        Places we
-        <span className="block italic text-red-500">carry you to</span>
-      </h2>
-      <p className="mt-5 max-w-[36ch] text-[15px] leading-[1.7] text-muted-foreground md:mt-6 md:text-[17px]">
-        {pinScroll ? "Keep scrolling — the world moves past your window." : "Swipe to see the world move past your window."}
-      </p>
-      <div className="accent-rule mt-8 w-28 md:mt-10" />
-    </>
-  );
-
-  return (
-    <section ref={ref} id="journeys" className="relative scroll-mt-24 border-b border-border md:h-[340vh]" style={{ backgroundColor: "var(--bg-alt)" }}>
-      <div className="flex flex-col justify-center py-16 md:sticky md:top-0 md:h-screen md:overflow-hidden md:py-0">
-        <div className="relative z-10 px-4 pb-8 sm:px-6 md:hidden">{intro}</div>
-
-        <div className="journey-rail-scroll overflow-x-auto overscroll-x-contain px-0 snap-x snap-mandatory md:overflow-visible md:snap-none">
-          <motion.div
-            style={pinScroll && !reduceMotion ? { x } : undefined}
-            className="relative flex w-max items-center gap-5 px-4 sm:gap-6 sm:px-6 md:gap-8 md:px-16"
-          >
-            <div className="hidden w-[32rem] shrink-0 md:block">{intro}</div>
-
-            {JOURNEYS.map((j) => (
-              <div
-                key={j.title}
-                className="group relative h-[52vh] w-[min(80vw,20rem)] shrink-0 snap-center overflow-hidden rounded-[1.5rem] sm:h-[58vh] md:h-[64vh] md:w-[23rem] md:snap-align-none"
-              >
-                <img
-                  src={j.img}
-                  alt={j.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-[600ms] group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--ink)_70%,transparent)] via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 p-5 sm:p-6">
-                  <h3 className="font-display text-2xl font-medium text-ivory sm:text-3xl">{j.title}</h3>
-                  <p className="mt-1 text-sm text-ivory/80">{j.line}</p>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-
-        <div className="absolute inset-x-6 bottom-8 hidden h-px md:block md:inset-x-16" style={{ backgroundColor: "var(--border)" }}>
-          <motion.div
-            style={{
-              backgroundColor: "var(--red-600)",
-              ...(pinScroll && !reduceMotion ? { scaleX: scrollYProgress } : {}),
-            }}
-            className="h-full origin-left"
-          />
+            );
+          })}
         </div>
       </div>
     </section>
@@ -468,12 +371,12 @@ function Founder() {
                 transition={motionOff ? { duration: 0 } : { duration: 0.7, ease: EASE }}
               >
                 <img
-                  src={santoriniImg}
-                  alt="Whitewashed cliffside houses overlooking the Aegean in Santorini"
+                  src={timesSquareImg}
+                  alt="Times Square in New York City at night"
                   loading="lazy"
                   decoding="async"
-                  width={800}
-                  height={1040}
+                  width={1400}
+                  height={1800}
                 />
               </motion.div>
             </div>
@@ -544,66 +447,15 @@ function ContactSection() {
   return (
     <section id="contact" className="defer-paint scroll-mt-24 text-ink" style={{ backgroundColor: "var(--bg-alt)" }}>
       <div className="content-shell section-pad px-4 sm:px-6 md:px-8">
-        <div className="grid gap-6 md:grid-cols-[minmax(16rem,0.88fr)_minmax(0,1.12fr)] md:items-stretch md:gap-8">
-          <Reveal className="order-2 md:order-1">
-            <div className="card-accent-top flex flex-col gap-7 rounded-[1.5rem] border border-border bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
-              <div className="text-center md:text-left">
-                <Eyebrow>Get in touch</Eyebrow>
-                <h2 className="mt-3 font-display text-[clamp(2rem,4vw,3.25rem)] font-medium text-ink">
-                  Tell us about your{" "}
-                  <span className="italic text-red-500">trip.</span>
-                </h2>
-                <p className="mt-4 max-w-[42ch] text-[15px] leading-[1.7] text-muted-foreground sm:text-[17px]">
-                  Share a few details and a travel specialist will get back to you
-                  within one business day.
-                </p>
-              </div>
-              <div className="flex flex-col gap-5">
-                <a className="contact-detail" href={PHONE_TEL}>
-                  <span className="contact-icon"><Phone aria-hidden="true" size={18} /></span>
-                  <span>
-                    <span className="contact-detail-label">Phone</span>
-                    <span className="contact-detail-value">{PHONE_DISPLAY}</span>
-                  </span>
-                </a>
-                <a className="contact-detail" href={`mailto:${EMAIL}`}>
-                  <span className="contact-icon"><Mail aria-hidden="true" size={18} /></span>
-                  <span>
-                    <span className="contact-detail-label">Email</span>
-                    <span className="contact-detail-value">{EMAIL}</span>
-                  </span>
-                </a>
-                <div className="contact-detail">
-                  <span className="contact-icon"><Clock aria-hidden="true" size={18} /></span>
-                  <span>
-                    <span className="contact-detail-label">Hours</span>
-                    <span className="contact-detail-value">Call or WhatsApp, 24/7</span>
-                  </span>
-                </div>
-                <a
-                  className="accent-outline inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold"
-                  href={WHATSAPP}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Message us on WhatsApp
-                </a>
-              </div>
-            </div>
-          </Reveal>
-
-          <Reveal className="order-1 h-full md:order-2">
-            <div className="flex h-full flex-col gap-4">
-              <ContactForm className="contact-card h-full space-y-5 p-5 sm:p-7" />
-              <p className="text-center md:text-left">
-                <Link to="/contact" className="story-full-link text-[14px]">
-                  Open full contact page
-                  <span aria-hidden="true"> →</span>
-                </Link>
-              </p>
-            </div>
-          </Reveal>
-        </div>
+        <Reveal>
+          <TripForm idPrefix="home-trip" />
+        </Reveal>
+        <p className="mt-6 text-center md:text-left">
+          <Link to="/contact" className="story-full-link text-[14px]">
+            Open full contact page
+            <span aria-hidden="true"> →</span>
+          </Link>
+        </p>
       </div>
     </section>
   );

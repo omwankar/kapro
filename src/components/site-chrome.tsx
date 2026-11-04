@@ -10,6 +10,7 @@ import {
 
 import ctaWhereNextImg from "@/assets/journeys/cta_where_next.jpg";
 import { SERVICES_NAV } from "@/data/services";
+import { serviceContactHref, slugToServiceId } from "@/data/trip-services";
 
 export const EMBLEM_SRC = "/images/karpo-emblem-only.png";
 export const EMBLEM_WIDTH = 256;
@@ -73,7 +74,6 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const reduceMotion = useReducedMotion();
   const { scrollY } = useScroll();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 40));
@@ -106,11 +106,8 @@ export function Nav() {
   const contactActive = pathname === "/contact";
 
   return (
-    <motion.header
-      initial={reduceMotion ? false : { y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={reduceMotion ? { duration: 0 } : { duration: 0.8, ease: EASE, delay: 0.2 }}
-      className={`site-header ${solid ? "is-scrolled border-b border-border bg-[rgba(252,247,245,0.92)] shadow-none backdrop-blur-[14px]" : "border-b border-transparent bg-transparent"}`}
+    <header
+      className={`site-header intro-header ${solid ? "is-scrolled border-b border-border bg-[rgba(252,247,245,0.92)] shadow-none backdrop-blur-[14px]" : "border-b border-transparent bg-transparent"}`}
     >
       <div className="content-shell site-header-bar flex items-center justify-between gap-3 px-4 sm:px-6 md:px-8">
         <a href={homeHref} className="site-brand" onClick={() => setMenuOpen(false)}>
@@ -286,7 +283,7 @@ export function Nav() {
           </ul>
         </nav>
       ) : null}
-    </motion.header>
+    </header>
   );
 }
 
@@ -432,17 +429,20 @@ export function Footer() {
                 Services
               </h4>
               <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 text-[15px] text-ivory/85 md:grid-cols-1">
-                {SERVICES.map((s) => (
+                {SERVICES.map((s) => {
+                  const serviceId = slugToServiceId(s.slug);
+                  const href = serviceId ? serviceContactHref(serviceId) : "/contact";
+                  return (
                   <li key={s.slug}>
-                    <Link
-                      to="/services/$slug"
-                      params={{ slug: s.slug }}
+                    <a
+                      href={href}
                       className="transition-colors duration-300 hover:text-white"
                     >
                       {s.title}
-                    </Link>
+                    </a>
                   </li>
-                ))}
+                  );
+                })}
               </ul>
             </div>
           </div>

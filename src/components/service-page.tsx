@@ -27,6 +27,12 @@ import {
   Reveal,
   ScrollProgress,
 } from "@/components/site-chrome";
+import { serviceContactHref, slugToServiceId } from "@/data/trip-services";
+
+function contactHrefForService(slug: string) {
+  const id = slugToServiceId(slug);
+  return id ? serviceContactHref(id) : "/contact";
+}
 
 const SERVICE_ICONS: Record<ServiceIconName, LucideIcon> = {
   route: Route,
@@ -108,11 +114,11 @@ function ServiceHero({ service }: { service: ServiceContent }) {
             {service.line}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href="/#contact" className="accent-button-on-red rounded-full px-7 py-3.5 text-[11px] font-semibold uppercase sm:text-xs">
+            <a href={contactHrefForService(service.slug)} className="accent-button-on-red rounded-full px-7 py-3.5 text-[11px] font-semibold uppercase sm:text-xs">
               {service.ctaLabel}
             </a>
             <a
-              href="/#contact"
+              href={contactHrefForService(service.slug)}
               className="accent-outline-light rounded-full px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] sm:text-xs"
             >
               Get a quote
@@ -235,7 +241,7 @@ function ServiceIncluded({ service }: { service: ServiceContent }) {
                 ))}
               </ul>
               <a
-                href="/#contact"
+                href={contactHrefForService(service.slug)}
                 className="accent-button mt-8 inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-center text-[11px] font-semibold uppercase sm:text-xs"
               >
                 {service.ctaLabel}
@@ -264,7 +270,7 @@ function ServiceWhy({ service }: { service: ServiceContent }) {
               WhatsApp, 24/7.
             </p>
             <a
-              href="/#contact"
+              href={contactHrefForService(service.slug)}
               className="accent-button mt-8 inline-flex rounded-full px-8 py-3.5 text-[11px] font-semibold uppercase sm:text-xs"
             >
               Plan my trip
