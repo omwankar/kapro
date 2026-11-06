@@ -1049,272 +1049,597 @@
   contain-intrinsic-size: auto 720px;
 }
 
-/* ---------------- Signature journeys marquee ---------------- */
+/* ---------------- Departure Hall (Signature Journeys) ---------------- */
 
-.journey-marquee {
+.departure-hall {
   padding-block: 120px;
   background: var(--bg-alt);
+  overflow: clip;
+}
+
+.departure-hall-stage {
+  /* Brand-matched light stage. Flip --stage-theme / .theme-dark for the dark hall. */
+  --stage-theme: light;
+  --stage-bg: var(--surface);
+  --stage-ink: var(--ink);
+  --stage-ink-soft: var(--muted);
+  --stage-chip-border: var(--border);
+  --stage-chip-on-bg: var(--red-600);
+  --stage-chip-on-ink: var(--ivory);
+  --stage-border: var(--border);
+  --stage-ticker: color-mix(in srgb, var(--ink) 55%, transparent);
+  --stage-map: color-mix(in srgb, var(--ink) 18%, transparent);
+  --stage-arc: color-mix(in srgb, var(--ink) 45%, transparent);
+  --destination-accent: var(--gold);
+  --accent: var(--destination-accent);
+
+  width: min(1320px, calc(100% - 2rem));
+  margin-inline: auto;
+  padding: 40px;
+  border: 1px solid var(--stage-border);
+  border-radius: 32px;
+  background:
+    radial-gradient(
+      60% 70% at 72% 28%,
+      color-mix(in srgb, var(--accent) 14%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      50% 55% at 12% 0%,
+      color-mix(in srgb, var(--red-200) 55%, transparent),
+      transparent 70%
+    ),
+    var(--stage-bg);
+  color: var(--stage-ink);
+  box-shadow: var(--shadow-soft);
+  transition: background 800ms ease;
   overflow: hidden;
 }
 
-.journey-marquee-shell {
-  width: min(1200px, calc(100% - 2rem));
-  margin-inline: auto;
+/* Optional dark hall */
+.departure-hall-stage[data-stage-theme="dark"],
+.departure-hall-stage.theme-dark {
+  --stage-theme: dark;
+  --stage-bg: #1a0c0f;
+  --stage-ink: #fbf3ee;
+  --stage-ink-soft: rgba(251, 243, 238, 0.85);
+  --stage-chip-border: rgba(255, 255, 255, 0.25);
+  --stage-chip-on-bg: #fbf3ee;
+  --stage-chip-on-ink: #1a0c0f;
+  --stage-border: rgba(255, 255, 255, 0.12);
+  --stage-ticker: rgba(251, 243, 238, 0.6);
+  --stage-map: rgba(251, 243, 238, 0.18);
+  --stage-arc: rgba(251, 243, 238, 0.55);
+  box-shadow: none;
 }
 
-.journey-marquee-header {
+.departure-hall-header {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 24px;
+  gap: 20px 28px;
+  margin-bottom: 28px;
 }
 
-.journey-marquee-count {
+.departure-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--red-600);
+}
+
+.departure-eyebrow-mark {
+  width: 28px;
+  height: 1.5px;
+  background: var(--red-600);
+}
+
+.departure-heading {
+  margin: 14px 0 0;
+  max-width: 16ch;
+  color: var(--stage-ink);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.departure-heading .italic {
+  color: var(--red-500);
+  font-style: italic;
+}
+
+.departure-hall-stage[data-stage-theme="dark"] .departure-heading .italic,
+.departure-hall-stage.theme-dark .departure-heading .italic {
+  color: #f3d8bf;
+}
+
+.departure-hall-stage[data-stage-theme="dark"] .departure-eyebrow,
+.departure-hall-stage.theme-dark .departure-eyebrow {
+  color: var(--gold);
+}
+
+.departure-hall-stage[data-stage-theme="dark"] .departure-eyebrow-mark,
+.departure-hall-stage.theme-dark .departure-eyebrow-mark {
+  background: var(--gold);
+}
+
+.departure-hall-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.departure-moods {
+  display: flex;
+  gap: 8px;
+  max-width: min(100%, 520px);
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.departure-moods::-webkit-scrollbar {
+  display: none;
+}
+
+.departure-mood {
+  flex: 0 0 auto;
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--stage-chip-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--stage-ink);
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.journey-flight-path {
-  position: relative;
-  display: none;
-  height: 60px;
-  margin-top: 36px;
-  margin-bottom: 8px;
-  overflow: hidden;
-}
-
-.journey-flight-svg {
-  display: block;
-  width: 100%;
-  height: 60px;
-}
-
-.journey-flight-plane {
-  position: absolute;
-  top: 0;
-  left: 0;
-  color: var(--red-600);
-  offset-path: path("M0,40 C200,10 400,55 600,28 C800,2 1000,48 1200,22");
-  offset-rotate: auto;
-  animation: journey-plane-fly 18s linear infinite;
-}
-
-.journey-marquee.is-paused .journey-flight-plane,
-.journey-marquee:has(.journey-card:hover) .journey-flight-plane,
-.journey-marquee:has(.journey-card:focus-within) .journey-flight-plane {
-  animation-play-state: paused;
-}
-
-.journey-marquee-rows {
-  display: grid;
-  gap: 24px;
-  margin-top: 28px;
-}
-
-.journey-marquee-row {
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-
-.journey-marquee-track {
-  display: flex;
-  width: max-content;
-  will-change: transform;
-}
-
-.journey-marquee-set {
-  display: flex;
-  gap: 20px;
-  padding-inline-end: 20px;
-}
-
-.journey-marquee-row--1 .journey-marquee-track {
-  animation: journey-marquee-left 80s linear infinite;
-}
-
-.journey-marquee-row--2 .journey-marquee-track {
-  animation: journey-marquee-right 95s linear infinite;
-}
-
-.journey-marquee.is-paused .journey-marquee-track,
-.journey-marquee:has(.journey-card:hover) .journey-marquee-track,
-.journey-marquee:has(.journey-card:focus-within) .journey-marquee-track {
-  animation-play-state: paused;
-}
-
-.journey-card {
-  position: relative;
-  flex: 0 0 auto;
-  width: 280px;
-  height: 380px;
-  overflow: hidden;
-  isolation: isolate;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
   cursor: pointer;
-  border-radius: 24px;
-  background: #1a1012;
-  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background 250ms ease, color 250ms ease, border-color 250ms ease;
 }
 
-.journey-card-img {
+.departure-mood.is-selected {
+  background: var(--stage-chip-on-bg);
+  border-color: var(--stage-chip-on-bg);
+  color: var(--stage-chip-on-ink);
+}
+
+.departure-mood:focus-visible,
+.departure-panel-hit:focus-visible,
+.departure-plan-btn:focus-visible,
+.departure-pass-cta:focus-visible,
+.departure-ticker-item:focus-visible {
+  outline: 2px solid var(--red-500);
+  outline-offset: 3px;
+}
+
+.departure-hall-stage[data-stage-theme="dark"] .departure-mood:focus-visible,
+.departure-hall-stage.theme-dark .departure-mood:focus-visible,
+.departure-hall-stage[data-stage-theme="dark"] .departure-panel-hit:focus-visible,
+.departure-hall-stage.theme-dark .departure-panel-hit:focus-visible {
+  outline-color: #fbf3ee;
+}
+
+.departure-strips {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  animation: departure-fade 350ms ease;
+}
+
+.departure-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  height: 76px;
+  transition: height 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  background: #21171a;
+  box-shadow: 0 10px 28px rgba(74, 15, 19, 0.1);
+}
+
+.departure-panel.is-active {
+  height: 420px;
+}
+
+.departure-panel-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
 }
 
-.journey-card-overlay {
+.departure-panel-img {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 35%, rgba(20, 10, 12, 0.78) 100%);
-  transition: background 600ms ease;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.65) brightness(0.7);
+  transform: scale(1.05);
+  transition: filter 600ms ease, transform 600ms ease;
 }
 
-.journey-card-tag {
+.departure-panel.is-active .departure-panel-img {
+  filter: none;
+  transform: scale(1);
+}
+
+.departure-panel-shade {
   position: absolute;
-  top: 14px;
-  left: 14px;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 5, 6, 0.25) 0%, rgba(10, 5, 6, 0.85) 100%);
+  pointer-events: none;
+}
+
+.departure-panel-collapsed {
+  display: none;
+}
+
+.departure-panel-mobile-row {
+  position: absolute;
+  inset: 0;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 18px;
+  color: #fbf3ee;
+  pointer-events: none;
+}
+
+.departure-panel.is-active .departure-panel-mobile-row {
+  opacity: 0;
+}
+
+.departure-panel-mobile-code {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.departure-panel-mobile-name {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.departure-panel-code-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 10px;
-  border: 1px solid var(--gold);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 999px;
-  background: rgba(251, 243, 238, 0.92);
-  color: var(--ink);
+  color: #fbf3ee;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-.journey-card-stamp {
+.departure-panel-active {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  inset: 0;
   z-index: 2;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 1px dashed rgba(251, 243, 238, 0.85);
-  border-radius: 999px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px;
+  pointer-events: none;
+}
+
+.departure-panel-active[hidden] {
+  display: none !important;
+}
+
+.departure-panel-copy {
+  max-width: 420px;
+  pointer-events: auto;
+}
+
+.departure-panel.is-active .departure-panel-copy > * {
+  animation: departure-rise 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.departure-panel.is-active .departure-panel-copy > *:nth-child(1) {
+  animation-delay: 250ms;
+}
+.departure-panel.is-active .departure-panel-copy > *:nth-child(2) {
+  animation-delay: 330ms;
+}
+.departure-panel.is-active .departure-panel-copy > *:nth-child(3) {
+  animation-delay: 410ms;
+}
+.departure-panel.is-active .departure-panel-copy > *:nth-child(4) {
+  animation-delay: 490ms;
+}
+.departure-panel.is-active .departure-panel-copy > *:nth-child(5) {
+  animation-delay: 570ms;
+}
+
+.departure-panel-name {
+  margin: 14px 0 0;
   color: #fbf3ee;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  backdrop-filter: blur(2px);
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 500;
+  line-height: 1;
 }
 
-.journey-card-copy {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 18px;
-  z-index: 2;
+.departure-letter-rise span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: departure-rise 480ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-.journey-card-name {
-  margin: 0;
-  color: #fbf3ee;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.1;
+.departure-letter-rise.is-ready {
+  opacity: 1;
 }
 
-.journey-card-line {
-  margin: 6px 0 0;
+.departure-panel-tagline {
+  margin: 12px 0 0;
   color: rgba(251, 243, 238, 0.85);
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.45;
 }
 
-.journey-card-cta {
-  position: absolute;
-  left: 50%;
-  bottom: 18px;
-  z-index: 3;
+.departure-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.departure-highlights li {
+  padding: 7px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  color: #fbf3ee;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.departure-plan-btn,
+.departure-pass-cta {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 16px;
+  margin-top: 18px;
+  padding: 12px 18px;
   border-radius: 999px;
-  background: #fbf3ee;
-  color: var(--red-700);
+  background: var(--red-600);
+  color: var(--ivory);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
-  opacity: 0;
-  transform: translate(-50%, 12px);
-  transition: opacity 600ms ease, transform 600ms ease;
+}
+
+.departure-pass {
+  display: none;
+}
+
+.departure-panel-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
   pointer-events: none;
 }
 
-.journey-card:hover,
-.journey-card:focus-visible {
-  transform: translateY(-10px) scale(1.03);
-  z-index: 2;
+.departure-panel-progress-bar {
+  width: 100%;
+  height: 100%;
+  transform-origin: left center;
+  transform: scaleX(0);
+  background: var(--destination-accent);
 }
 
-.journey-card:hover .journey-card-img,
-.journey-card:focus-visible .journey-card-img {
-  transform: scale(1.08);
+.departure-tracker {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  height: 96px;
+  margin-top: 18px;
+  border-top: 1px solid var(--stage-border);
 }
 
-.journey-card:hover .journey-card-overlay,
-.journey-card:focus-visible .journey-card-overlay {
-  background: linear-gradient(180deg, transparent 20%, rgba(143, 29, 34, 0.55) 100%);
+.departure-tracker-end {
+  display: grid;
+  gap: 2px;
 }
 
-.journey-card:hover .journey-card-copy,
-.journey-card:focus-visible .journey-card-copy {
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 400ms ease, transform 400ms ease;
+.departure-tracker-end.is-to {
+  text-align: right;
+  justify-items: end;
+  animation: departure-fade 350ms ease;
 }
 
-.journey-card:hover .journey-card-cta,
-.journey-card:focus-visible .journey-card-cta,
-.journey-card-cta:focus-visible {
-  opacity: 1;
-  transform: translate(-50%, 0);
-  pointer-events: auto;
+.departure-tracker-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--stage-ticker);
 }
 
-.journey-card:focus-visible,
-.journey-card-cta:focus-visible {
-  outline: 2px solid var(--red-500);
-  outline-offset: 3px;
+.departure-tracker-city {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--stage-ink);
 }
 
-@keyframes journey-marquee-left {
+.departure-tracker-code {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--stage-ink-soft);
+}
+
+.departure-tracker-map {
+  display: none;
+  width: min(100%, 420px);
+  height: 72px;
+}
+
+.departure-flight-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.departure-flight-world circle {
+  fill: var(--stage-map);
+}
+
+.departure-flight-arc {
+  stroke: var(--stage-arc);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: departure-arc 900ms ease forwards;
+}
+
+.departure-flight-arc.is-instant {
+  animation: none;
+  stroke-dashoffset: 0;
+}
+
+.departure-flight-dot.origin {
+  fill: var(--ink);
+  animation: departure-pulse 1.2s ease infinite;
+}
+
+.departure-hall-stage[data-stage-theme="dark"] .departure-flight-dot.origin,
+.departure-hall-stage.theme-dark .departure-flight-dot.origin {
+  fill: #fbf3ee;
+}
+
+.departure-flight-dot.dest {
+  animation: departure-pulse 1.2s ease infinite;
+}
+
+.departure-flight-plane-icon {
+  will-change: transform;
+}
+
+.departure-tracker-mobile-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+}
+
+.departure-tracker-mobile-line span {
+  display: block;
+  width: 100%;
+  height: 0;
+  border-top: 1px dashed color-mix(in srgb, var(--ink) 35%, transparent);
+  animation: departure-dash 1.2s linear infinite;
+}
+
+.departure-hall-stage[data-stage-theme="dark"] .departure-tracker-mobile-line span,
+.departure-hall-stage.theme-dark .departure-tracker-mobile-line span {
+  border-top-color: rgba(251, 243, 238, 0.45);
+}
+
+.departure-ticker {
+  height: 44px;
+  margin-top: 18px;
+  overflow: hidden;
+  border-top: 1px solid var(--stage-border);
+}
+
+.departure-ticker-track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  align-items: center;
+  animation: departure-ticker 70s linear infinite;
+  will-change: transform;
+}
+
+.departure-ticker.is-paused .departure-ticker-track {
+  animation-play-state: paused;
+}
+
+.departure-ticker-set {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding-inline-end: 8px;
+}
+
+.departure-ticker-item {
+  border: 0;
+  background: transparent;
+  color: var(--stage-ticker);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.departure-ticker-item::after {
+  content: " · ";
+  margin-left: 8px;
+  opacity: 0.7;
+}
+
+@keyframes departure-rise {
   from {
-    transform: translateX(0);
+    opacity: 0;
+    transform: translateY(14px);
   }
   to {
-    transform: translateX(-50%);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@keyframes journey-marquee-right {
+@keyframes departure-fade {
   from {
-    transform: translateX(-50%);
+    opacity: 0;
   }
   to {
-    transform: translateX(0);
+    opacity: 1;
   }
 }
 
-@keyframes journey-plane-fly {
+@keyframes departure-arc {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes departure-plane {
   from {
     offset-distance: 0%;
   }
@@ -1323,80 +1648,243 @@
   }
 }
 
-@media (min-width: 768px) {
-  .journey-flight-path {
-    display: block;
+@keyframes departure-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
   }
 }
 
-@media (max-width: 767.98px) {
-  .journey-marquee {
+@keyframes departure-dash {
+  to {
+    background-position: 16px 0;
+  }
+}
+
+@keyframes departure-ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (min-width: 1024px) {
+  .departure-strips {
+    flex-direction: row;
+    height: 600px;
+  }
+
+  .departure-panel {
+    flex: 0 0 84px;
+    height: 100%;
+    min-width: 0;
+    transition: flex-basis 700ms cubic-bezier(0.2, 0.8, 0.2, 1), flex-grow 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .departure-panel.is-active {
+    flex: 1 1 520px;
+    min-width: 0;
+    height: 100%;
+  }
+
+  .departure-panel-mobile-row {
+    display: none;
+  }
+
+  .departure-panel-collapsed {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    pointer-events: none;
+  }
+
+  .departure-panel.is-active .departure-panel-collapsed {
+    opacity: 0;
+  }
+
+  .departure-panel-vertical {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    color: #fbf3ee;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .departure-tracker-map {
+    display: block;
+  }
+
+  .departure-tracker-mobile-line {
+    display: none;
+  }
+}
+
+@media (min-width: 1180px) {
+  .departure-pass {
+    position: relative;
+    display: block;
+    width: 300px;
+    flex: 0 0 300px;
+    padding: 18px 20px 16px;
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--red-600);
+    border-radius: 18px;
+    background: var(--ivory);
+    color: var(--ink);
+    box-shadow: var(--shadow-card);
+    pointer-events: auto;
+    mask-image:
+      radial-gradient(circle 10px at 0 58%, transparent 98%, #000 100%),
+      radial-gradient(circle 10px at 100% 58%, transparent 98%, #000 100%);
+    mask-composite: intersect;
+    -webkit-mask-image:
+      radial-gradient(circle 10px at 0 58%, transparent 98%, #000 100%),
+      radial-gradient(circle 10px at 100% 58%, transparent 98%, #000 100%);
+    -webkit-mask-composite: source-in;
+  }
+
+  .departure-pass-eyebrow {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .departure-pass-route {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0 0;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .departure-pass-cities {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .departure-pass-passenger {
+    margin: 14px 0 0;
+    font-size: 13px;
+    color: var(--ink);
+  }
+
+  .departure-pass-dash {
+    margin: 14px 0;
+    border-top: 1px dashed rgba(33, 23, 26, 0.25);
+  }
+
+  .departure-pass-barcode {
+    height: 36px;
+    margin-bottom: 4px;
+    background: repeating-linear-gradient(
+      90deg,
+      #21171a 0 2px,
+      transparent 2px 4px,
+      #21171a 4px 5px,
+      transparent 5px 8px,
+      #21171a 8px 11px,
+      transparent 11px 13px
+    );
+    opacity: 0.85;
+  }
+
+  .departure-pass-cta {
+    width: 100%;
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  .departure-panel-copy .departure-plan-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 1023.98px) {
+  .departure-hall {
     padding-block: 72px;
   }
 
-  .journey-card {
-    width: 220px;
-    height: 300px;
+  .departure-hall-stage {
+    padding: 20px;
+    border-radius: 24px;
   }
 
-  .journey-card-name {
-    font-size: 20px;
+  .departure-strips {
+    transition: opacity 350ms ease;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .journey-marquee-row {
-    -webkit-mask-image: none;
-    mask-image: none;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    scrollbar-width: thin;
-    -webkit-overflow-scrolling: touch;
+  .departure-hall-stage,
+  .departure-panel,
+  .departure-panel-img,
+  .departure-mood {
+    transition: none !important;
   }
 
-  .journey-marquee-track {
+  .departure-panel.is-active .departure-panel-copy > *,
+  .departure-letter-rise span,
+  .departure-tracker-end.is-to,
+  .departure-flight-arc,
+  .departure-flight-dot,
+  .departure-flight-plane-icon,
+  .departure-tracker-mobile-line span {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+
+  .departure-ticker-track {
     animation: none !important;
     transform: none !important;
   }
 
-  .journey-marquee-set + .journey-marquee-set {
+  .departure-ticker {
+    overflow-x: auto;
+  }
+
+  .departure-ticker-track {
+    width: max-content;
+  }
+
+  .departure-ticker-set + .departure-ticker-set {
     display: none;
   }
-
-  .journey-card {
-    scroll-snap-align: start;
-  }
-
-  .journey-flight-plane {
-    animation: none !important;
-    offset-distance: 35%;
-  }
-
-  .journey-card:hover,
-  .journey-card:focus-visible {
-    transform: none;
-  }
-
-  .journey-card:hover .journey-card-img,
-  .journey-card:focus-visible .journey-card-img {
-    transform: none;
-  }
 }
 
-.journey-marquee.is-reduced .journey-marquee-row {
-  -webkit-mask-image: none;
-  mask-image: none;
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
-  scrollbar-width: thin;
-}
-
-.journey-marquee.is-reduced .journey-marquee-track {
+.departure-hall-stage.is-reduced .departure-ticker-track {
   animation: none !important;
-  transform: none !important;
 }
 
-.journey-marquee.is-reduced .journey-marquee-set + .journey-marquee-set {
+.departure-hall-stage.is-reduced .departure-ticker {
+  overflow-x: auto;
+}
+
+.departure-hall-stage.is-reduced .departure-ticker-set + .departure-ticker-set {
   display: none;
 }
 

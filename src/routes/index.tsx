@@ -10,7 +10,7 @@ import heroImg from "@/assets/journeys/motorcycle_road_hero.webp";
 import heroVideo from "@/assets/journeys/motorcycle_road_hero.mp4";
 import timesSquareImg from "@/assets/journeys/times_square.webp";
 import { TripForm } from "@/components/trip-form";
-import { JourneyMarquee } from "@/components/journey-marquee";
+import { DepartureHall } from "@/components/departure-hall";
 import {
   CtaBand,
   EASE,
@@ -62,7 +62,7 @@ function Index() {
       <Hero />
       <Marquee />
       <Services />
-      <JourneyMarquee />
+      <DepartureHall />
       <Founder />
       <CtaBand />
       <ContactSection />
