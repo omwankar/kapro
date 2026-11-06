@@ -452,7 +452,7 @@ export function Footer() {
 
         <div className="mt-14 border-t border-ivory/15 pt-6">
           <p className="text-center text-[10px] uppercase leading-relaxed tracking-[0.18em] text-ivory/65 sm:text-[11px]">
-            © 2026 Karpo Travel Inc. · Long Island, New York · Your Journey, Our Priority.
+            © 2026 Karpo Travel Inc. · Your Journey, Our Priority.
           </p>
         </div>
       </div>
