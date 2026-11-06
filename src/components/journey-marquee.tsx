@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Plane } from "lucide-react";
 
 import { Eyebrow } from "@/components/site-chrome";
-import { JOURNEY_COUNT, JOURNEYS, type Journey } from "@/data/journeys";
+import { JOURNEYS, type Journey } from "@/data/journeys";
 
 const ROW1 = JOURNEYS.slice(0, 10);
 const ROW2 = JOURNEYS.slice(6, 16);
@@ -159,7 +159,7 @@ export function JourneyMarquee() {
               Places we <span className="italic text-red-500">carry you to</span>
             </h2>
           </div>
-          <p className="journey-marquee-count">{JOURNEY_COUNT} destinations</p>
+          <p className="journey-marquee-count">Your destination, our plan</p>
         </div>
 
         <div className="journey-flight-path" aria-hidden="true">

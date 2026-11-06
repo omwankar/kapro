@@ -1869,12 +1869,22 @@
   .about-timeline-items {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 28px;
+    align-items: stretch;
   }
 
   .about-timeline-item {
+    display: flex;
+    flex-direction: column;
     padding-left: 0;
     padding-top: 44px;
     text-align: center;
+  }
+
+  .about-timeline-reveal {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height: 100%;
   }
 
   .about-timeline-dot {
@@ -1884,6 +1894,7 @@
   }
 
   .about-timeline-card {
+    flex: 1;
     text-align: left;
   }
 }

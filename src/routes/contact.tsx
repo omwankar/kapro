@@ -11,6 +11,7 @@ import {
   Eyebrow,
   Footer,
   Nav,
+  ADDRESS,
   PHONE_DISPLAY,
   PHONE_TEL,
   Reveal,
@@ -151,8 +152,8 @@ function ContactCards() {
               <div className="contact-info-icon" aria-hidden="true">
                 <Clock size={22} strokeWidth={1.6} />
               </div>
-              <p className="contact-info-label">Based in</p>
-              <p className="contact-info-value">New York</p>
+              <p className="contact-info-label">Address</p>
+              <p className="contact-info-value">{ADDRESS}</p>
               <p className="mt-2 text-[13px] text-muted-foreground">
                 Established 2026
               </p>

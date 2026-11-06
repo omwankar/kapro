@@ -44,9 +44,24 @@ export const Route = createFileRoute("/about")({
 });
 
 const MILESTONES = [
-  { value: "60+", label: "Years of family legacy in travel" },
-  { value: "2023", label: "First personalized journeys" },
-  { value: "2026", label: "Karpo Travel Inc. established in New York" },
+  {
+    value: "60+",
+    label: "A family built on travel",
+    description:
+      "It started at a kitchen table, with maps, handwritten itineraries and a promise to treat every traveler like family.",
+  },
+  {
+    value: "2023",
+    label: "The personal touch begins",
+    description:
+      "We began designing trips one traveler at a time, with private transfers, hand-picked stays and zero cookie-cutter plans.",
+  },
+  {
+    value: "2026",
+    label: "Karpo Travel Inc. is born",
+    description:
+      "From Bellmore, New York, we now bring six decades of know-how to travelers and businesses worldwide.",
+  },
 ];
 
 const VALUES = [
@@ -274,9 +289,9 @@ function JourneyTimeline() {
       <div className="content-shell px-4 sm:px-6 md:px-8">
         <Reveal>
           <div className="text-center">
-            <Eyebrow>Our Journey</Eyebrow>
+            <Eyebrow>Roots & Routes</Eyebrow>
             <h2 className="mt-4 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-medium text-ink">
-              A legacy that keeps moving
+              Three generations of getting it right
             </h2>
           </div>
         </Reveal>
@@ -300,11 +315,11 @@ function JourneyTimeline() {
             {MILESTONES.map((item, i) => (
               <li key={item.value} className="about-timeline-item">
                 <span className="about-timeline-dot" aria-hidden="true" />
-                <Reveal delay={0.1 + i * 0.08}>
+                <Reveal delay={0.1 + i * 0.08} className="about-timeline-reveal">
                   <p className="about-timeline-value font-display">{item.value}</p>
                   <p className="about-timeline-label">{item.label}</p>
                   <div className="about-timeline-card">
-                    <p className="about-timeline-card-text">{item.label}</p>
+                    <p className="about-timeline-card-text">{item.description}</p>
                   </div>
                 </Reveal>
               </li>

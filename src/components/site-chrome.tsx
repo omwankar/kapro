@@ -16,10 +16,11 @@ export const EMBLEM_SRC = "/images/karpo-emblem-only.png";
 export const EMBLEM_WIDTH = 256;
 export const EMBLEM_HEIGHT = 417;
 
-export const WHATSAPP = "https://wa.me/15167846446";
-export const PHONE_DISPLAY = "+1 (516) 784 6446";
-export const PHONE_TEL = "tel:+15167846446";
+export const WHATSAPP = "https://wa.me/15169690000";
+export const PHONE_DISPLAY = "+1 (516) 969-0000";
+export const PHONE_TEL = "tel:+15169690000";
 export const EMAIL = "Karpotravel@gmail.com";
+export const ADDRESS = "Long Island, New York, USA";
 
 export const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -388,7 +389,7 @@ export function Footer() {
               Your Journey, Our Priority.
             </p>
             <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.24em] text-ivory/70 sm:text-[11px]">
-              Established 2026 · New York
+              Established 2026 · Long Island, New York
             </p>
           </div>
 
@@ -411,6 +412,7 @@ export function Footer() {
                     {EMAIL}
                   </a>
                 </li>
+                <li className="footer-address text-ivory/85">{ADDRESS}</li>
                 <li>
                   <a
                     href={WHATSAPP}
@@ -450,7 +452,7 @@ export function Footer() {
 
         <div className="mt-14 border-t border-ivory/15 pt-6">
           <p className="text-center text-[10px] uppercase leading-relaxed tracking-[0.18em] text-ivory/65 sm:text-[11px]">
-            © 2026 Karpo Travel Inc. · New York · Your Journey, Our Priority.
+            © 2026 Karpo Travel Inc. · Long Island, New York · Your Journey, Our Priority.
           </p>
         </div>
       </div>
