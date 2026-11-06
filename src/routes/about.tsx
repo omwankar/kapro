@@ -13,6 +13,8 @@ import veniceImg from "@/assets/journeys/venice_canal.jpg";
 import kyotoImg from "@/assets/journeys/kyoto_fushimi.jpg";
 import machuPicchuImg from "@/assets/journeys/machu_picchu.jpg";
 import founderImg from "@/assets/jenson-daniel.webp";
+import { Breadcrumbs } from "@/components/breadcrumbs";
+import { JsonLd } from "@/components/json-ld";
 import {
   CtaBand,
   EASE,
@@ -23,6 +25,7 @@ import {
   SERVICES,
   ScrollProgress,
 } from "@/components/site-chrome";
+import { PAGE_META, aboutGraphJsonLd, buildPageHead } from "@/lib/seo";
 
 const SHOW_FOUNDER_PHOTO = true;
 
@@ -30,16 +33,7 @@ const INTRO_DESCRIPTION =
   "Karpo Travel Inc. was founded to make personalized travel simpler, more thoughtful, and more reliable. Drawing on over 60 years of family experience in the travel industry, we focus on carefully planned journeys that reflect each client’s preferences, pace, and priorities.";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "Our Story | Karpo Travel Inc." },
-      { name: "description", content: INTRO_DESCRIPTION },
-      { property: "og:title", content: "Our Story | Karpo Travel Inc." },
-      { property: "og:description", content: INTRO_DESCRIPTION },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => buildPageHead(PAGE_META.about),
   component: AboutPage,
 });
 
@@ -84,6 +78,7 @@ const VALUES = [
 function AboutPage() {
   return (
     <main className="bg-background font-sans">
+      <JsonLd data={aboutGraphJsonLd()} />
       <ScrollProgress />
       <Nav />
       <AboutHero />
@@ -124,13 +119,13 @@ function AboutHero() {
 
       <div className="content-shell relative z-10 w-full px-4 pb-14 pt-[9.5rem] text-center sm:px-6 sm:pb-16 sm:pt-[10.5rem] md:px-8">
         <Reveal>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#FBF3EE]/80 sm:text-[11px]">
-            <Link to="/" className="transition-colors hover:text-[#FBF3EE]">
-              Home
-            </Link>
-            <span aria-hidden="true"> / </span>
-            <span>Our Story</span>
-          </p>
+          <Breadcrumbs
+            light
+            items={[
+              { name: "Home", path: "/" },
+              { name: "Our Story" },
+            ]}
+          />
           <div className="mt-6 flex justify-center">
             <Eyebrow light>Our Story</Eyebrow>
           </div>

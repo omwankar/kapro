@@ -11,6 +11,7 @@ import heroVideo from "@/assets/journeys/motorcycle_road_hero.mp4";
 import timesSquareImg from "@/assets/journeys/times_square.webp";
 import { TripForm } from "@/components/trip-form";
 import { DepartureHall } from "@/components/departure-hall";
+import { JsonLd } from "@/components/json-ld";
 import {
   CtaBand,
   EASE,
@@ -25,29 +26,10 @@ import {
   WHATSAPP,
 } from "@/components/site-chrome";
 import { serviceContactHref, slugToServiceId } from "@/data/trip-services";
+import { HOME_ABOUT_SUMMARY, PAGE_META, buildPageHead, homeGraphJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Karpo Travel Inc. — Your Journey, Our Priority" },
-      {
-        name: "description",
-        content:
-          "Flights, hotels, vacations, cruises, cars and visa assistance — personalized travel from New York, backed by a 60-year family legacy.",
-      },
-      {
-        property: "og:title",
-        content: "Karpo Travel Inc. — Your Journey, Our Priority",
-      },
-      {
-        property: "og:description",
-        content:
-          "Flights, hotels, vacations, cruises, cars and visa assistance — personalized travel from New York.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => buildPageHead(PAGE_META.home),
   component: Index,
 });
 
@@ -57,9 +39,11 @@ const MARQUEE =
 function Index() {
   return (
     <main className="bg-background font-sans">
+      <JsonLd data={homeGraphJsonLd()} />
       <ScrollProgress />
       <Nav />
       <Hero />
+      <AboutKarpoSummary />
       <Marquee />
       <Services />
       <DepartureHall />
@@ -68,6 +52,27 @@ function Index() {
       <ContactSection />
       <Footer />
     </main>
+  );
+}
+
+function AboutKarpoSummary() {
+  return (
+    <section
+      className="border-b border-border bg-background px-4 py-10 sm:px-6 sm:py-12 md:px-8"
+      aria-labelledby="about-karpo-summary-heading"
+    >
+      <div className="content-shell mx-auto max-w-3xl text-center">
+        <h2
+          id="about-karpo-summary-heading"
+          className="font-display text-[clamp(1.5rem,3vw,2rem)] font-medium text-ink"
+        >
+          About Karpo Travel
+        </h2>
+        <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+          {HOME_ABOUT_SUMMARY}
+        </p>
+      </div>
+    </section>
   );
 }
 
@@ -130,7 +135,7 @@ function Hero() {
             loop
             muted
             playsInline
-            preload="none"
+            preload="metadata"
             poster={heroImg}
             src={videoSrc}
             onPlaying={() => setVideoReady(true)}

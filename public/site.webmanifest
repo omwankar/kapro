@@ -1,0 +1,28 @@
+{
+  "name": "Karpo Travel Inc.",
+  "short_name": "Karpo",
+  "description": "Personalized travel agency in New York — flights, hotels, vacations, cruises, cars and visa assistance.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FCF7F5",
+  "theme_color": "#8F1D22",
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

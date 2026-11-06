@@ -2,8 +2,8 @@ import { useEffect, useRef } from "react";
 
 const EMBLEM_SRC = "/images/karpo-emblem-only.png";
 const STORAGE_KEY = "karpo-intro-seen";
-const MIN_MS = 1800;
-const HARD_CAP_MS = 4000;
+const MIN_MS = 1200;
+const HARD_CAP_MS = 2800;
 const EXIT_HOLD_MS = 250;
 const EMBLEM_EXIT_MS = 500;
 const OVERLAY_EXIT_MS = 900;

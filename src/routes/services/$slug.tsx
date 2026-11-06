@@ -2,6 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 
 import { ServicePage } from "@/components/service-page";
 import { getServiceBySlug } from "@/data/services";
+import { buildPageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/services/$slug")({
   beforeLoad: ({ params }) => {
@@ -17,16 +18,12 @@ export const Route = createFileRoute("/services/$slug")({
   head: ({ loaderData }) => {
     const service = loaderData?.service;
     if (!service) return {};
-    return {
-      meta: [
-        { title: `${service.title} | Karpo Travel Inc.` },
-        { name: "description", content: service.metaDescription },
-        { property: "og:title", content: `${service.title} | Karpo Travel Inc.` },
-        { property: "og:description", content: service.metaDescription },
-        { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary_large_image" },
-      ],
-    };
+    return buildPageHead({
+      title: `${service.title} | Karpo Travel Inc.`,
+      description: service.metaDescription,
+      path: `/services/${service.slug}`,
+      ogImage: "/og/home.jpg",
+    });
   },
   component: ServiceSlugPage,
 });

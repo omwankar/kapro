@@ -1,3 +1,6 @@
+User-agent: *
+Allow: /
+
 User-agent: Googlebot
 Allow: /
 
@@ -10,5 +13,23 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
+# AI / answer-engine crawlers
+User-agent: GPTBot
 Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://www.karpotravel.com/sitemap.xml

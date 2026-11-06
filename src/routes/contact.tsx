@@ -1,9 +1,11 @@
 import { useEffect, useId, useState } from "react";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Clock, Mail, Minus, Phone, Plus } from "lucide-react";
 
 import tokyoImg from "@/assets/journeys/tokyo_night.webp";
 import travelersImg from "@/assets/journeys/travelers_together.jpg";
+import { Breadcrumbs } from "@/components/breadcrumbs";
+import { JsonLd } from "@/components/json-ld";
 import { TripForm } from "@/components/trip-form";
 import {
   CtaBand,
@@ -19,6 +21,7 @@ import {
   WHATSAPP,
 } from "@/components/site-chrome";
 import { resolveTripImages, type TripImage } from "@/data/trip-images";
+import { PAGE_META, buildPageHead, contactGraphJsonLd } from "@/lib/seo";
 
 const HERO_SUB =
   "Share a few details and a travel specialist will get back to you within one business day.";
@@ -39,22 +42,14 @@ const FAQ_ITEMS = [
 ] as const;
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact | Karpo Travel Inc." },
-      { name: "description", content: HERO_SUB },
-      { property: "og:title", content: "Contact | Karpo Travel Inc." },
-      { property: "og:description", content: HERO_SUB },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => buildPageHead(PAGE_META.contact),
   component: ContactPage,
 });
 
 function ContactPage() {
   return (
     <main className="bg-background font-sans">
+      <JsonLd data={contactGraphJsonLd()} />
       <ScrollProgress />
       <Nav />
       <ContactHero />
@@ -92,13 +87,13 @@ function ContactHero() {
       />
       <div className="content-shell relative z-10 w-full px-4 pb-28 pt-[7.5rem] text-center sm:px-6 sm:pb-32 sm:pt-[8.5rem] md:px-8">
         <Reveal>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#FBF3EE]/80 sm:text-[11px]">
-            <Link to="/" className="transition-colors hover:text-[#FBF3EE]">
-              Home
-            </Link>
-            <span aria-hidden="true"> / </span>
-            <span>Contact</span>
-          </p>
+          <Breadcrumbs
+            light
+            items={[
+              { name: "Home", path: "/" },
+              { name: "Contact" },
+            ]}
+          />
           <h1 className="mx-auto mt-6 max-w-[18ch] font-display text-[clamp(2.5rem,6vw,4.5rem)] font-medium leading-[1.05] text-[#FBF3EE]">
             Let&apos;s plan your{" "}
             <span className="italic text-[#F7EDE6]">next journey</span>

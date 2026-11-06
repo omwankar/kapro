@@ -129,6 +129,7 @@ export function Nav() {
         </a>
 
         <nav
+          aria-label="Primary"
           className={`hidden items-center gap-8 font-medium md:flex ${
             solid ? "text-ink" : "text-[#FBF3EE]/90"
           }`}
@@ -228,6 +229,7 @@ export function Nav() {
       {menuOpen ? (
         <nav
           id="mobile-nav"
+          aria-label="Mobile"
           className="border-t border-border bg-[rgba(252,247,245,0.96)] px-4 py-4 backdrop-blur-md md:hidden"
         >
           <ul className="flex flex-col gap-1">
@@ -368,6 +370,7 @@ export function CtaBand() {
 export function Footer() {
   return (
     <footer
+      aria-label="Site footer"
       className="relative pb-[env(safe-area-inset-bottom)] text-ivory/85"
       style={{ backgroundColor: "var(--red-900)" }}
     >

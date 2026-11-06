@@ -10,6 +10,7 @@ import {
 import type { ReactNode } from "react";
 
 import { Preloader } from "@/components/preloader";
+import { SITE_NAME, SITE_URL, THEME_COLOR } from "@/lib/seo";
 
 import appCss from "../styles.css?url";
 
@@ -18,6 +19,8 @@ const DISABLE_INTRO = import.meta.env["VITE_DISABLE_INTRO"] === "true";
 const INTRO_BOOT_SCRIPT = `(function(){try{var d=document.documentElement;if(${DISABLE_INTRO}||sessionStorage.getItem("karpo-intro-seen")){d.dataset.intro="skip";}else{d.dataset.intro="active";}}catch(e){document.documentElement.dataset.intro=${DISABLE_INTRO}?"skip":"active";}})();`;
 
 const INTRO_CRITICAL_CSS = `html[data-intro="skip"] .preloader{display:none!important}html[data-intro="active"]{overflow:hidden}.preloader{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 42%,rgba(179,147,98,.22),transparent 55%),linear-gradient(160deg,#4A0F13 0%,#701217 100%)}`;
+
+const NOSCRIPT_CSS = `.preloader{display:none!important}html{overflow:auto!important}`;
 
 function NotFoundComponent() {
   return (
@@ -81,22 +84,17 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: "Karpo Travel Inc." },
+      { name: "theme-color", content: THEME_COLOR },
       {
-        name: "description",
-        content:
-          "Your Journey, Our Priority — personalized flights, hotels, vacations, cruises, cars and visa assistance from New York.",
+        name: "google-site-verification",
+        content: "S0V6HuCdHbxw8njndz2IeyyfwRyX23nNYsu2vuo8Q7k",
       },
-      { name: "author", content: "Karpo Travel Inc." },
-      { property: "og:title", content: "Karpo Travel Inc." },
-      {
-        property: "og:description",
-        content: "Your Journey, Our Priority — personalized travel from New York.",
-      },
+      { name: "author", content: SITE_NAME },
+      { property: "og:site_name", content: SITE_NAME },
+      { property: "og:locale", content: "en_US" },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: "/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "/og-image.png" },
+      { name: "robots", content: "index, follow" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -108,8 +106,11 @@ export const Route = createRootRoute({
       { rel: "stylesheet", href: appCss },
       { rel: "preload", as: "image", href: "/images/karpo-emblem-only.png" },
       { rel: "icon", href: "/favicon.png", type: "image/png", sizes: "32x32" },
+      { rel: "icon", href: "/images/karpo-medallion.png", type: "image/png" },
       { rel: "icon", href: "/icon-512.png", type: "image/png", sizes: "512x512" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "manifest", href: "/site.webmanifest" },
+      { rel: "sitemap", href: `${SITE_URL}/sitemap.xml`, type: "application/xml" },
     ],
   }),
   shellComponent: RootShell,
@@ -120,11 +121,14 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en-US">
       <head>
         <style dangerouslySetInnerHTML={{ __html: INTRO_CRITICAL_CSS }} />
         <script dangerouslySetInnerHTML={{ __html: INTRO_BOOT_SCRIPT }} />
         <HeadContent />
+        <noscript>
+          <style dangerouslySetInnerHTML={{ __html: NOSCRIPT_CSS }} />
+        </noscript>
       </head>
       <body>
         {children}
