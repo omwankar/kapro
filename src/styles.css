@@ -1269,21 +1269,35 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: saturate(0.65) brightness(0.7);
+  filter: saturate(0.9) brightness(0.92);
   transform: scale(1.05);
   transition: filter 600ms ease, transform 600ms ease;
 }
 
 .departure-panel.is-active .departure-panel-img {
-  filter: none;
+  filter: brightness(1.06) saturate(1.05);
   transform: scale(1);
 }
 
 .departure-panel-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(10, 5, 6, 0.25) 0%, rgba(10, 5, 6, 0.85) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(10, 5, 6, 0.08) 0%,
+    rgba(10, 5, 6, 0.18) 45%,
+    rgba(10, 5, 6, 0.58) 100%
+  );
   pointer-events: none;
+}
+
+.departure-panel.is-active .departure-panel-shade {
+  background: linear-gradient(
+    180deg,
+    rgba(10, 5, 6, 0.02) 0%,
+    rgba(10, 5, 6, 0.12) 50%,
+    rgba(10, 5, 6, 0.55) 100%
+  );
 }
 
 .departure-panel-collapsed {
