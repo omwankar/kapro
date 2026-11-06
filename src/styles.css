@@ -1838,22 +1838,6 @@
   color: var(--muted);
 }
 
-.about-timeline-card {
-  margin-top: 16px;
-  padding: 16px 18px;
-  border: 1px solid var(--border);
-  border-top: 2px solid var(--red-600);
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 10px 24px rgba(74, 15, 19, 0.06);
-}
-
-.about-timeline-card-text {
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--muted);
-}
-
 @media (min-width: 768px) {
   .about-timeline-line {
     left: 7%;
@@ -1869,7 +1853,7 @@
   .about-timeline-items {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 28px;
-    align-items: stretch;
+    align-items: start;
   }
 
   .about-timeline-item {
@@ -1882,20 +1866,14 @@
 
   .about-timeline-reveal {
     display: flex;
-    flex: 1;
     flex-direction: column;
-    height: 100%;
+    align-items: center;
   }
 
   .about-timeline-dot {
     left: 50%;
     top: 14px;
     transform: translateX(-50%);
-  }
-
-  .about-timeline-card {
-    flex: 1;
-    text-align: left;
   }
 }
 

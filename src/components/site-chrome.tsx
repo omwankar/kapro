@@ -19,7 +19,7 @@ export const EMBLEM_HEIGHT = 417;
 export const WHATSAPP = "https://wa.me/15169690000";
 export const PHONE_DISPLAY = "+1 (516) 969-0000";
 export const PHONE_TEL = "tel:+15169690000";
-export const EMAIL = "Karpotravel@gmail.com";
+export const EMAIL = "info@karpotravel.com";
 export const ADDRESS = "Long Island, New York, USA";
 
 export const EASE = [0.22, 1, 0.36, 1] as const;

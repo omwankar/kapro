@@ -45,22 +45,16 @@ export const Route = createFileRoute("/about")({
 
 const MILESTONES = [
   {
-    value: "60+",
+    value: "1960s",
     label: "A family built on travel",
-    description:
-      "It started at a kitchen table, with maps, handwritten itineraries and a promise to treat every traveler like family.",
   },
   {
     value: "2023",
     label: "The personal touch begins",
-    description:
-      "We began designing trips one traveler at a time, with private transfers, hand-picked stays and zero cookie-cutter plans.",
   },
   {
     value: "2026",
     label: "Karpo Travel Inc. is born",
-    description:
-      "From Bellmore, New York, we now bring six decades of know-how to travelers and businesses worldwide.",
   },
 ];
 
@@ -318,9 +312,6 @@ function JourneyTimeline() {
                 <Reveal delay={0.1 + i * 0.08} className="about-timeline-reveal">
                   <p className="about-timeline-value font-display">{item.value}</p>
                   <p className="about-timeline-label">{item.label}</p>
-                  <div className="about-timeline-card">
-                    <p className="about-timeline-card-text">{item.description}</p>
-                  </div>
                 </Reveal>
               </li>
             ))}

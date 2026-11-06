@@ -883,10 +883,6 @@ export function TripForm({
         ) : null}
 
         <div className="trip-submit-row">
-          <p className="trip-submit-note">
-            <Clock size={16} aria-hidden="true" />
-            We reply within one business day.
-          </p>
           <button
             className="accent-button inline-flex h-[52px] min-w-[220px] items-center justify-center gap-2 rounded-full px-8 text-[11px] font-semibold uppercase disabled:cursor-not-allowed disabled:opacity-60"
             type="submit"
