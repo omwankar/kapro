@@ -22,6 +22,10 @@ const INTRO_CRITICAL_CSS = `html[data-intro="skip"] .preloader{display:none!impo
 
 const NOSCRIPT_CSS = `.preloader{display:none!important}html{overflow:auto!important}`;
 
+const GTM_ID = "GTM-WSZZDCQW";
+
+const GTM_BOOT_SCRIPT = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`;
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -125,12 +129,22 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <style dangerouslySetInnerHTML={{ __html: INTRO_CRITICAL_CSS }} />
         <script dangerouslySetInnerHTML={{ __html: INTRO_BOOT_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: GTM_BOOT_SCRIPT }} />
         <HeadContent />
         <noscript>
           <style dangerouslySetInnerHTML={{ __html: NOSCRIPT_CSS }} />
         </noscript>
       </head>
       <body>
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height={0}
+            width={0}
+            style={{ display: "none", visibility: "hidden" }}
+            title="Google Tag Manager"
+          />
+        </noscript>
         {children}
         <Scripts />
       </body>
