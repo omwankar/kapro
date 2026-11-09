@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router";
 import {
+  ArrowRight,
   BadgeCheck,
   Car,
   Check,
@@ -17,9 +17,11 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import type { ServiceContent, ServiceIconName } from "@/data/services";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
+import { JOURNEYS, destinationPath } from "@/data/journeys";
+import type { ServiceContent, ServiceIconName } from "@/data/services";
 import { SERVICES_NAV } from "@/data/services";
 import { serviceFaq, serviceJsonLd } from "@/lib/seo";
 import {
@@ -108,26 +110,15 @@ function ServiceHero({ service }: { service: ServiceContent }) {
 
       <div className="content-shell relative z-10 w-full px-4 pb-14 pt-[9.5rem] sm:px-6 sm:pb-16 sm:pt-[10.5rem] md:px-8">
         <Reveal>
-          <nav
-            aria-label="Breadcrumb"
-            className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#FBF3EE]/80 sm:text-[11px]"
-          >
-            <ol className="flex flex-wrap items-center gap-x-2">
-              <li>
-                <Link to="/" className="transition-colors hover:text-[#FBF3EE]">
-                  Home
-                </Link>
-              </li>
-              <li aria-hidden="true">/</li>
-              <li>
-                <Link to="/services" className="transition-colors hover:text-[#FBF3EE]">
-                  Services
-                </Link>
-              </li>
-              <li aria-hidden="true">/</li>
-              <li aria-current="page">{service.title}</li>
-            </ol>
-          </nav>
+          <Breadcrumbs
+            light
+            align="start"
+            items={[
+              { name: "Home", path: "/" },
+              { name: "Services", path: "/services" },
+              { name: service.title },
+            ]}
+          />
           <div className="mt-6">
             <Eyebrow light>{service.eyebrow}</Eyebrow>
           </div>
@@ -320,7 +311,7 @@ function ServiceSiblingNav({ current }: { current: string }) {
         <div className="service-sibling-grid mt-10">
           {SERVICES_NAV.filter((s) => s.slug !== current).map((s, i) => (
             <Reveal key={s.slug} delay={i * 0.04}>
-              <Link to="/services/$slug" params={{ slug: s.slug }} className="service-sibling-card">
+              <a href={s.href} className="service-sibling-card">
                 <div className="service-sibling-thumb">
                   <img
                     src={s.img}
@@ -335,9 +326,49 @@ function ServiceSiblingNav({ current }: { current: string }) {
                   <p className="font-display text-[1.1rem] font-medium text-ink">{s.title}</p>
                   <p className="mt-1 text-[13px] text-muted-foreground">{s.line}</p>
                 </div>
-              </Link>
+              </a>
             </Reveal>
           ))}
+        </div>
+        <div className="mt-14 border-t border-border pt-10">
+          <Reveal>
+            <Eyebrow>Where we take you</Eyebrow>
+            <h2 className="mt-4 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-medium text-ink">
+              Destinations, planned personally
+            </h2>
+          </Reveal>
+          <div className="service-sibling-grid mt-10">
+            {JOURNEYS.slice(0, 6).map((journey, i) => (
+              <Reveal key={journey.code} delay={i * 0.04}>
+                <a href={destinationPath(journey)} className="service-sibling-card">
+                  <div className="service-sibling-thumb">
+                    <img
+                      src={journey.image}
+                      alt={`${journey.name} — ${journey.tagline}`}
+                      width={120}
+                      height={90}
+                      loading="lazy"
+                      decoding="async"
+                      style={{ objectPosition: journey.focus }}
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-display text-[1.1rem] font-medium text-ink">{journey.name}</p>
+                    <p className="mt-1 text-[13px] text-muted-foreground">{journey.place}</p>
+                  </div>
+                </a>
+              </Reveal>
+            ))}
+          </div>
+          <p className="mt-8">
+            <a
+              href="/destinations"
+              className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-red-600"
+            >
+              All destinations
+              <ArrowRight size={14} aria-hidden="true" />
+            </a>
+          </p>
         </div>
       </div>
     </section>

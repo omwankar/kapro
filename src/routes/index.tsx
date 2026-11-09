@@ -304,6 +304,19 @@ function Services() {
             );
           })}
         </div>
+        <Reveal>
+          <p className="mt-10 text-center">
+            <a
+              href="/destinations"
+              className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-red-600"
+            >
+              Browse destinations
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+          </p>
+        </Reveal>
       </div>
     </section>
   );

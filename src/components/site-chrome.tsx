@@ -9,7 +9,7 @@ import {
 } from "framer-motion";
 
 import ctaWhereNextImg from "@/assets/journeys/cta_where_next.jpg";
-import { JOURNEYS, journeySlug } from "@/data/journeys";
+import { JOURNEYS, destinationPath, journeySlug } from "@/data/journeys";
 import { SERVICES_NAV } from "@/data/services";
 
 export const EMBLEM_SRC = "/images/karpo-emblem-only.png";
@@ -75,6 +75,7 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [destinationsOpen, setDestinationsOpen] = useState(false);
   const { scrollY } = useScroll();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 40));
@@ -85,6 +86,7 @@ export function Nav() {
       if (event.key === "Escape") {
         setMenuOpen(false);
         setServicesOpen(false);
+        setDestinationsOpen(false);
       }
     };
     const previousOverflow = document.body.style.overflow;
@@ -98,6 +100,7 @@ export function Nav() {
 
   useEffect(() => {
     setServicesOpen(false);
+    setDestinationsOpen(false);
   }, [pathname]);
 
   const solid = scrolled || menuOpen || !pathnameIsHero(pathname);
@@ -137,7 +140,10 @@ export function Nav() {
         >
           <div
             className="nav-services"
-            onMouseEnter={() => setServicesOpen(true)}
+            onMouseEnter={() => {
+              setServicesOpen(true);
+              setDestinationsOpen(false);
+            }}
             onMouseLeave={() => setServicesOpen(false)}
           >
             <Link
@@ -146,7 +152,10 @@ export function Nav() {
               aria-expanded={servicesOpen}
               aria-haspopup="true"
               aria-current={onServicePage ? "page" : undefined}
-              onFocus={() => setServicesOpen(true)}
+              onFocus={() => {
+                setServicesOpen(true);
+                setDestinationsOpen(false);
+              }}
             >
               Services
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -176,13 +185,55 @@ export function Nav() {
             </div>
           </div>
 
-          <Link
-            to="/destinations"
-            className="accent-nav-link"
-            aria-current={onDestinationsPage ? "page" : undefined}
+          <div
+            className="nav-services nav-destinations"
+            onMouseEnter={() => {
+              setDestinationsOpen(true);
+              setServicesOpen(false);
+            }}
+            onMouseLeave={() => setDestinationsOpen(false)}
           >
-            Destinations
-          </Link>
+            <a
+              href="/destinations"
+              className="accent-nav-link inline-flex items-center gap-1.5"
+              aria-expanded={destinationsOpen}
+              aria-haspopup="true"
+              aria-current={onDestinationsPage ? "page" : undefined}
+              onFocus={() => {
+                setDestinationsOpen(true);
+                setServicesOpen(false);
+              }}
+            >
+              Destinations
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </a>
+            <div className={`nav-services-panel nav-destinations-panel ${destinationsOpen ? "is-open" : ""}`}>
+              <ul>
+                {JOURNEYS.map((journey) => {
+                  const href = destinationPath(journey);
+                  const active = pathname === href;
+                  return (
+                    <li key={journey.code}>
+                      <a
+                        href={href}
+                        className="nav-services-link"
+                        aria-current={active ? "page" : undefined}
+                      >
+                        <span className="nav-services-link-title">{journey.name}</span>
+                        <span className="nav-services-link-line">{journey.place}</span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+              <a href="/destinations" className="nav-services-link nav-destinations-all">
+                <span className="nav-services-link-title">All destinations</span>
+                <span className="nav-services-link-line">Every journey we feature</span>
+              </a>
+            </div>
+          </div>
           <Link
             to="/about"
             className="accent-nav-link"
@@ -246,7 +297,10 @@ export function Nav() {
                 type="button"
                 className="accent-nav-link flex min-h-11 w-full items-center justify-between rounded-lg px-3 font-medium text-ink"
                 aria-expanded={servicesOpen}
-                onClick={() => setServicesOpen((open) => !open)}
+                onClick={() => {
+                  setServicesOpen((open) => !open);
+                  setDestinationsOpen(false);
+                }}
               >
                 Services
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" className={servicesOpen ? "rotate-180" : ""}>
@@ -282,14 +336,49 @@ export function Nav() {
               ) : null}
             </li>
             <li>
-              <Link
-                to="/destinations"
-                className="accent-nav-link flex min-h-11 items-center rounded-lg px-3 font-medium text-ink"
-                aria-current={onDestinationsPage ? "page" : undefined}
-                onClick={() => setMenuOpen(false)}
+              <button
+                type="button"
+                className="accent-nav-link flex min-h-11 w-full items-center justify-between rounded-lg px-3 font-medium text-ink"
+                aria-expanded={destinationsOpen}
+                onClick={() => {
+                  setDestinationsOpen((open) => !open);
+                  setServicesOpen(false);
+                }}
               >
                 Destinations
-              </Link>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" className={destinationsOpen ? "rotate-180" : ""}>
+                  <path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </button>
+              {destinationsOpen ? (
+                <ul className="mb-2 ml-2 border-l border-border pl-3">
+                  <li>
+                    <a
+                      href="/destinations"
+                      className="flex min-h-10 items-center rounded-lg px-3 text-[14px] font-medium text-ink"
+                      aria-current={pathname === "/destinations" ? "page" : undefined}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      All destinations
+                    </a>
+                  </li>
+                  {JOURNEYS.map((journey) => {
+                    const href = destinationPath(journey);
+                    return (
+                      <li key={journey.code}>
+                        <a
+                          href={href}
+                          className="flex min-h-10 items-center rounded-lg px-3 text-[14px] font-medium text-ink"
+                          aria-current={pathname === href ? "page" : undefined}
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {journey.name}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : null}
             </li>
             <li>
               <Link

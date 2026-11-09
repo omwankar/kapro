@@ -3,6 +3,7 @@ import {
   Link,
   createRootRoute,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -159,11 +160,12 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
     <>
       <Preloader />
       <div id="app-root">
-        <Outlet />
+        <Outlet key={pathname} />
       </div>
     </>
   );

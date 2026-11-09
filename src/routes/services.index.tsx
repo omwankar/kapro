@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
 import { Breadcrumbs } from "@/components/breadcrumbs";
@@ -12,6 +12,7 @@ import {
   Reveal,
   ScrollProgress,
 } from "@/components/site-chrome";
+import { JOURNEYS, destinationPath } from "@/data/journeys";
 import { SERVICES_NAV } from "@/data/services";
 import { PAGE_META, SITE_FAQ, buildPageHead, servicesHubJsonLd } from "@/lib/seo";
 
@@ -61,11 +62,7 @@ function ServicesHubPage() {
             {SERVICES_NAV.map((s, i) => (
               <li key={s.slug}>
                 <Reveal delay={i * 0.05}>
-                  <Link
-                    to="/services/$slug"
-                    params={{ slug: s.slug }}
-                    className="services-hub-card group"
-                  >
+                  <a href={s.href} className="services-hub-card group">
                     <div className="services-hub-thumb">
                       <img
                         src={s.img}
@@ -88,11 +85,54 @@ function ServicesHubPage() {
                         <ArrowRight size={14} strokeWidth={2} aria-hidden="true" />
                       </span>
                     </div>
-                  </Link>
+                  </a>
                 </Reveal>
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      <section className="service-section border-t border-border bg-[var(--bg-alt)]">
+        <div className="content-shell px-4 sm:px-6 md:px-8">
+          <Reveal>
+            <Eyebrow>Where we take you</Eyebrow>
+            <h2 className="mt-4 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-medium text-ink">
+              Destinations, planned personally
+            </h2>
+          </Reveal>
+          <div className="service-sibling-grid mt-10">
+            {JOURNEYS.slice(0, 6).map((journey, i) => (
+              <Reveal key={journey.code} delay={i * 0.04}>
+                <a href={destinationPath(journey)} className="service-sibling-card">
+                  <div className="service-sibling-thumb">
+                    <img
+                      src={journey.image}
+                      alt={`${journey.name} — ${journey.tagline}`}
+                      width={120}
+                      height={90}
+                      loading="lazy"
+                      decoding="async"
+                      style={{ objectPosition: journey.focus }}
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-display text-[1.1rem] font-medium text-ink">{journey.name}</p>
+                    <p className="mt-1 text-[13px] text-muted-foreground">{journey.place}</p>
+                  </div>
+                </a>
+              </Reveal>
+            ))}
+          </div>
+          <p className="mt-8">
+            <a
+              href="/destinations"
+              className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-red-600"
+            >
+              All destinations
+              <ArrowRight size={14} aria-hidden="true" />
+            </a>
+          </p>
         </div>
       </section>
 

@@ -1,7 +1,8 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
 import { Breadcrumbs } from "@/components/breadcrumbs";
+import { CrossLinkStrip } from "@/components/destination-page";
 import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
 import {
@@ -12,7 +13,7 @@ import {
   Reveal,
   ScrollProgress,
 } from "@/components/site-chrome";
-import { JOURNEYS, journeySlug } from "@/data/journeys";
+import { JOURNEYS, destinationPath } from "@/data/journeys";
 import { PAGE_META, SITE_FAQ, buildPageHead, destinationsHubJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/destinations/")({
@@ -61,11 +62,7 @@ function DestinationsHubPage() {
             {JOURNEYS.map((journey, i) => (
               <li key={journey.code}>
                 <Reveal delay={i * 0.04}>
-                  <Link
-                    to="/destinations/$slug"
-                    params={{ slug: journeySlug(journey) }}
-                    className="services-hub-card group"
-                  >
+                  <a href={destinationPath(journey)} className="services-hub-card group">
                     <div className="services-hub-thumb">
                       <img
                         src={journey.image}
@@ -92,13 +89,18 @@ function DestinationsHubPage() {
                         <ArrowRight size={14} strokeWidth={2} aria-hidden="true" />
                       </span>
                     </div>
-                  </Link>
+                  </a>
                 </Reveal>
               </li>
             ))}
           </ul>
         </div>
       </section>
+
+      <CrossLinkStrip
+        eyebrow="Six ways we take you there"
+        heading="The same services, on every trip"
+      />
 
       <FaqSection
         alt
