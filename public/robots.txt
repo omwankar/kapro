@@ -32,4 +32,12 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Factual summary for answer engines: https://www.karpotravel.com/llms.txt
+
 Sitemap: https://www.karpotravel.com/sitemap.xml

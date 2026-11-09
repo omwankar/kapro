@@ -18,7 +18,9 @@ import {
 } from "lucide-react";
 
 import type { ServiceContent, ServiceIconName } from "@/data/services";
+import { JsonLd } from "@/components/json-ld";
 import { SERVICES_NAV } from "@/data/services";
+import { serviceJsonLd } from "@/lib/seo";
 import {
   CtaBand,
   Eyebrow,
@@ -54,6 +56,13 @@ const SERVICE_ICONS: Record<ServiceIconName, LucideIcon> = {
 export function ServicePage({ service }: { service: ServiceContent }) {
   return (
     <main className="bg-background font-sans">
+      <JsonLd
+        data={serviceJsonLd({
+          title: service.title,
+          slug: service.slug,
+          description: service.metaDescription,
+        })}
+      />
       <ScrollProgress />
       <Nav />
       <ServiceHero service={service} />
@@ -73,7 +82,7 @@ function ServiceHero({ service }: { service: ServiceContent }) {
     <section className="service-hero relative flex items-end overflow-hidden">
       <img
         src={service.img}
-        alt=""
+        alt={`${service.title} arranged by Karpo Travel Inc.`}
         width={1600}
         height={1067}
         loading="eager"
@@ -299,7 +308,7 @@ function ServiceSiblingNav({ current }: { current: string }) {
                 <div className="service-sibling-thumb">
                   <img
                     src={s.img}
-                    alt=""
+                    alt={s.title}
                     width={120}
                     height={90}
                     loading="lazy"

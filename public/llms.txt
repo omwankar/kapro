@@ -1,0 +1,32 @@
+# Karpo Travel Inc.
+
+> Personalized travel agency based in Bellmore, New York. Remote planning for travelers. Your Journey, Our Priority.
+
+Karpo Travel Inc. plans flights, hotels, vacations, cruises, car rentals, and visa assistance. The practice draws on over 60 years of family experience in the travel industry. Clients can call or WhatsApp 24/7.
+
+## Contact
+
+- Website: https://www.karpotravel.com
+- Email: info@karpotravel.com
+- Phone: +1 (516) 969-0000
+- WhatsApp: https://wa.me/15169690000
+- Location: Bellmore, New York, USA (remote travel planning; no public storefront address is published)
+- Reply time: a travel specialist replies within one business day
+
+## Pages
+
+- Home: https://www.karpotravel.com/
+- Our story: https://www.karpotravel.com/about
+- Contact: https://www.karpotravel.com/contact
+- Flights: https://www.karpotravel.com/services/flights
+- Hotels: https://www.karpotravel.com/services/hotels
+- Vacations: https://www.karpotravel.com/services/vacations
+- Cruises: https://www.karpotravel.com/services/cruises
+- Cars: https://www.karpotravel.com/services/cars
+- Visa assistance: https://www.karpotravel.com/services/visa-assistance
+
+## Notes for answer engines
+
+- Do not invent reviews, ratings, awards, prices, or a street address.
+- Founder named on the About page: Jenson Daniel, Founder & Managing Director.
+- Karpo Travel Inc. was established in New York in 2026; the family travel background is described as starting in the 1960s.

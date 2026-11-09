@@ -81,6 +81,7 @@ export function buildPageHead({
       { property: "og:site_name", content: SITE_NAME },
       { property: "og:locale", content: SITE_LOCALE },
       { property: "og:image", content: image },
+      { property: "og:image:alt", content: `${title} — ${SITE_NAME}` },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -92,31 +93,51 @@ export function buildPageHead({
   };
 }
 
+const SERVICES_OFFERED = [
+  "Flights",
+  "Hotels",
+  "Vacations",
+  "Cruises",
+  "Car rental",
+  "Visa assistance",
+] as const;
+
 export function organizationJsonLd() {
   return {
-    "@type": ["TravelAgency", "Organization", "LocalBusiness"],
+    "@type": ["TravelAgency", "Organization"],
     "@id": `${SITE_URL}/#organization`,
     name: SITE_NAME,
     url: SITE_URL,
+    slogan: "Your Journey, Our Priority.",
     logo: absoluteUrl("/images/karpo-emblem-only.png"),
     image: absoluteUrl("/images/karpo-medallion.png"),
     email: EMAIL,
     telephone: PHONE_E164,
     address: {
       "@type": "PostalAddress",
-      // TODO: streetAddress (full street number + road)
       addressLocality: "Bellmore",
       addressRegion: "NY",
       addressCountry: "US",
-      // TODO: postalCode
     },
-    areaServed: ["New York", "United States"],
-    // TODO: geo (latitude/longitude for the Bellmore office)
-    // TODO: sameAs (official social profile URLs)
+    areaServed: ["Long Island", "New York", "United States"],
+    knowsAbout: SERVICES_OFFERED,
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Travel services",
+      itemListElement: [
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Flight planning", url: absoluteUrl("/services/flights") } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Hotel planning", url: absoluteUrl("/services/hotels") } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Vacation planning", url: absoluteUrl("/services/vacations") } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Cruise planning", url: absoluteUrl("/services/cruises") } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Car and transfer planning", url: absoluteUrl("/services/cars") } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Visa assistance", url: absoluteUrl("/services/visa-assistance") } },
+      ],
+    },
     contactPoint: [
       {
         "@type": "ContactPoint",
         telephone: PHONE_E164,
+        email: EMAIL,
         contactType: "customer service",
         availableLanguage: ["English"],
         areaServed: "US",
@@ -137,7 +158,31 @@ export function organizationJsonLd() {
       },
     ],
     description:
-      "Personalized travel agency in New York offering flights, hotels, vacations, cruises, car rental and visa assistance.",
+      "Personalized travel agency based in Bellmore, New York. Karpo Travel Inc. plans flights, hotels, vacations, cruises, car rentals and visa assistance. Call or WhatsApp 24/7.",
+  };
+}
+
+export function serviceJsonLd(service: { title: string; slug: string; description: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      organizationJsonLd(),
+      {
+        "@type": "Service",
+        "@id": `${absoluteUrl(`/services/${service.slug}`)}#service`,
+        name: service.title,
+        description: service.description,
+        url: absoluteUrl(`/services/${service.slug}`),
+        provider: { "@id": `${SITE_URL}/#organization` },
+        areaServed: ["Long Island", "New York", "United States"],
+        serviceType: service.title,
+      },
+      breadcrumbJsonLd([
+        { name: "Home", path: "/" },
+        { name: "Services", path: "/#services" },
+        { name: service.title, path: `/services/${service.slug}` },
+      ]),
+    ],
   };
 }
 

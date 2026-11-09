@@ -25,7 +25,6 @@ import {
   ScrollProgress,
   WHATSAPP,
 } from "@/components/site-chrome";
-import { serviceContactHref, slugToServiceId } from "@/data/trip-services";
 import { HOME_ABOUT_SUMMARY, PAGE_META, buildPageHead, homeGraphJsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
@@ -247,8 +246,7 @@ function Services() {
 
         <div className="mt-12 grid gap-5 sm:mt-16 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((s, i) => {
-            const serviceId = slugToServiceId(s.slug);
-            const href = serviceId ? serviceContactHref(serviceId) : "/contact";
+            const href = s.href;
             return (
             <Reveal key={s.title} delay={(i % 3) * 0.08}>
               <a

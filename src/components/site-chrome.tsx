@@ -10,7 +10,6 @@ import {
 
 import ctaWhereNextImg from "@/assets/journeys/cta_where_next.jpg";
 import { SERVICES_NAV } from "@/data/services";
-import { serviceContactHref, slugToServiceId } from "@/data/trip-services";
 
 export const EMBLEM_SRC = "/images/karpo-emblem-only.png";
 export const EMBLEM_WIDTH = 256;
@@ -435,8 +434,7 @@ export function Footer() {
               </h4>
               <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 text-[15px] text-ivory/85 md:grid-cols-1">
                 {SERVICES.map((s) => {
-                  const serviceId = slugToServiceId(s.slug);
-                  const href = serviceId ? serviceContactHref(serviceId) : "/contact";
+                  const href = s.href;
                   return (
                   <li key={s.slug}>
                     <a
