@@ -14,6 +14,7 @@ import {
   JOURNEY_MOODS,
   JOURNEYS,
   contactHrefForJourney,
+  journeySlug,
   journeysForMood,
   moodContaining,
   type Journey,
@@ -57,6 +58,9 @@ function BoardingPass({ journey }: { journey: Journey }) {
       <a className="departure-pass-cta" href={href}>
         Plan this trip
         <ArrowRight size={14} aria-hidden="true" />
+      </a>
+      <a className="departure-dest-link" href={`/destinations/${journeySlug(journey)}`}>
+        About {journey.name}
       </a>
     </div>
   );
@@ -221,6 +225,9 @@ export function DepartureHall() {
             <h2 id={`${baseId}-heading`} className="departure-heading font-display">
               Places we <span className="italic">carry you to</span>
             </h2>
+            <a className="departure-dest-link" href="/destinations">
+              All destinations
+            </a>
           </div>
 
           <div className="departure-hall-controls">
@@ -271,7 +278,7 @@ export function DepartureHall() {
                 >
                   <img
                     src={journey.image}
-                    alt=""
+                    alt={`${journey.place} — ${journey.tagline}`}
                     width={900}
                     height={1200}
                     loading={index < 3 ? "eager" : "lazy"}
@@ -318,6 +325,12 @@ export function DepartureHall() {
                     <a className="departure-plan-btn" href={href}>
                       Plan this trip
                       <ArrowRight size={14} aria-hidden="true" />
+                    </a>
+                    <a
+                      className="departure-dest-link"
+                      href={`/destinations/${journeySlug(journey)}`}
+                    >
+                      About {journey.name}
                     </a>
                   </div>
                   <BoardingPass journey={journey} />

@@ -429,7 +429,7 @@ function ServicesStrip() {
                 <div className="about-service-thumb">
                   <img
                     src={service.img}
-                    alt=""
+                    alt={service.title}
                     width={120}
                     height={90}
                     loading="lazy"

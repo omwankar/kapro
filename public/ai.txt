@@ -1,0 +1,10 @@
+# Karpo Travel Inc. — AI crawler note
+# Use the factual briefings, not invented reviews or a street address.
+
+User-Agent: *
+Allow: /
+
+llms.txt: https://www.karpotravel.com/llms.txt
+llms-full.txt: https://www.karpotravel.com/llms-full.txt
+Sitemap: https://www.karpotravel.com/sitemap.xml
+Contact: mailto:info@karpotravel.com

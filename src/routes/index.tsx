@@ -25,10 +25,27 @@ import {
   ScrollProgress,
   WHATSAPP,
 } from "@/components/site-chrome";
-import { HOME_ABOUT_SUMMARY, PAGE_META, buildPageHead, homeGraphJsonLd } from "@/lib/seo";
+import { FaqSection } from "@/components/faq-section";
+import {
+  HOME_ABOUT_SUMMARY,
+  PAGE_META,
+  SITE_FAQ,
+  buildPageHead,
+  homeGraphJsonLd,
+} from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
-  head: () => buildPageHead(PAGE_META.home),
+  head: () => {
+    const base = buildPageHead(PAGE_META.home);
+    return {
+      ...base,
+      links: [
+        ...(base.links ?? []),
+        // LCP image: start fetching the hero before the module graph resolves.
+        { rel: "preload", as: "image", href: heroImg, fetchPriority: "high" },
+      ],
+    };
+  },
   component: Index,
 });
 
@@ -47,6 +64,12 @@ function Index() {
       <Services />
       <DepartureHall />
       <Founder />
+      <FaqSection
+        alt
+        eyebrow="Good to know"
+        heading="Questions travelers ask us"
+        items={SITE_FAQ}
+      />
       <CtaBand />
       <ContactSection />
       <Footer />
@@ -256,7 +279,7 @@ function Services() {
                 <div className="aspect-[4/3] overflow-hidden">
                   <img
                     src={s.img}
-                    alt={s.title}
+                    alt={`${s.title} — ${s.line}`}
                     loading="lazy"
                     decoding="async"
                     width={800}

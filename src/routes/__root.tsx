@@ -29,6 +29,9 @@ const GTM_BOOT_SCRIPT = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.star
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      {/* React 19 hoists these into <head>; keeps 404s out of the index. */}
+      <title>Page not found | Karpo Travel Inc.</title>
+      <meta name="robots" content="noindex, follow" />
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
@@ -115,6 +118,9 @@ export const Route = createRootRoute({
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
       { rel: "manifest", href: "/site.webmanifest" },
       { rel: "sitemap", href: `${SITE_URL}/sitemap.xml`, type: "application/xml" },
+      { rel: "alternate", type: "text/plain", href: `${SITE_URL}/llms.txt`, title: "LLM briefing" },
+      { rel: "alternate", type: "text/plain", href: `${SITE_URL}/llms-full.txt`, title: "LLM full content" },
+      { rel: "author", href: "/humans.txt" },
     ],
   }),
   shellComponent: RootShell,

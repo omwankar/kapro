@@ -273,6 +273,21 @@ export const JOURNEYS: Journey[] = ALL_JOURNEYS.filter((j) => Boolean(j.image));
 
 export const JOURNEY_COUNT = JOURNEYS.length;
 
+export function journeySlug(journey: Journey): string {
+  return (journey.query || journey.name)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export function getJourneyBySlug(slug: string): Journey | undefined {
+  return JOURNEYS.find((journey) => journeySlug(journey) === slug);
+}
+
+export function destinationPath(journey: Journey): string {
+  return `/destinations/${journeySlug(journey)}`;
+}
+
 export function journeysForMood(mood: JourneyMood, limit = 7): Journey[] {
   return JOURNEYS.filter((j) => j.moods.includes(mood)).slice(0, limit);
 }

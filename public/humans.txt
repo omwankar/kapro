@@ -1,0 +1,14 @@
+/* TEAM */
+
+Founder & Managing Director: Jenson Daniel
+Site: Karpo Travel Inc.
+Location: Long Island, New York, USA
+Contact: info@karpotravel.com
+Phone: +1 (516) 969-0000
+
+/* SITE */
+
+Canonical: https://www.karpotravel.com
+Standards: HTML5, schema.org
+Language: en-US
+Established: 2026

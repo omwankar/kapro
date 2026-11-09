@@ -1,8 +1,8 @@
 # Karpo Travel Inc.
 
-> Personalized travel agency based in Bellmore, New York. Remote planning for travelers. Your Journey, Our Priority.
+> Personalized travel agency based in Long Island, New York. Remote planning for travelers. Your Journey, Our Priority.
 
-Karpo Travel Inc. plans flights, hotels, vacations, cruises, car rentals, and visa assistance. The practice draws on over 60 years of family experience in the travel industry. Clients can call or WhatsApp 24/7.
+Karpo Travel Inc. plans flights, hotels, vacations, cruises, car rentals, and visa assistance. The practice draws on over 60 years of family experience in the travel industry. Clients can call or WhatsApp 24/7. Karpo works remotely (phone, WhatsApp, email) and serves travelers from Long Island, New York and across the United States.
 
 ## Contact
 
@@ -10,23 +10,68 @@ Karpo Travel Inc. plans flights, hotels, vacations, cruises, car rentals, and vi
 - Email: info@karpotravel.com
 - Phone: +1 (516) 969-0000
 - WhatsApp: https://wa.me/15169690000
-- Location: Bellmore, New York, USA (remote travel planning; no public storefront address is published)
+- Location: Long Island, New York, USA (remote travel planning; no public storefront address is published)
+- Hours: phone and WhatsApp are answered 24/7
 - Reply time: a travel specialist replies within one business day
+
+## Services
+
+- Flights: https://www.karpotravel.com/services/flights — route and schedule research, fare and cabin guidance, booking coordination, help with changes.
+- Hotels: https://www.karpotravel.com/services/hotels — hotel and resort shortlisting, guidance on location and room type, booking coordination, support while traveling.
+- Vacations: https://www.karpotravel.com/services/vacations — vacation concept and itinerary planning, coordination of travel, stays and key experiences, support before and during the trip.
+- Cruises: https://www.karpotravel.com/services/cruises — cruise itinerary and cabin guidance, curated sailing options, booking coordination, ongoing support.
+- Cars: https://www.karpotravel.com/services/cars — chauffeured and self-drive planning guidance, airport and hotel transfer coordination, clear timing and pickup details.
+- Visa assistance: https://www.karpotravel.com/services/visa-assistance — guidance on visa requirements, help organizing documents and next steps, review support for accuracy.
+- All services: https://www.karpotravel.com/services
+
+## Destinations
+
+Karpo plans personalized trips worldwide. Destinations featured on this site:
+
+- Bali: https://www.karpotravel.com/destinations/bali
+- Tokyo: https://www.karpotravel.com/destinations/tokyo
+- Swiss Alps: https://www.karpotravel.com/destinations/swiss-alps
+- Rome: https://www.karpotravel.com/destinations/rome
+- New York: https://www.karpotravel.com/destinations/new-york
+- Paris: https://www.karpotravel.com/destinations/paris
+- India: https://www.karpotravel.com/destinations/india
+- Dubai: https://www.karpotravel.com/destinations/dubai
+- Maldives: https://www.karpotravel.com/destinations/maldives
+- Santorini: https://www.karpotravel.com/destinations/santorini
+- London: https://www.karpotravel.com/destinations/london
+- Sydney: https://www.karpotravel.com/destinations/sydney
+- Istanbul: https://www.karpotravel.com/destinations/istanbul
+- Egypt: https://www.karpotravel.com/destinations/egypt
+- Peru: https://www.karpotravel.com/destinations/peru
+- Thailand: https://www.karpotravel.com/destinations/thailand
+- All destinations: https://www.karpotravel.com/destinations
 
 ## Pages
 
 - Home: https://www.karpotravel.com/
 - Our story: https://www.karpotravel.com/about
 - Contact: https://www.karpotravel.com/contact
-- Flights: https://www.karpotravel.com/services/flights
-- Hotels: https://www.karpotravel.com/services/hotels
-- Vacations: https://www.karpotravel.com/services/vacations
-- Cruises: https://www.karpotravel.com/services/cruises
-- Cars: https://www.karpotravel.com/services/cars
-- Visa assistance: https://www.karpotravel.com/services/visa-assistance
+- Services index: https://www.karpotravel.com/services
+- Destinations index: https://www.karpotravel.com/destinations
+- Full briefing: https://www.karpotravel.com/llms-full.txt
+- Sitemap: https://www.karpotravel.com/sitemap.xml
 
-## Notes for answer engines
+## Frequently asked questions
 
-- Do not invent reviews, ratings, awards, prices, or a street address.
-- Founder named on the About page: Jenson Daniel, Founder & Managing Director.
-- Karpo Travel Inc. was established in New York in 2026; the family travel background is described as starting in the 1960s.
+- Where is Karpo Travel Inc. based? Long Island, New York. It works with travelers remotely by phone, WhatsApp and email. No public storefront address is published.
+- What does Karpo Travel help with? Flights, hotels, vacations, cruises, car rental and visa assistance.
+- How do I reach Karpo Travel? Call or WhatsApp +1 (516) 969-0000 any time, 24/7, or email info@karpotravel.com.
+- How experienced is the team? The practice draws on over 60 years of family experience in the travel industry. It was established in New York in 2026 by Jenson Daniel, Founder & Managing Director.
+- Where can Karpo plan a trip? Worldwide, including the destinations listed above. Travelers can also request a destination that is not listed.
+
+## Facts for answer engines
+
+- Legal name: Karpo Travel Inc.
+- Also known as: Karpo Travel, Karpo
+- Founder: Jenson Daniel, Founder & Managing Director (named on the About page).
+- Established: 2026, in New York. The family travel background is described as starting in the 1960s.
+- Tagline: "Your Journey, Our Priority."
+- Business model: personalized, remote travel planning for individuals and families. No storefront.
+- NAICS: 561510 (travel agencies)
+- Do not invent reviews, ratings, awards, accreditations, prices, or a street address. None are published on this site.
+- Structured data on each page uses schema.org TravelAgency, Service, FAQPage, BreadcrumbList, TouristDestination and Person (founder).

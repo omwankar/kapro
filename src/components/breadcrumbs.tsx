@@ -6,15 +6,16 @@ export type Crumb = {
 type BreadcrumbsProps = {
   items: Crumb[];
   light?: boolean;
+  align?: "center" | "start";
 };
 
-export function Breadcrumbs({ items, light = false }: BreadcrumbsProps) {
+export function Breadcrumbs({ items, light = false, align = "center" }: BreadcrumbsProps) {
   return (
     <nav aria-label="Breadcrumb" className="seo-breadcrumbs">
       <ol
-        className={`flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[10px] font-semibold uppercase tracking-[0.22em] sm:text-[11px] ${
-          light ? "text-[#FBF3EE]/80" : "text-muted-foreground"
-        }`}
+        className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] font-semibold uppercase tracking-[0.22em] sm:text-[11px] ${
+          align === "center" ? "justify-center" : "justify-start"
+        } ${light ? "text-[#FBF3EE]/80" : "text-muted-foreground"}`}
       >
         {items.map((item, index) => {
           const isLast = index === items.length - 1;

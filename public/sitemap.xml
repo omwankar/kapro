@@ -1,48 +1,222 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.karpotravel.com/</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/og/home.jpg</image:loc>
+      <image:title>Karpo Travel Inc. — Your Journey, Our Priority.</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://www.karpotravel.com/about</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/og/about.jpg</image:loc>
+      <image:title>Our Story — Karpo Travel Inc.</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/contact</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/og/contact.jpg</image:loc>
+      <image:title>Contact Karpo Travel Inc.</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/services</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.karpotravel.com/contact</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
     <loc>https://www.karpotravel.com/services/flights</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.karpotravel.com/services/hotels</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.karpotravel.com/services/vacations</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.karpotravel.com/services/cruises</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.karpotravel.com/services/cars</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.karpotravel.com/services/visa-assistance</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/bali</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/tokyo</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/swiss-alps</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/rome</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/new-york</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/paris</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/images/journeys/paris.webp</image:loc>
+      <image:title>Paris — Evenings under the Eiffel Tower</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/india</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/images/journeys/india.webp</image:loc>
+      <image:title>India — Marble that glows at sunrise</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/dubai</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/images/journeys/dubai.webp</image:loc>
+      <image:title>Dubai — Skylines above the desert</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/maldives</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/images/journeys/maldives.webp</image:loc>
+      <image:title>Maldives — Overwater and endlessly blue</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/santorini</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/images/journeys/santorini.webp</image:loc>
+      <image:title>Santorini — Blue domes, golden sunsets</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/london</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/images/journeys/london.webp</image:loc>
+      <image:title>London — Tower Bridge at blue hour</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/sydney</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/images/journeys/sydney.webp</image:loc>
+      <image:title>Sydney — Harbour lights and opera sails</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/istanbul</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/images/journeys/istanbul.webp</image:loc>
+      <image:title>Istanbul — Where two continents meet</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/egypt</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/images/journeys/egypt.webp</image:loc>
+      <image:title>Egypt — Pyramids at golden hour</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/peru</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/images/journeys/peru.webp</image:loc>
+      <image:title>Peru — Above the clouds in the Andes</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.karpotravel.com/destinations/thailand</loc>
+    <lastmod>2026-11-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://www.karpotravel.com/images/journeys/thailand.webp</image:loc>
+      <image:title>Thailand — Temples, tides and street food</image:title>
+    </image:image>
   </url>
 </urlset>

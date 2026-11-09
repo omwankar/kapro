@@ -9,6 +9,7 @@ import {
 } from "framer-motion";
 
 import ctaWhereNextImg from "@/assets/journeys/cta_where_next.jpg";
+import { JOURNEYS, journeySlug } from "@/data/journeys";
 import { SERVICES_NAV } from "@/data/services";
 
 export const EMBLEM_SRC = "/images/karpo-emblem-only.png";
@@ -101,7 +102,8 @@ export function Nav() {
 
   const solid = scrolled || menuOpen || !pathnameIsHero(pathname);
   const homeHref = pathname === "/" ? "#top" : "/";
-  const onServicePage = pathname.startsWith("/services/");
+  const onServicePage = pathname.startsWith("/services");
+  const onDestinationsPage = pathname.startsWith("/destinations");
   const aboutActive = pathname === "/about";
   const contactActive = pathname === "/contact";
 
@@ -138,8 +140,8 @@ export function Nav() {
             onMouseEnter={() => setServicesOpen(true)}
             onMouseLeave={() => setServicesOpen(false)}
           >
-            <a
-              href="/#services"
+            <Link
+              to="/services"
               className="accent-nav-link inline-flex items-center gap-1.5"
               aria-expanded={servicesOpen}
               aria-haspopup="true"
@@ -150,7 +152,7 @@ export function Nav() {
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
-            </a>
+            </Link>
             <div className={`nav-services-panel ${servicesOpen ? "is-open" : ""}`}>
               <ul>
                 {SERVICES.map((s) => {
@@ -174,6 +176,13 @@ export function Nav() {
             </div>
           </div>
 
+          <Link
+            to="/destinations"
+            className="accent-nav-link"
+            aria-current={onDestinationsPage ? "page" : undefined}
+          >
+            Destinations
+          </Link>
           <Link
             to="/about"
             className="accent-nav-link"
@@ -246,6 +255,16 @@ export function Nav() {
               </button>
               {servicesOpen ? (
                 <ul className="mb-2 ml-2 border-l border-border pl-3">
+                  <li>
+                    <Link
+                      to="/services"
+                      className="flex min-h-10 items-center rounded-lg px-3 text-[14px] font-medium text-ink"
+                      aria-current={pathname === "/services" ? "page" : undefined}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      All services
+                    </Link>
+                  </li>
                   {SERVICES.map((s) => (
                     <li key={s.slug}>
                       <Link
@@ -261,6 +280,16 @@ export function Nav() {
                   ))}
                 </ul>
               ) : null}
+            </li>
+            <li>
+              <Link
+                to="/destinations"
+                className="accent-nav-link flex min-h-11 items-center rounded-lg px-3 font-medium text-ink"
+                aria-current={onDestinationsPage ? "page" : undefined}
+                onClick={() => setMenuOpen(false)}
+              >
+                Destinations
+              </Link>
             </li>
             <li>
               <Link
@@ -294,7 +323,8 @@ function pathnameIsHero(pathname: string) {
     pathname === "/" ||
     pathname === "/about" ||
     pathname === "/contact" ||
-    pathname.startsWith("/services/")
+    pathname.startsWith("/services/") ||
+    pathname.startsWith("/destinations/")
   );
 }
 
@@ -446,6 +476,40 @@ export function Footer() {
                   </li>
                   );
                 })}
+                <li>
+                  <a
+                    href="/services"
+                    className="transition-colors duration-300 hover:text-white"
+                  >
+                    All services
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-gold">
+                Destinations
+              </h4>
+              <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2 text-[15px] text-ivory/85">
+                {JOURNEYS.map((journey) => (
+                  <li key={journey.code}>
+                    <a
+                      href={`/destinations/${journeySlug(journey)}`}
+                      className="transition-colors duration-300 hover:text-white"
+                    >
+                      {journey.name}
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <a
+                    href="/destinations"
+                    className="transition-colors duration-300 hover:text-white"
+                  >
+                    All destinations
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

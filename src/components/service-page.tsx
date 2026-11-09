@@ -18,9 +18,10 @@ import {
 } from "lucide-react";
 
 import type { ServiceContent, ServiceIconName } from "@/data/services";
+import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
 import { SERVICES_NAV } from "@/data/services";
-import { serviceJsonLd } from "@/lib/seo";
+import { serviceFaq, serviceJsonLd } from "@/lib/seo";
 import {
   CtaBand,
   Eyebrow,
@@ -54,6 +55,7 @@ const SERVICE_ICONS: Record<ServiceIconName, LucideIcon> = {
 };
 
 export function ServicePage({ service }: { service: ServiceContent }) {
+  const faq = serviceFaq(service);
   return (
     <main className="bg-background font-sans">
       <JsonLd
@@ -61,6 +63,7 @@ export function ServicePage({ service }: { service: ServiceContent }) {
           title: service.title,
           slug: service.slug,
           description: service.metaDescription,
+          faq,
         })}
       />
       <ScrollProgress />
@@ -70,6 +73,10 @@ export function ServicePage({ service }: { service: ServiceContent }) {
       <ServiceBenefits service={service} />
       <ServiceIncluded service={service} />
       <ServiceWhy service={service} />
+      <FaqSection
+        heading={`${service.title}: common questions`}
+        items={faq}
+      />
       <ServiceSiblingNav current={service.slug} />
       <CtaBand />
       <Footer />
@@ -101,17 +108,26 @@ function ServiceHero({ service }: { service: ServiceContent }) {
 
       <div className="content-shell relative z-10 w-full px-4 pb-14 pt-[9.5rem] sm:px-6 sm:pb-16 sm:pt-[10.5rem] md:px-8">
         <Reveal>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#FBF3EE]/80 sm:text-[11px]">
-            <Link to="/" className="transition-colors hover:text-[#FBF3EE]">
-              Home
-            </Link>
-            <span aria-hidden="true"> / </span>
-            <a href="/#services" className="transition-colors hover:text-[#FBF3EE]">
-              Services
-            </a>
-            <span aria-hidden="true"> / </span>
-            <span>{service.title}</span>
-          </p>
+          <nav
+            aria-label="Breadcrumb"
+            className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#FBF3EE]/80 sm:text-[11px]"
+          >
+            <ol className="flex flex-wrap items-center gap-x-2">
+              <li>
+                <Link to="/" className="transition-colors hover:text-[#FBF3EE]">
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li>
+                <Link to="/services" className="transition-colors hover:text-[#FBF3EE]">
+                  Services
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li aria-current="page">{service.title}</li>
+            </ol>
+          </nav>
           <div className="mt-6">
             <Eyebrow light>{service.eyebrow}</Eyebrow>
           </div>
@@ -308,7 +324,7 @@ function ServiceSiblingNav({ current }: { current: string }) {
                 <div className="service-sibling-thumb">
                   <img
                     src={s.img}
-                    alt={s.title}
+                    alt={`${s.title} — ${s.line}`}
                     width={120}
                     height={90}
                     loading="lazy"
