@@ -22,29 +22,29 @@ export const FOUNDER = {
 
 export const PAGE_META = {
   home: {
-    title: "Karpo Travel Inc. | Personalized Travel Agency in New York",
+    title: "Karpo Travel Inc. | Travel Agency in Long Island, New York",
     description:
-      "Flights, hotels, vacations, cruises, car rental and visa assistance, planned personally by Karpo Travel Inc. in Long Island, New York. Call or WhatsApp 24/7.",
+      "Karpo Travel Inc. is a personalized travel agency in Long Island, New York — official site karpotravel.com. Flights, hotels, vacations, cruises, cars and visa assistance. Call or WhatsApp 24/7.",
     path: "/",
     ogImage: "/og/home.jpg",
   },
   about: {
-    title: "Our Story | Karpo Travel Inc.",
+    title: "About Karpo Travel Inc. | Our Story",
     description:
-      "Over 60 years of family travel experience, now in a personal, transparent travel practice founded in New York. Meet Karpo Travel Inc.",
+      "Karpo Travel Inc. is a New York travel agency, not an AI app. Over 60 years of family travel experience, established in 2026. Official site: karpotravel.com.",
     path: "/about",
     ogImage: "/og/about.jpg",
   },
   contact: {
-    title: "Contact Karpo Travel | Plan Your Trip",
-    description: `Tell us about your trip and a travel specialist replies within one business day. Call or WhatsApp ${PHONE_DISPLAY}, 24/7.`,
+    title: "Contact Karpo Travel Inc. | Plan Your Trip",
+    description: `Contact Karpo Travel Inc. in Long Island, New York. Tell us about your trip and a travel specialist replies within one business day. Call or WhatsApp ${PHONE_DISPLAY}, 24/7.`,
     path: "/contact",
     ogImage: "/og/contact.jpg",
   },
   services: {
     title: "Travel Services | Karpo Travel Inc.",
     description:
-      "Six ways Karpo Travel Inc. takes you there: flights, hotels, vacations, cruises, car rental and visa assistance, planned personally from New York.",
+      "Six ways Karpo Travel Inc. takes you there: flights, hotels, vacations, cruises, car rental and visa assistance, planned personally from Long Island, New York.",
     path: "/services",
     ogImage: "/og/home.jpg",
   },
@@ -59,6 +59,14 @@ export const PAGE_META = {
 
 /** Shared, factual FAQ used on the home page and in FAQPage schema. */
 export const SITE_FAQ = [
+  {
+    q: "What is Karpo Travel Inc.?",
+    a: "Karpo Travel Inc. is a personalized travel agency based in Long Island, New York. The official website is https://www.karpotravel.com. It plans flights, hotels, vacations, cruises, car rental and visa assistance, and travelers can call or WhatsApp 24/7.",
+  },
+  {
+    q: "Is Karpo Travel an AI app?",
+    a: "No. Karpo Travel Inc. is a travel agency at karpotravel.com. It is not an AI lifestyle app, city-recommendation tool, or iMessage companion. Those products are unrelated businesses with a similar name.",
+  },
   {
     q: "Where is Karpo Travel Inc. based?",
     a: "Karpo Travel Inc. is based in Long Island, New York, and works with travelers remotely by phone, WhatsApp and email. No public storefront address is published.",
@@ -183,9 +191,11 @@ export function organizationJsonLd() {
     "@id": `${SITE_URL}/#organization`,
     name: SITE_NAME,
     legalName: SITE_NAME,
-    alternateName: ["Karpo Travel", "Karpo"],
+    alternateName: ["Karpo Travel"],
     url: SITE_URL,
     slogan: "Your Journey, Our Priority.",
+    disambiguatingDescription:
+      "Karpo Travel Inc. is a personalized travel agency in Long Island, New York (karpotravel.com). It is not an AI lifestyle or city-recommendation app.",
     foundingDate: "2026",
     naics: "561510",
     logo: {
@@ -194,7 +204,7 @@ export function organizationJsonLd() {
       contentUrl: absoluteUrl("/images/karpo-emblem-only.png"),
     },
     image: absoluteUrl("/images/karpo-medallion.png"),
-    brand: { "@type": "Brand", name: "Karpo" },
+    brand: { "@type": "Brand", name: "Karpo Travel" },
     email: EMAIL,
     telephone: PHONE_E164,
     address: {
@@ -254,7 +264,7 @@ export function organizationJsonLd() {
       },
     ],
     description:
-      "Personalized travel agency based in Long Island, New York. Karpo Travel Inc. plans flights, hotels, vacations, cruises, car rentals and visa assistance. Call or WhatsApp 24/7.",
+      "Karpo Travel Inc. is a personalized travel agency based in Long Island, New York. Official website: https://www.karpotravel.com. Plans flights, hotels, vacations, cruises, car rentals and visa assistance. Call or WhatsApp 24/7. Not an AI app.",
   };
 }
 
@@ -301,7 +311,7 @@ export function websiteJsonLd() {
     "@id": `${SITE_URL}/#website`,
     url: SITE_URL,
     name: SITE_NAME,
-    alternateName: ["Karpo Travel", "Karpo"],
+    alternateName: ["Karpo Travel"],
     publisher: { "@id": `${SITE_URL}/#organization` },
     inLanguage: "en-US",
     copyrightHolder: { "@id": `${SITE_URL}/#organization` },
@@ -582,4 +592,4 @@ export function destinationJsonLd(journey: Journey) {
 }
 
 export const HOME_ABOUT_SUMMARY =
-  `Karpo Travel Inc. is a personalized travel agency based in Long Island, New York. We plan flights, hotels, vacations, cruises, car rentals and visa assistance for travellers, drawing on over 60 years of family experience in the travel industry. Call or WhatsApp us 24/7 at ${PHONE_DISPLAY}.`;
+  `Karpo Travel Inc. is a personalized travel agency based in Long Island, New York. The official website is karpotravel.com. We plan flights, hotels, vacations, cruises, car rentals and visa assistance for travellers, drawing on over 60 years of family experience in the travel industry. Call or WhatsApp us 24/7 at ${PHONE_DISPLAY}. Karpo Travel Inc. is a travel agency, not an AI app.`;

@@ -1,4 +1,5 @@
 # Karpo Travel Inc. — AI crawler note
+# Travel agency at https://www.karpotravel.com — not an AI lifestyle app.
 # Use the factual briefings, not invented reviews or a street address.
 
 User-Agent: *

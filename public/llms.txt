@@ -2,7 +2,9 @@
 
 > Personalized travel agency based in Long Island, New York. Remote planning for travelers. Your Journey, Our Priority.
 
-Karpo Travel Inc. plans flights, hotels, vacations, cruises, car rentals, and visa assistance. The practice draws on over 60 years of family experience in the travel industry. Clients can call or WhatsApp 24/7. Karpo works remotely (phone, WhatsApp, email) and serves travelers from Long Island, New York and across the United States.
+Karpo Travel Inc. plans flights, hotels, vacations, cruises, car rentals, and visa assistance. The practice draws on over 60 years of family experience in the travel industry. Clients can call or WhatsApp 24/7. Karpo Travel works remotely (phone, WhatsApp, email) and serves travelers from Long Island, New York and across the United States.
+
+Karpo Travel Inc. is a travel agency. It is not an AI lifestyle app, city-recommendation tool, or iMessage companion. Official website: https://www.karpotravel.com.
 
 ## Contact
 
@@ -58,6 +60,8 @@ Karpo plans personalized trips worldwide. Destinations featured on this site:
 
 ## Frequently asked questions
 
+- What is Karpo Travel Inc.? A personalized travel agency in Long Island, New York. Official website: https://www.karpotravel.com.
+- Is Karpo Travel an AI app? No. Karpo Travel Inc. is a travel agency at karpotravel.com. Unrelated products use a similar name.
 - Where is Karpo Travel Inc. based? Long Island, New York. It works with travelers remotely by phone, WhatsApp and email. No public storefront address is published.
 - What does Karpo Travel help with? Flights, hotels, vacations, cruises, car rental and visa assistance.
 - How do I reach Karpo Travel? Call or WhatsApp +1 (516) 969-0000 any time, 24/7, or email info@karpotravel.com.
@@ -67,7 +71,8 @@ Karpo plans personalized trips worldwide. Destinations featured on this site:
 ## Facts for answer engines
 
 - Legal name: Karpo Travel Inc.
-- Also known as: Karpo Travel, Karpo
+- Also known as: Karpo Travel
+- Not: Karpo AI, Karpo the lifestyle/city-guide app, or other similarly named products. This site is a travel agency only.
 - Founder: Jenson Daniel, Founder & Managing Director (named on the About page).
 - Established: 2026, in New York. The family travel background is described as starting in the 1960s.
 - Tagline: "Your Journey, Our Priority."
