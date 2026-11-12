@@ -26,8 +26,6 @@ import {
   WHATSAPP,
 } from "@/components/site-chrome";
 import { FaqSection } from "@/components/faq-section";
-import { destinationPath, getJourneyBySlug } from "@/data/journeys";
-import { TRAVEL_NOTES } from "@/data/travel-notes";
 import {
   HOME_ABOUT_SUMMARY,
   PAGE_META,
@@ -65,7 +63,6 @@ function Index() {
       <Marquee />
       <Services />
       <DepartureHall />
-      <TravelNotes />
       <Founder />
       <FaqSection
         alt
@@ -322,126 +319,6 @@ function Services() {
             </a>
           </p>
         </Reveal>
-      </div>
-    </section>
-  );
-}
-
-/* ---------------- Traveler notes ---------------- */
-
-function TravelNotes() {
-  const [featured, ...others] = TRAVEL_NOTES;
-  const featuredJourney = getJourneyBySlug(featured.destinationSlug);
-
-  return (
-    <section
-      id="notes"
-      className="defer-paint scroll-mt-24 border-b border-border bg-[var(--bg-alt)]"
-      aria-labelledby="travel-notes-heading"
-    >
-      <div className="content-shell section-pad px-4 sm:px-6 md:px-8">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <Eyebrow>From our travelers</Eyebrow>
-          <h2
-            id="travel-notes-heading"
-            className="mt-4 font-display text-[clamp(2rem,5vw,3.75rem)] font-medium text-ink"
-          >
-            After the trip, this is what we{" "}
-            <span className="italic text-red-500">hear</span>
-          </h2>
-          <p className="mx-auto mt-5 max-w-[52ch] text-[15px] leading-relaxed text-muted-foreground sm:text-[17px]">
-            Notes from people we plan with on Long Island — the kind of thing they
-            tell a friend, not a star rating.
-          </p>
-        </Reveal>
-
-        <Reveal className="home-notes-featured mt-12 sm:mt-16" delay={0.06}>
-          <div className="home-notes-featured-photo">
-            {featuredJourney ? (
-              <img
-                src={featuredJourney.image}
-                alt={`${featuredJourney.name} — ${featuredJourney.tagline}`}
-                width={900}
-                height={720}
-                loading="lazy"
-                decoding="async"
-                style={{ objectPosition: featuredJourney.focus }}
-              />
-            ) : null}
-          </div>
-          <blockquote className="home-notes-featured-copy">
-            <span className="home-notes-mark" aria-hidden="true">
-              “
-            </span>
-            <p className="font-display text-[clamp(1.35rem,2.4vw,1.85rem)] font-medium italic leading-snug text-ink">
-              {featured.quote}
-            </p>
-            <footer className="mt-8">
-              <div className="h-px w-10 bg-gold" aria-hidden="true" />
-              <p className="mt-5 font-display text-[1.25rem] font-medium text-ink">
-                {featured.name}
-              </p>
-              <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-red-600">
-                {featured.from}
-                <span aria-hidden="true"> · </span>
-                {featuredJourney ? (
-                  <a href={destinationPath(featuredJourney)}>{featured.destination}</a>
-                ) : (
-                  featured.destination
-                )}
-                <span aria-hidden="true"> · </span>
-                {featured.trip}
-              </p>
-            </footer>
-          </blockquote>
-        </Reveal>
-
-        <ul className="home-notes-grid mt-6 sm:mt-8">
-          {others.map((note, i) => {
-            const destJourney = getJourneyBySlug(note.destinationSlug);
-            return (
-              <li key={note.name}>
-                <Reveal delay={i * 0.08}>
-                  <figure className="home-notes-card">
-                    <div className="home-notes-card-thumb">
-                      {destJourney ? (
-                        <img
-                          src={destJourney.image}
-                          alt={`${destJourney.name} — ${destJourney.tagline}`}
-                          width={640}
-                          height={360}
-                          loading="lazy"
-                          decoding="async"
-                          style={{ objectPosition: destJourney.focus }}
-                        />
-                      ) : null}
-                    </div>
-                    <div className="home-notes-card-body">
-                      <blockquote>
-                        <p>{note.quote}</p>
-                      </blockquote>
-                      <figcaption className="mt-6">
-                        <div className="h-px w-8 bg-gold" aria-hidden="true" />
-                        <p className="mt-4 font-display text-[1.15rem] font-medium text-ink">
-                          {note.name}
-                        </p>
-                        <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-red-600">
-                          {note.from}
-                          <span aria-hidden="true"> · </span>
-                          {destJourney ? (
-                            <a href={destinationPath(destJourney)}>{note.destination}</a>
-                          ) : (
-                            note.destination
-                          )}
-                        </p>
-                      </figcaption>
-                    </div>
-                  </figure>
-                </Reveal>
-              </li>
-            );
-          })}
-        </ul>
       </div>
     </section>
   );
