@@ -27,7 +27,6 @@ import {
 } from "@/components/site-chrome";
 import { FaqSection } from "@/components/faq-section";
 import {
-  HOME_ABOUT_SUMMARY,
   PAGE_META,
   SITE_FAQ,
   buildPageHead,
@@ -59,7 +58,6 @@ function Index() {
       <ScrollProgress />
       <Nav />
       <Hero />
-      <AboutKarpoSummary />
       <Marquee />
       <Services />
       <DepartureHall />
@@ -74,27 +72,6 @@ function Index() {
       <ContactSection />
       <Footer />
     </main>
-  );
-}
-
-function AboutKarpoSummary() {
-  return (
-    <section
-      className="border-b border-border bg-background px-4 py-10 sm:px-6 sm:py-12 md:px-8"
-      aria-labelledby="about-karpo-summary-heading"
-    >
-      <div className="content-shell mx-auto max-w-3xl text-center">
-        <h2
-          id="about-karpo-summary-heading"
-          className="font-display text-[clamp(1.5rem,3vw,2rem)] font-medium text-ink"
-        >
-          About Karpo Travel
-        </h2>
-        <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground sm:text-base">
-          {HOME_ABOUT_SUMMARY}
-        </p>
-      </div>
-    </section>
   );
 }
 
@@ -174,7 +151,7 @@ function Hero() {
 
       <motion.div
         style={reduceMotion ? undefined : { y: textY, opacity: fade }}
-        className="hero-text-scrim relative z-10 flex h-full flex-col items-center justify-center px-4 pb-16 pt-36 text-center sm:px-5 sm:pt-40"
+        className="hero-text-scrim relative z-10 flex h-full flex-col items-center justify-center px-4 pb-28 pt-36 text-center sm:px-5 sm:pb-32 sm:pt-40"
       >
         <div
           className="intro-enter flex flex-col items-center"
@@ -226,12 +203,12 @@ function Hero() {
       <motion.a
         href="#services"
         style={reduceMotion ? undefined : { opacity: fade }}
-        className="scroll-cue absolute bottom-5 left-1/2 z-10 -translate-x-1/2 text-ivory/80 sm:bottom-8"
-        aria-label="Scroll down"
+        className="scroll-cue"
       >
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <span className="scroll-cue-label">Scroll down</span>
+        <span className="scroll-cue-mouse" aria-hidden="true">
+          <span className="scroll-cue-wheel" />
+        </span>
       </motion.a>
     </section>
   );

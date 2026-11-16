@@ -46,6 +46,8 @@ type TripFormProps = {
   successBody?: string;
   /** Kept for API compat; layout always shows the left summary column. */
   showTipsCard?: boolean;
+  /** Pre-select a service (used on service pages). */
+  initialService?: ServiceId;
 };
 
 function dash(value: string) {
@@ -213,11 +215,12 @@ export function TripForm({
   successTitle = "Thanks, we've got your message.",
   successBody = "We'll reply within one business day.",
   showTipsCard = true,
+  initialService,
 }: TripFormProps) {
   const submissionInProgress = useRef(false);
   const prefillApplied = useRef(false);
 
-  const [serviceId, setServiceId] = useState<ServiceId | "">("");
+  const [serviceId, setServiceId] = useState<ServiceId | "">(initialService ?? "");
   const [shared, setShared] = useState<SharedValues>({
     name: "",
     email: "",
@@ -225,7 +228,12 @@ export function TripForm({
     preferredContact: "Email",
     message: "",
   });
-  const [serviceStore, setServiceStore] = useState<Partial<Record<ServiceId, Record<string, unknown>>>>({});
+  const [serviceStore, setServiceStore] = useState<Partial<Record<ServiceId, Record<string, unknown>>>>(
+    () =>
+      initialService
+        ? { [initialService]: defaultServiceValues(initialService) }
+        : {},
+  );
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -254,10 +262,18 @@ export function TripForm({
         };
         if (draft.shared) setShared(draft.shared);
         if (draft.serviceStore) setServiceStore(draft.serviceStore);
-        if (draft.serviceId) setServiceId(draft.serviceId);
+        if (draft.serviceId && !initialService) setServiceId(draft.serviceId);
       }
     } catch {
       /* ignore */
+    }
+
+    if (initialService) {
+      setServiceId(initialService);
+      setServiceStore((current) => ({
+        ...current,
+        [initialService]: current[initialService] ?? defaultServiceValues(initialService),
+      }));
     }
 
     if (service) {

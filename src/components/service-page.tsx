@@ -20,24 +20,19 @@ import {
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { FaqSection } from "@/components/faq-section";
 import { JsonLd } from "@/components/json-ld";
+import { TripForm } from "@/components/trip-form";
 import { JOURNEYS, destinationPath } from "@/data/journeys";
 import type { ServiceContent, ServiceIconName } from "@/data/services";
 import { SERVICES_NAV } from "@/data/services";
 import { serviceFaq, serviceJsonLd } from "@/lib/seo";
 import {
-  CtaBand,
   Eyebrow,
   Footer,
   Nav,
   Reveal,
   ScrollProgress,
 } from "@/components/site-chrome";
-import { serviceContactHref, slugToServiceId } from "@/data/trip-services";
-
-function contactHrefForService(slug: string) {
-  const id = slugToServiceId(slug);
-  return id ? serviceContactHref(id) : "/contact";
-}
+import { slugToServiceId, type ServiceId } from "@/data/trip-services";
 
 const SERVICE_ICONS: Record<ServiceIconName, LucideIcon> = {
   route: Route,
@@ -58,6 +53,7 @@ const SERVICE_ICONS: Record<ServiceIconName, LucideIcon> = {
 
 export function ServicePage({ service }: { service: ServiceContent }) {
   const faq = serviceFaq(service);
+  const formService = slugToServiceId(service.slug);
   return (
     <main className="bg-background font-sans">
       <JsonLd
@@ -71,16 +67,13 @@ export function ServicePage({ service }: { service: ServiceContent }) {
       <ScrollProgress />
       <Nav />
       <ServiceHero service={service} />
-      <ServiceIntro service={service} />
-      <ServiceBenefits service={service} />
-      <ServiceIncluded service={service} />
-      <ServiceWhy service={service} />
+      <ServicePlan service={service} formService={formService} />
+      <ServiceSupport service={service} />
       <FaqSection
         heading={`${service.title}: common questions`}
         items={faq}
       />
       <ServiceSiblingNav current={service.slug} />
-      <CtaBand />
       <Footer />
     </main>
   );
@@ -130,15 +123,9 @@ function ServiceHero({ service }: { service: ServiceContent }) {
             {service.line}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a href={contactHrefForService(service.slug)} className="accent-button-on-red rounded-full px-7 py-3.5 text-[11px] font-semibold uppercase sm:text-xs">
+            <a href="#plan" className="accent-button-on-red rounded-full px-7 py-3.5 text-[11px] font-semibold uppercase sm:text-xs">
               {service.ctaLabel}
             </a>
-            <a
-              href={contactHrefForService(service.slug)}
-              className="accent-outline-light rounded-full px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] sm:text-xs"
-            >
-              Get a quote
-            </a>
           </div>
         </Reveal>
       </div>
@@ -146,153 +133,124 @@ function ServiceHero({ service }: { service: ServiceContent }) {
   );
 }
 
-function ServiceIntro({ service }: { service: ServiceContent }) {
+function ServicePlan({
+  service,
+  formService,
+}: {
+  service: ServiceContent;
+  formService: ServiceId | "";
+}) {
   return (
-    <section className="service-section bg-background">
-      <div className="content-shell px-4 sm:px-6 md:px-8">
-        <div className="service-intro-grid">
-          <Reveal>
-            <Eyebrow>How we help</Eyebrow>
-            <h2 className="mt-4 font-display text-[clamp(1.85rem,3.5vw,2.75rem)] font-medium leading-[1.12] text-ink">
-              Personalized {service.title.toLowerCase()}, planned with care
-            </h2>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <div className="service-intro-copy space-y-5">
-              {service.intro.map((paragraph) => (
-                <p key={paragraph.slice(0, 24)}>{paragraph}</p>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ServiceBenefits({ service }: { service: ServiceContent }) {
-  return (
-    <section className="service-section bg-[var(--bg-alt)]">
+    <section
+      id="plan"
+      className="service-plan"
+      aria-labelledby="service-plan-heading"
+    >
       <div className="content-shell px-4 sm:px-6 md:px-8">
         <Reveal>
-          <div className="max-w-2xl">
-            <Eyebrow>What you can expect</Eyebrow>
-            <h2 className="mt-4 font-display text-[clamp(1.85rem,3.5vw,2.75rem)] font-medium text-ink">
-              Built around reliability and detail
+          <div className="mx-auto mb-8 max-w-2xl text-center md:mb-10">
+            <Eyebrow>Start here</Eyebrow>
+            <h2
+              id="service-plan-heading"
+              className="mt-4 font-display text-[clamp(1.85rem,3.5vw,2.75rem)] font-medium text-ink"
+            >
+              {service.ctaLabel}
+            </h2>
+            <p className="mx-auto mt-4 max-w-[52ch] text-[15px] leading-relaxed text-muted-foreground sm:text-[16px]">
+              {service.intro[0]}
+            </p>
+          </div>
+        </Reveal>
+        <Reveal delay={0.06}>
+          <TripForm
+            idPrefix={`service-${service.slug}`}
+            initialService={formService || undefined}
+            successTitle="Thanks — a specialist will follow up on this request."
+            successBody="We'll reply within one business day with options for your trip."
+          />
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function ServiceSupport({ service }: { service: ServiceContent }) {
+  return (
+    <section className="service-section service-section--tight bg-background">
+      <div className="content-shell px-4 sm:px-6 md:px-8">
+        <Reveal>
+          <div className="mx-auto max-w-2xl text-center">
+            <Eyebrow>How we help</Eyebrow>
+            <h2 className="mt-4 font-display text-[clamp(1.75rem,3.2vw,2.5rem)] font-medium text-ink">
+              {service.title} planned around you
             </h2>
           </div>
         </Reveal>
 
-        <div className="service-benefit-grid mt-12 sm:mt-14">
+        <ul className="service-support-benefits">
           {service.benefits.map((item, i) => {
             const Icon = SERVICE_ICONS[item.icon];
             return (
-            <Reveal key={item.title} delay={i * 0.06}>
-              <article className="service-benefit-card">
-                <div className="service-benefit-icon" aria-hidden="true">
-                  <Icon size={22} strokeWidth={1.6} />
-                </div>
-                <h3 className="mt-5 font-display text-[1.25rem] font-medium text-ink">
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
-                  {item.body}
-                </p>
-              </article>
-            </Reveal>
+              <li key={item.title}>
+                <Reveal delay={i * 0.05}>
+                  <article className="service-support-card">
+                    <div className="service-benefit-icon" aria-hidden="true">
+                      <Icon size={20} strokeWidth={1.6} />
+                    </div>
+                    <h3 className="mt-4 font-display text-[1.15rem] font-medium text-ink">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-[14px] leading-relaxed text-muted-foreground">
+                      {item.body}
+                    </p>
+                  </article>
+                </Reveal>
+              </li>
             );
           })}
-        </div>
-      </div>
-    </section>
-  );
-}
+        </ul>
 
-function ServiceIncluded({ service }: { service: ServiceContent }) {
-  return (
-    <section className="service-section bg-background">
-      <div className="content-shell px-4 sm:px-6 md:px-8">
-        <div className="service-included-grid">
-          <div>
-            <Reveal>
-              <Eyebrow>How it works</Eyebrow>
-              <h2 className="mt-4 font-display text-[clamp(1.85rem,3.5vw,2.75rem)] font-medium text-ink">
-                A clear path from inquiry to confirmation
-              </h2>
-            </Reveal>
-            <ol className="service-steps mt-10">
-              {service.steps.map((step, i) => (
-                <Reveal key={step.title} delay={i * 0.06}>
-                  <li className="service-step">
-                    <span className="service-step-num" aria-hidden="true">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <div>
-                      <h3 className="font-display text-[1.2rem] font-medium text-ink">
-                        {step.title}
-                      </h3>
-                      <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-                        {step.body}
-                      </p>
-                    </div>
-                  </li>
-                </Reveal>
+        <div className="service-support-split">
+          <ol className="service-steps service-steps--compact">
+            {service.steps.map((step, i) => (
+              <li key={step.title} className="service-step">
+                <span className="service-step-num" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="font-display text-[1.15rem] font-medium text-ink">
+                    {step.title}
+                  </h3>
+                  <p className="mt-1.5 text-[14px] leading-relaxed text-muted-foreground">
+                    {step.body}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <aside className="service-included-card">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-red-600">
+              What’s included
+            </p>
+            <ul className="mt-5 space-y-3">
+              {service.included.map((item) => (
+                <li key={item} className="flex gap-3 text-[14px] leading-relaxed text-ink">
+                  <span className="service-included-check" aria-hidden="true">
+                    <Check size={14} strokeWidth={2.2} />
+                  </span>
+                  <span>{item}</span>
+                </li>
               ))}
-            </ol>
-          </div>
-
-          <Reveal delay={0.1}>
-            <aside className="service-included-card">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-red-600">
-                What’s included
-              </p>
-              <ul className="mt-6 space-y-4">
-                {service.included.map((item) => (
-                  <li key={item} className="flex gap-3 text-[15px] leading-relaxed text-ink">
-                    <span className="service-included-check" aria-hidden="true">
-                      <Check size={14} strokeWidth={2.2} />
-                    </span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={contactHrefForService(service.slug)}
-                className="accent-button mt-8 inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-center text-[11px] font-semibold uppercase sm:text-xs"
-              >
-                {service.ctaLabel}
-              </a>
-            </aside>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ServiceWhy({ service }: { service: ServiceContent }) {
-  return (
-    <section className="service-section bg-[var(--bg-alt)]">
-      <div className="content-shell px-4 sm:px-6 md:px-8">
-        <Reveal>
-          <div className="service-why-card mx-auto max-w-3xl text-center">
-            <Eyebrow>Why choose Karpo</Eyebrow>
-            <p className="mt-5 font-display text-[clamp(1.35rem,2.8vw,1.85rem)] font-medium leading-snug text-ink">
-              {service.whyKarpo}
-            </p>
-            <div className="mx-auto mt-8 h-px w-10 bg-gold" aria-hidden="true" />
-            <p className="mt-6 text-[15px] leading-relaxed text-muted-foreground">
-              Personalized planning, transparent recommendations, and support by call or
-              WhatsApp, 24/7.
-            </p>
+            </ul>
             <a
-              href={contactHrefForService(service.slug)}
-              className="accent-button mt-8 inline-flex rounded-full px-8 py-3.5 text-[11px] font-semibold uppercase sm:text-xs"
+              href="#plan"
+              className="accent-button mt-7 inline-flex w-full items-center justify-center rounded-full px-6 py-3.5 text-center text-[11px] font-semibold uppercase sm:text-xs"
             >
-              Plan my trip
+              {service.ctaLabel}
             </a>
-          </div>
-        </Reveal>
+          </aside>
+        </div>
       </div>
     </section>
   );

@@ -69,7 +69,7 @@ export const SITE_FAQ = [
   },
   {
     q: "Where is Karpo Travel Inc. based?",
-    a: "Karpo Travel Inc. is based in Long Island, New York, and works with travelers remotely by phone, WhatsApp and email. No public storefront address is published.",
+    a: "Karpo Travel Inc. is based in Long Island, New York.",
   },
   {
     q: "What does Karpo Travel help with?",
