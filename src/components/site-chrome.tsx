@@ -39,7 +39,8 @@ Travel dates:
 Number of travelers:
 
 Thank you.`;
-export const EMAIL_COMPOSE = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL)}&su=${encodeURIComponent(EMAIL_SUBJECT)}&body=${encodeURIComponent(EMAIL_BODY)}`;
+export const EMAIL_MAILTO = `mailto:${EMAIL}?subject=${encodeURIComponent(EMAIL_SUBJECT)}&body=${encodeURIComponent(EMAIL_BODY)}`;
+export const EMAIL_GMAIL = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(EMAIL)}&su=${encodeURIComponent(EMAIL_SUBJECT)}&body=${encodeURIComponent(EMAIL_BODY)}`;
 export const ADDRESS = "Long Island, New York, USA";
 
 export const EASE = [0.22, 1, 0.36, 1] as const;
@@ -671,12 +672,18 @@ export function WhatsAppFab() {
         <div className="site-fab-rule" aria-hidden="true" />
         <div className="site-fab-contact">
           <a
-            href={EMAIL_COMPOSE}
+            href={EMAIL_MAILTO}
             className="email-fab"
-            target="_blank"
-            rel="noreferrer"
             aria-label="Email Karpo Travel Inc. at info@karpotravel.com"
             title="Email us"
+            onClick={(event) => {
+              const usePhoneMailApp =
+                window.matchMedia("(max-width: 767.98px)").matches ||
+                window.matchMedia("(pointer: coarse)").matches;
+              if (usePhoneMailApp) return;
+              event.preventDefault();
+              window.open(EMAIL_GMAIL, "_blank", "noopener,noreferrer");
+            }}
           >
             <Mail strokeWidth={1.8} aria-hidden="true" />
           </a>
