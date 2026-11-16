@@ -45,8 +45,8 @@ function DestinationsHubPage() {
               Destinations, planned personally
             </h1>
             <p className="mt-5 max-w-[56ch] text-[15px] leading-relaxed text-muted-foreground sm:text-[17px]">
-              Karpo Travel Inc. plans personalized trips worldwide from Long Island,
-              New York — flights, hotels and itineraries around how you like to travel.
+              Karpo Travel Inc. plans personalized trips from any place to any place —
+              flights, hotels and itineraries around how you like to travel.
               These are destinations featured in our gallery. Tell us where you want to go.
             </p>
           </Reveal>

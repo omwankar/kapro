@@ -182,7 +182,8 @@ function DestinationIntro({ journey }: { journey: Journey }) {
             <div className="service-intro-copy space-y-5">
               <p>
                 Karpo Travel Inc. plans personalized trips to {journey.name} from
-                Long Island, New York. {journey.tagline}.
+                any place to any place — whatever city or airport you start from.
+                {` ${journey.tagline}.`}
               </p>
               <p>
                 We arrange flights, hotels and the details of the journey around

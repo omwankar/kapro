@@ -51,7 +51,7 @@ Services index: https://www.karpotravel.com/services
 
 ## Destinations
 
-Karpo plans personalized trips worldwide from Long Island, New York. The following destinations are featured on the site. Travelers can also request a destination that is not listed.
+Karpo plans personalized trips from any place to any place. The following destinations are featured on the site. Travelers can also request a destination that is not listed.
 
 - Bali, Indonesia (DPS) — Temples above the jungle canopy. Trip notes: Water temples, Rice terraces, Sunset beaches. https://www.karpotravel.com/destinations/bali
 - Tokyo, Japan (HND) — Neon nights, quiet shrines. Trip notes: Shibuya crossing, Temples, Ramen alleys. https://www.karpotravel.com/destinations/tokyo

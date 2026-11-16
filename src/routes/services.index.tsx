@@ -46,8 +46,8 @@ function ServicesHubPage() {
             </h1>
             <p className="mt-5 max-w-[56ch] text-[15px] leading-relaxed text-muted-foreground sm:text-[17px]">
               Flights, hotels, vacations, cruises, car rental and visa assistance,
-              arranged by Karpo Travel Inc. from New York and supported by call or
-              WhatsApp, 24/7. Pick a service to see how it works and what is included.
+              arranged by Karpo Travel Inc. from any place to any place and supported
+              by call or WhatsApp, 24/7. Pick a service to see how it works and what is included.
             </p>
           </Reveal>
         </div>

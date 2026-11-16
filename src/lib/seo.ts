@@ -44,14 +44,14 @@ export const PAGE_META = {
   services: {
     title: "Travel Services | Karpo Travel Inc.",
     description:
-      "Six ways Karpo Travel Inc. takes you there: flights, hotels, vacations, cruises, car rental and visa assistance, planned personally from Long Island, New York.",
+      "Six ways Karpo Travel Inc. takes you there: flights, hotels, vacations, cruises, car rental and visa assistance, planned from any place to any place.",
     path: "/services",
     ogImage: "/og/home.jpg",
   },
   destinations: {
     title: "Destinations | Karpo Travel Inc.",
     description:
-      "Personalized trip planning to Bali, Tokyo, Paris, the Maldives and more. Karpo Travel Inc. in Long Island, New York arranges flights, hotels and itineraries.",
+      "Personalized trip planning to Bali, Tokyo, Paris, the Maldives and more. Karpo Travel Inc. arranges flights, hotels and itineraries from any place to any place.",
     path: "/destinations",
     ogImage: "/og/home.jpg",
   },
@@ -521,7 +521,7 @@ export function destinationsHubJsonLd() {
 export function destinationMeta(journey: Journey) {
   return {
     title: `${journey.name} Travel | Karpo Travel Inc.`,
-    description: `Personalized ${journey.name} trip planning from Karpo Travel Inc. in Long Island, New York. ${journey.tagline}. Flights, hotels and itineraries, planned personally.`,
+    description: `Personalized ${journey.name} trip planning with Karpo Travel Inc. — from any place to any place. ${journey.tagline}. Flights, hotels and itineraries, planned personally.`,
     path: destinationPath(journey),
     ogImage: "/og/home.jpg" as const,
   };
