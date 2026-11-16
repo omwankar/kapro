@@ -51,6 +51,7 @@
   --color-red-600: var(--red-600);
   --color-red-700: var(--red-700);
   --color-red-900: var(--red-900);
+  --color-whatsapp: var(--whatsapp);
 
   --font-display: "Cormorant Garamond", "Georgia", serif;
   --font-sans: "Karla", ui-sans-serif, system-ui, sans-serif;
@@ -68,6 +69,7 @@
   --muted-ink: var(--muted);
   --gold: #b39362;
   --ivory: #fbf9f6;
+  --whatsapp: #25d366;
 
   --red-900: #4a0f13;
   --red-700: #701217;
@@ -4699,5 +4701,62 @@ html[data-intro="skip"] .intro-header {
     animation: none;
     transition: none;
     transform: none;
+  }
+}
+
+/* ---------------- WhatsApp floating button ---------------- */
+
+.whatsapp-fab {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 70;
+  display: inline-flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--whatsapp);
+  color: #fff;
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--gold) 55%, transparent),
+    0 10px 28px color-mix(in srgb, var(--whatsapp) 42%, transparent);
+  transition:
+    transform 280ms var(--ease-out-expo),
+    box-shadow 280ms var(--ease-out-expo);
+}
+
+.whatsapp-fab:hover,
+.whatsapp-fab:focus-visible {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow:
+    0 0 0 2px var(--gold),
+    0 14px 32px color-mix(in srgb, var(--whatsapp) 50%, transparent);
+}
+
+.whatsapp-fab:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.whatsapp-fab svg {
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-fab,
+  .whatsapp-fab:hover,
+  .whatsapp-fab:focus-visible {
+    transition: none;
+    transform: none;
+  }
+}
+
+@media print {
+  .whatsapp-fab {
+    display: none;
   }
 }

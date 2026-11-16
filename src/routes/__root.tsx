@@ -11,6 +11,7 @@ import {
 import type { ReactNode } from "react";
 
 import { Preloader } from "@/components/preloader";
+import { WhatsAppFab } from "@/components/site-chrome";
 import { SITE_NAME, SITE_URL, THEME_COLOR } from "@/lib/seo";
 
 import appCss from "../styles.css?url";
@@ -167,6 +168,7 @@ function RootComponent() {
       <div id="app-root">
         <Outlet key={pathname} />
       </div>
+      <WhatsAppFab />
     </>
   );
 }
